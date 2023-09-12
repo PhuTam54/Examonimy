@@ -1,4 +1,4 @@
-<li><a href="./">Home</a></li>
+<li><a href="/">Home</a></li>
 <li class="active"><a href="./shop-grid">Shop</a></li>
 <li><a href="#">Pages</a>
     <ul class="header__menu__dropdown">

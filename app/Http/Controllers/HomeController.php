@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home() {
-        return view("pages.home");
+        $names = array("Nguyen Phu Tam", "Tran Thi Thuy");
+        return view("pages.home", [
+            'names' => $names
+        ]);
     }
 }

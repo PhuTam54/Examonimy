@@ -1,19 +1,15 @@
 @extends("layouts.app")
 @section("main")
-    @extends("components.header")
-    @section("navbar")
-        @include("components.shop-page.navbar")
-    @endsection
     @include("components.other-page.hero-section")
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/img/breadcrumb.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
                         <h2>Checkout</h2>
                         <div class="breadcrumb__option">
-                            <a href="./">Home</a>
+                            <a href="/">Home</a>
                             <span>Checkout</span>
                         </div>
                     </div>

@@ -1,20 +1,16 @@
 @extends("layouts.app")
 @section("main")
-    @extends("components.header")
-    @section("navbar")
-        @include("components.shop-page.navbar")
-    @endsection
     @include("components.other-page.hero-section")
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/img/breadcrumb.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
                         <h2>Vegetable’s Package</h2>
                         <div class="breadcrumb__option">
-                            <a href="./">Home</a>
-                            <a href="./">Vegetables</a>
+                            <a href="/">Home</a>
+                            <a href="/">Vegetables</a>
                             <span>Vegetable’s Package</span>
                         </div>
                     </div>
@@ -32,17 +28,17 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                 src="img/product/details/product-details-1.jpg" alt="">
+                                 src=" {{ asset('storage/img/product/details/product-details-1.jpg') }}" alt="">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                                 src="img/product/details/thumb-1.jpg" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                                 src="img/product/details/thumb-2.jpg" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                                 src="img/product/details/thumb-3.jpg" alt="">
-                            <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                                 src="img/product/details/thumb-4.jpg" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-2.jpg') }}"
+                                 src=" {{ asset('storage/img/product/details/thumb-1.jpg') }}" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-3.jpg') }}"
+                                 src=" {{ asset('storage/img/product/details/thumb-2.jpg') }}" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-5.jpg') }}"
+                                 src=" {{ asset('storage/img/product/details/thumb-3.jpg') }}" alt="">
+                            <img data-imgbigurl="img/product/details/product-details-4.jpg') }}"
+                                 src=" {{ asset('storage/img/product/details/thumb-4.jpg') }}" alt="">
                         </div>
                     </div>
                 </div>
@@ -183,7 +179,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/img/product/product-1.jpg') }}">
                             <ul class="product__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -198,7 +194,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/img/product/product-2.jpg') }}">
                             <ul class="product__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -213,7 +209,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/img/product/product-3.jpg') }}">
                             <ul class="product__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -228,7 +224,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-7.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/img/product/product-7.jpg') }}">
                             <ul class="product__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
