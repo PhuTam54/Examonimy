@@ -18,8 +18,14 @@ class OrderFactory extends Factory
     {
         return [
             "user_id"=>random_int(1, 10),
-//            "grand_total",
-            "status"=>random_int(1, 4)
+            "grand_total"=>0,
+            "full_name"=> $this->faker->name,
+            "tel"=>$this->faker->phoneNumber,
+            "address"=>$this->faker->address,
+            "payment_method"=>"COD",
+            "shipping_method"=>"Express",
+            "is_paid"=>false,
+            "status"=>random_int(0, 3)
         ];
     }
 }

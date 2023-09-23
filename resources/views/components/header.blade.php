@@ -24,7 +24,7 @@
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
                             <ul>
-                                <li><a href="#">Spanis</a></li>
+                                <li><a href="#">Tiếng Việt</a></li>
                                 <li><a href="#">English</a></li>
                             </ul>
                         </div>
@@ -46,35 +46,34 @@
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-{{--                        @yield("navbar")--}}
                         <li
                             class = "{{request()->is('/') ? 'active' : '' }}"
                         ><a href="/">Home</a>
                         </li>
                         <li
-                            class = "{{request()->is('shop-grid') || request()->is('shop-details') ||
+                            class = "{{request()->is('shop-grid/{category:slug}') || request()->is('shop-details/{product:slug}') ||
                        request()->is('shopping-cart') || request()->is('checkout')
                        ? 'active' : '' }}"
                         >
-                            <a href="shop-grid">Shop</a>
+                            <a href="/shop-grid">Shop</a>
                         </li>
                         <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="shop-details">Shop Details</a></li>
-                                <li><a href="shopping-cart">Shoping Cart</a></li>
-                                <li><a href="checkout">Check Out</a></li>
-                                <li><a href="blog-details">Blog Details</a></li>
+                                <li><a href="/shop-details">Shop Details</a></li>
+                                <li><a href="/shopping-cart">Shoping Cart</a></li>
+                                <li><a href="/checkout">Check Out</a></li>
+                                <li><a href="/blog-details">Blog Details</a></li>
                             </ul>
                         </li>
                         <li
                             class = "{{request()->is('blog') || request()->is('blog-details') ? 'active' : '' }}"
                         >
-                            <a href="blog">Blog</a>
+                            <a href="/blog">Blog</a>
                         </li>
                         <li
                             class = "{{request()->is('contact') ? 'active' : '' }}"
                         >
-                            <a href="contact">Contact</a>
+                            <a href="/contact">Contact</a>
                         </li>
                     </ul>
                 </nav>
@@ -83,7 +82,11 @@
                 <div class="header__cart">
                     <ul>
                         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        <li><a href="{{url("/shopping-cart")}}"><i class="fa fa-shopping-bag"></i>
+                                <span>
+                                    {{session()->has("cart")?count(session("cart")):0}}
+                                </span>
+                            </a></li>
                     </ul>
                     <div class="header__cart__price">item: <span>$150.00</span></div>
                 </div>

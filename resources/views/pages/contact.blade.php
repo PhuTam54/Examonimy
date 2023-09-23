@@ -85,6 +85,7 @@
                 </div>
             </div>
             <form action="#">
+                @csrf
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <input type="text" placeholder="Your name">

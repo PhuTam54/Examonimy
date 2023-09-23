@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-//            $table->unsignedDecimal("grand_total", 14, 2);
-            $table->tinyInteger("status");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedDecimal("grand_total", 14, 2);
+            $table->string("email")->nullable();
+            $table->string("full_name");
+            $table->string("tel", 20);
+            $table->string("address");
+            $table->string("payment_method");
+            $table->string("shipping_method");
+            $table->string("is_paid")->default(false);
+            $table->smallInteger("status");
             $table->timestamps();
             $table->foreign("user_id")->references("id")->on("users");
         });
