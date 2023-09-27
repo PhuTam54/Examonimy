@@ -52,7 +52,9 @@
                     <form action="/add-to-cart/{{ $product->id }}" method="get">
                         @csrf
                         <div class="product__details__text">
-                            <h3>{{$product->name}}</h3>
+                            <h3>{{ $product->name }}</h3>
+                            <h5>Category: {{ $product->Category->name }}</h5>
+                            <p>Sold: {{ $product->Orders->count() }}</p>
                             <div class="product__details__rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>

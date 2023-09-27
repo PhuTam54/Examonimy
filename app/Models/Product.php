@@ -18,4 +18,12 @@ class Product extends Model
         "qty",
         "category_id"
     ];
+
+    public function Category() {  // Model relationship
+        return $this->belongsTo(Category::class ); //"category_id"
+    }
+
+    public function Orders() {
+        return $this->belongsToMany(Order::class, "order_details");
+    }
 }

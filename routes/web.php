@@ -27,12 +27,12 @@ Route::get('/add-to-cart/{product}', [\App\Http\Controllers\PagesController::cla
 Route::get('/delete-from-cart/{product}', [\App\Http\Controllers\PagesController::class, "deleteFromCart"]);
 Route::get('/clear-cart', [\App\Http\Controllers\PagesController::class, "clearCart"]);
 
-//Route::get('/shop-details', [\App\Http\Controllers\PagesController::class, "shopDetails"]);
 Route::get('/shop-details/{product:slug}', [\App\Http\Controllers\PagesController::class, "shopDetails"]);
 
 Route::get('/checkout', [\App\Http\Controllers\PagesController::class, "checkOut"]);
+    // post
 Route::post('/checkout', [\App\Http\Controllers\PagesController::class, "placeOrder"]);
-Route::get('/thank-you', [\App\Http\Controllers\PagesController::class, "thankYou"]);
+Route::get('/thank-you/{order}', [\App\Http\Controllers\PagesController::class, "thankYou"]);
 
 Route::get('/blog-details', [\App\Http\Controllers\PagesController::class, "blogDetails"]);
 
@@ -41,3 +41,8 @@ Route::get('/blog', [\App\Http\Controllers\BlogController::class, "blog"]);
 
 //contact
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, "contact"]);
+
+// ADMIN
+Route::get('/admin-dashboard', [\App\Http\Controllers\AdminController::class, "dashboard"]);
+Route::get('/admin-table1', [\App\Http\Controllers\AdminController::class, "table1"]);
+Route::get('/admin-table2', [\App\Http\Controllers\AdminController::class, "table2"]);

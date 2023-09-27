@@ -109,6 +109,7 @@ class PagesController extends Controller
         }
         $total = $subtotal * 1.1;
 
+        $email = $request->get("email");
         // create new order
         $order = Order::create([
             "user_id"=>random_int(1, 10),
@@ -127,7 +128,7 @@ class PagesController extends Controller
                 "order_id"=>$order->id,
                 "product_id"=>$item->id,
                 "qty"=>$item->buy_qty,
-                "price"=>$item->id,
+                "price"=>$item->price,
             ]);
             // update qty
             $product = Product::find($item->id);
@@ -137,16 +138,24 @@ class PagesController extends Controller
 //        session()->forget("cart");
 
         // send email
-        Mail::to($request->get("email"))
+        Mail::to($email)
 //            ->cc("mail nhan vien")
 //            ->bcc("mail quan ly")
             ->send(new OrderMail($order));
 
-        return redirect()->to("thank-you")->with("order", $order);
+        return redirect()->to("thank-you/$order->id")->with("email", $email);
     }
 
-    public function thankYou() {
-        return view("pages.pages.thankyou");
+    public function thankYou(Order $order) {
+//        $order = session()->get("order");
+//        if ($order == null) {
+//            abort("404 Not Found!");
+//        }
+//        $item = DB::table("order_details")->where("order_id", $order->id)
+//                                                ->join("products", "order_details.product_id", "=", "products.id")
+//                                                ->select("products.id", "products.name", "products.thumbnail", "order_details.price", "order_details.qty")
+//                                                ->get();
+        return view("pages.pages.thankyou", compact("order"));
     }
 
     public function blogDetails() {

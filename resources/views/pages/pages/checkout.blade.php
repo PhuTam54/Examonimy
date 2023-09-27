@@ -77,17 +77,17 @@
                                     <p>Shipping method<span>*</span></p>
                                     <label for="acc">
                                         Express
-                                        <input name="shipping_method" @if(old("shipping_method")== "Express") checked @endif value="Express" type="radio" id="acc">
+                                        <input name="shipping_method" @if(old("shipping_method") == "Express") checked @endif value="Express" type="radio" id="acc">
                                         <span class="checkmark"></span>
                                     </label>
                                     <br/>
                                     <label for="free">
                                         Free Shipping
-                                        <input name="shipping_method" @if(old("shipping_method")== "Free_Shipping") checked @endif value="Free_Shipping" type="radio" id="free">
+                                        <input name="shipping_method" @if(old("shipping_method") == "Free_Shipping") checked @endif value="Free_Shipping" type="radio" id="free">
                                         <span class="checkmark"></span>
                                     </label>
                                     @error("shipping_method")
-                                    <p class="text-danger"><i>{{$message}}</i></p>
+                                    <p class="text-danger"><i>{{ $message }}</i></p>
                                     @enderror
                                 </div>
                             </div>
@@ -117,14 +117,14 @@
                                 <div class="checkout__input__checkbox">
                                     <label for="payment">
                                         COD
-                                        <input type="radio" @if(old("payment_method")== "COD") checked @endif name="payment_method" value="COD" id="payment">
+                                        <input type="radio" @if(old("payment_method") == "COD") checked @endif name="payment_method" value="COD" id="payment">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
                                 <div class="checkout__input__checkbox">
                                     <label for="paypal">
                                         Paypal
-                                        <input type="radio" @if(old("payment_method")== "paypal") checked @endif name="payment_method" value="paypal" id="paypal">
+                                        <input type="radio" @if(old("payment_method") == "paypal") checked @endif name="payment_method" value="paypal" id="paypal">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>

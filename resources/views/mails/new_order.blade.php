@@ -1,5 +1,5 @@
-{{--<h1>Send from T2210A with love <3 </h1>--}}
-{{--<p>Số tiền cần thanh toán ${{ $total }}</p>--}}
+<h1>Send from T2210A with love <3 </h1>
+<p>Số tiền cần thanh toán ${{ $order->grand_total }}</p>
 <!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">

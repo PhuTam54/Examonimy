@@ -75,6 +75,9 @@
                         >
                             <a href="/contact">Contact</a>
                         </li>
+                        <li>
+                            <a href="/admin-dashboard">Admin Dashboard</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
