@@ -13,8 +13,8 @@
 <!-- Sparkline -->
 <script src="js/admin-js/plugins/sparkline.js"></script>
 <!-- JQVMap -->
-<script src="js/admin-js/plugins/jquery.vmap.min.js"></script>
-<script src="js/admin-js/plugins/jquery.vmap.usa.js"></script>
+<script src="js/admin-js/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="js/admin-js/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="js/admin-js/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -27,8 +27,6 @@
 <!-- overlayScrollbars -->
 <script src="js/admin-js/plugins/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
-<script src="js/admin-js/dist/js/adminlte.js"></script>
+<script src="js/admin-js/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="js/admin-js/dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="js/admin-js/dist/js/pages/dashboard.js"></script>

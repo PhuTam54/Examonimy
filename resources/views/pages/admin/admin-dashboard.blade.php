@@ -593,3 +593,7 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
+@section("after_js")
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="js/admin-js/dist/js/pages/dashboard.js"></script>
+@endsection

@@ -46,3 +46,4 @@ Route::get('/contact', [\App\Http\Controllers\ContactController::class, "contact
 Route::get('/admin-dashboard', [\App\Http\Controllers\AdminController::class, "dashboard"]);
 Route::get('/admin-table1', [\App\Http\Controllers\AdminController::class, "table1"]);
 Route::get('/admin-table2', [\App\Http\Controllers\AdminController::class, "table2"]);
+Route::get('/admin-table3', [\App\Http\Controllers\AdminController::class, "table3"]);

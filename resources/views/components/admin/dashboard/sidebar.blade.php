@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="/admin-dashboard" class="brand-link">
         <img src="storage/img/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
@@ -14,7 +14,7 @@
                 <img src="storage/img/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="/admin-dashboard" class="d-block">Alexander Pierce</a>
             </div>
         </div>
 
@@ -35,8 +35,15 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                <li
+                    class="nav-item
+                    {{request()->is('admin-dashboard') || request()->is('admin-dashboard2') || request()->is('admin-dashboard3') ? 'menu-open' : '' }}"
+                >
+                    <a
+                        href="/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin-dashboard') || request()->is('admin-dashboard2') || request()->is('admin-dashboard') ? 'active' : '' }}"
+                    >
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -45,19 +52,23 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./index.html" class="nav-link active">
+                            <a
+                                href="/admin-dashboard"
+                                class="nav-link
+                                {{request()->is('admin-dashboard') || request()->is('admin-dashboard2') || request()->is('admin-dashboard3') ? 'active' : '' }}"
+                            >
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard v1</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index2.html" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard v2</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard v3</p>
                             </a>
@@ -74,7 +85,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p>
                             Layout Options
@@ -134,7 +145,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
                             Charts
@@ -169,7 +180,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-tree"></i>
                         <p>
                             UI Elements
@@ -228,7 +239,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Forms
@@ -262,8 +273,15 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li
+                    class="nav-item
+                    {{request()->is('admin-table1') || request()->is('admin-table2') || request()->is('admin-table3') ? 'menu-open' : '' }}"
+                >
+                    <a
+                        href="/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin-table1') || request()->is('admin-table2') || request()->is('admin-table3') ? 'active' : '' }}"
+                    >
                         <i class="nav-icon fas fa-table"></i>
                         <p>
                             Tables
@@ -272,19 +290,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin-table1" class="nav-link">
+                            <a href="/admin-table1" class="nav-link {{request()->is('admin-table1') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Simple Tables</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin-table2" class="nav-link">
+                            <a href="/admin-table2" class="nav-link {{request()->is('admin-table2') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>DataTables</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin-table3" class="nav-link">
+                            <a href="/admin-table3" class="nav-link {{request()->is('admin-table3') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>jsGrid</p>
                             </a>
@@ -318,7 +336,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon far fa-envelope"></i>
                         <p>
                             Mailbox
@@ -347,7 +365,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Pages
@@ -418,7 +436,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon far fa-plus-square"></i>
                         <p>
                             Extras
@@ -427,7 +445,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Login & Register v1
@@ -462,7 +480,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Login & Register v2
@@ -547,7 +565,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-search"></i>
                         <p>
                             Search
@@ -584,13 +602,13 @@
                 </li>
                 <li class="nav-header">MULTI LEVEL EXAMPLE</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="fas fa-circle nav-icon"></i>
                         <p>Level 1</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon fas fa-circle"></i>
                         <p>
                             Level 1
@@ -599,13 +617,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Level 2</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Level 2
@@ -614,19 +632,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/admin-dashboard" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Level 3</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/admin-dashboard" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Level 3</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/admin-dashboard" class="nav-link">
                                         <i class="far fa-dot-circle nav-icon"></i>
                                         <p>Level 3</p>
                                     </a>
@@ -634,7 +652,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Level 2</p>
                             </a>
@@ -642,26 +660,26 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="fas fa-circle nav-icon"></i>
                         <p>Level 1</p>
                     </a>
                 </li>
                 <li class="nav-header">LABELS</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon far fa-circle text-danger"></i>
                         <p class="text">Important</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon far fa-circle text-warning"></i>
                         <p>Warning</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/admin-dashboard" class="nav-link">
                         <i class="nav-icon far fa-circle text-info"></i>
                         <p>Informational</p>
                     </a>
