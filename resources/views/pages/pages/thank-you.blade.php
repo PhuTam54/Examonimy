@@ -120,7 +120,7 @@
 {{--            </li>--}}
 {{--        </ul>--}}
 {{--    </div>--}}
-    <main>
+    <main style="background: #f5f5f5;">
         <section class=" text-center container">
             <div class="row pt-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
@@ -132,14 +132,14 @@
                         to see if the email was routed there.
                     </p>
                     <p>
-                        <a class="btn">
+                        <a class="btn" style="color: #7fad39;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
                                 <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
                             </svg>
-                            <strong>Time placed:</strong> {{ $order->created_at }}
+                            <a><strong>Time placed:</strong> {{ $order->created_at }}</a>
                         </a>
-                        <a class="btn">
+                        <a class="btn" style="color: #7fad39;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
                                 <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
                                 <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
@@ -157,8 +157,8 @@
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div class="col">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                            <div class="card-body" style="color: #7fad39;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                                 </svg>
                                 <p class="text-left"><strong>Shipping</strong></p>
@@ -172,8 +172,8 @@
                     </div>
                     <div class="col">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-heading" viewBox="0 0 16 16">
+                            <div class="card-body" style="color: #7fad39;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-card-heading" viewBox="0 0 16 16">
                                     <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                                     <path d="M3 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0-5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-1z"/>
                                 </svg>
@@ -189,8 +189,8 @@
                     </div>
                     <div class="col">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                            <div class="card-body" style="color: #7fad39;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
                                     <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
                                 </svg>
                                 <p class="text-left"><strong>Shipping Method</strong></p>
@@ -211,17 +211,19 @@
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div class="col-md-8">
-                        <div class="">
+                        <div class="" style="background: white; border: 1px solid rgba(0,0,0,.125);">
                             <div class="card-body">
-                                <p class="text-left"><strong>Order List</strong></p><hr>
+                                <p class="text-left" style="font-size: 20px">
+                                    <strong>Order List</strong>
+                                </p><hr>
                                 <div class="shoping__cart__table">
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th class="shoping__product">Products</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
+                                            <th class="shoping__product" style="font-size: 16px">Products</th>
+                                            <th style="font-size: 16px">Price</th>
+                                            <th style="font-size: 16px">Quantity</th>
+                                            <th style="font-size: 16px">Total</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -229,19 +231,19 @@
                                             <tr>
                                                 <td class="shoping__cart__item">
                                                     <img src=" {{ $item->thumbnail }}" width="100" alt="">
-                                                    <h5>{{ $item->name }}</h5>
+                                                    <h5 style="font-size: 16px">{{ $item->name }}</h5>
                                                 </td>
-                                                <td class="shoping__cart__price">
+                                                <td class="shoping__cart__price" style="font-size: 16px">
                                                     ${{ $item->price }}
                                                 </td>
                                                 <td class="shoping__cart__quantity">
                                                     <div class="quantity">
-                                                        <div class="">
+                                                        <div class="" style="font-size: 16px">
                                                             <span>{{ $item->pivot->qty }}</span>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="shoping__cart__total">
+                                                <td class="shoping__cart__total" style="font-size: 16px">
                                                     ${{ $item->pivot->price * $item->pivot->qty }}
                                                 </td>
                                             </tr>
@@ -249,35 +251,26 @@
                                         </tbody>
                                     </table>
                                 </div>
-{{--                                <ul>--}}
-{{--                                    @foreach($order->Products as $product)--}}
-{{--                                        <li class="card-text d-flex justify-content-between">--}}
-{{--                                            <img src="{{ $product->thumbnail }}" width="100" alt="Image">--}}
-{{--                                            <p class="card-text w-50">{{ $product->name }}</p>--}}
-{{--                                            <span> x{{ $product->pivot->qty }}</span>--}}
-{{--                                            <span>{{ $product->pivot->price }}</span>--}}
-{{--                                            <span>{{ $product->pivot->price * $product->pivot->qty }}</span>--}}
-{{--                                        </li>--}}
-{{--                                    @endforeach--}}
-{{--                                </ul>--}}
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <p class="text-left"><strong>Order Summary</strong></p> <hr>
+                                <p class="text-left" style="font-size: 20px">
+                                    <strong>Order Summary</strong>
+                                </p> <hr>
                                 <p class="card-text d-flex justify-content-between">
-{{--                                    Subtotal: <span>{{ $item }}</span>--}}
+                                    Subtotal: <span>{{ $subtotal }}</span>
                                 </p>
-                                <p class="card-text d-flex justify-content-between">
-                                    Shipping & Handling: <span>$1.99</span>
-                                </p>
+{{--                                <p class="card-text d-flex justify-content-between">--}}
+{{--                                    Shipping & Handling: <span>$1.99</span>--}}
+{{--                                </p>--}}
                                 <p class="card-text d-flex justify-content-between">
                                     Est Sales Tax: <span>10%</span>
                                 </p> <hr>
-                                <p class="card-text d-flex justify-content-between">
-{{--                                    Total: <span>{{ $total }}</span>--}}
+                                <p class="card-text d-flex justify-content-between" style="font-size: 18px">
+                                    Total: <span>{{ $total }}</span>
                                 </p>
                             </div>
                         </div>

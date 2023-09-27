@@ -155,7 +155,13 @@ class PagesController extends Controller
 //                                                ->join("products", "order_details.product_id", "=", "products.id")
 //                                                ->select("products.id", "products.name", "products.thumbnail", "order_details.price", "order_details.qty")
 //                                                ->get();
-        return view("pages.pages.thankyou", compact("order"));
+        // Tính grand_total
+        $subtotal = 0;
+        foreach ($order->Products as $item) {
+            $subtotal +=  $item->pivot->price * $item->pivot->qty;
+        }
+        $total = $subtotal * 1.1;
+        return view("pages.pages.thank-you", compact("order", "subtotal", "total"));
     }
 
     public function blogDetails() {

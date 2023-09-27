@@ -198,7 +198,8 @@
                                 <div class="col-lg-4">
                                     <div class="product__discount__item">
                                         <div class="product__discount__item__pic set-bg"
-                                             data-setbg="{{ asset('storage/img/product/discount/pd-2.jpg') }}">
+{{--                                             data-setbg="{{ asset('storage/img/product/discount/pd-2.jpg') }}">--}}
+                                            data-setbg="{{ $product->thumbnail }}">
                                             <div class="product__discount__percent">-20%</div>
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -207,9 +208,10 @@
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
-                                            <span>{{ $product->name }}</span>
-                                            <h5><a href="#">{{ $product->slug }}</a></h5>
-                                            <div class="product__item__price">${{ $product->price }} <span>$100</span></div>
+{{--                                        <div class="product__item__text">--}}
+                                            <h5><a href="shop-details/{{ $product->slug }}">{{ $product->name }}</a></h5>
+                                            <h6><a href="shop-details/{{ $product->slug }}">{{ $product->slug }}</a></h6>
+                                            <div class="product__item__price">${{ $product->price - ($product->price*20/100) }} <span>${{ $product->price }}</span></div>
                                         </div>
                                     </div>
                                 </div>

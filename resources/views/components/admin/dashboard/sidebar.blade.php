@@ -37,7 +37,10 @@
                      with font-awesome or any other icon font library -->
                 <li
                     class="nav-item
-                    {{request()->is('admin-dashboard') || request()->is('admin-dashboard2') || request()->is('admin-dashboard3') ? 'menu-open' : '' }}"
+                    {{ request()->is('admin-dashboard') ||
+                      request()->is('admin-dashboard2') ||
+                      request()->is('admin-dashboard3')
+                      ? 'menu-open' : '' }}"
                 >
                     <a
                         href="/admin-dashboard"
@@ -292,19 +295,19 @@
                         <li class="nav-item">
                             <a href="/admin-table1" class="nav-link {{request()->is('admin-table1') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Simple Tables</p>
+                                <p>Orders</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/admin-table2" class="nav-link {{request()->is('admin-table2') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>DataTables</p>
+                                <p>Products</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/admin-table3" class="nav-link {{request()->is('admin-table3') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>jsGrid</p>
+                                <p>Categories</p>
                             </a>
                         </li>
                     </ul>
