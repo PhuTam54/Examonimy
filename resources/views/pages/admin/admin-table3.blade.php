@@ -1,10 +1,7 @@
 @extends("layouts.admin")
 @section("title", "Admin | Categories Tables")
 @section("before_css")
-    <!-- DataTables -->
-    <link rel="stylesheet" href="css/admin-css/plugins/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="css/admin-css/plugins/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="css/admin-css/plugins/buttons.bootstrap4.min.css">
+    @include("components.admin.embedded.table_head")
 @endsection
 @section("main")
     <!-- Content Wrapper. Contains page content -->
@@ -31,8 +28,8 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Slug</th>
+                                        <th>Numbers of product</th>
                                         <th>Created at</th>
-                                        <th>Updated at</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -41,8 +38,9 @@
                                             <td>{{ $category->id }}</td>
                                             <td>{{ $category->name }}</td>
                                             <td>{{ $category->slug }}</td>
+                                            <td>{{ $category->Products->count() }}</td>
                                             <td>{{ $category->created_at }}</td>
-                                            <td>{{ $category->updated_at }}</td>
+{{--                                            <td>{{ $category->updated_at }}</td>--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -51,8 +49,8 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Slug</th>
+                                        <th>Numbers of product</th>
                                         <th>Created at</th>
-                                        <th>Updated at</th>
                                     </tr>
                                     </tfoot>
                                 </table>

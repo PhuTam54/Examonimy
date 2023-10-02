@@ -1,5 +1,8 @@
 @extends("layouts.admin")
 @section("title", "Admin | Orders Tables")
+@section("before_css")
+    @include("components.admin.embedded.table_head")
+@endsection
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -12,52 +15,71 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
+
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Orders</h3>
                             </div>
                             <!-- ./card-header -->
                             <div class="card-body">
-                                <table class="table table-bordered table-hover">
+                                <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>User</th>
-                                        <th>Grand Total</th>
-                                        <th>Full Name</th>
+                                        <th>Total</th>
+                                        <th>Full_Name</th>
                                         <th>Telephone</th>
                                         <th>Address</th>
                                         <th>Payment</th>
                                         <th>Shipping</th>
+                                        <th>Is_Paid</th>
                                         <th>Status</th>
-                                        <th>Created at</th>
+                                        <th>Created_at</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($orders as $order)
-                                        <tr data-widget="expandable-table" aria-expanded="false">
+{{--                                        <tr data-widget="expandable-table" aria-expanded="false">--}}
+                                        <tr>
                                             <td>{{ $order->id }}</td>
-                                            <td>{{ $order->user_id }}</td>
-                                            <td>{{ $order->grand_total }}</td>
+                                            <td>{{ $order->User->name }}</td>
+{{--                                            <td>{{ $order->Products->name }}</td>--}}
+                                            <td>${{ $order->grand_total }}</td>
                                             <td>{{ $order->full_name }}</td>
                                             <td>{{ $order->tel }}</td>
                                             <td>{{ $order->address }}</td>
                                             <td>{{ $order->payment_method }}</td>
                                             <td>{{ $order->shipping_method }}</td>
+                                            <td>{{ $order->is_paid }}</td>
                                             <td>{{ $order->status }}</td>
                                             <td>{{ $order->created_at }}</td>
                                         </tr>
-                                        <tr class="expandable-body">
-                                            <td colspan="10">
-                                                <p>
-                                                    Order is purchase at: {{ $order->updated_at }}
-                                                </p>
-                                            </td>
-                                        </tr>
+{{--                                        <tr class="expandable-body">--}}
+{{--                                            <td colspan="10">--}}
+{{--                                                <p>--}}
+{{--                                                    Order is purchase at: {{ $order->updated_at }}--}}
+{{--                                                </p>--}}
+{{--                                            </td>--}}
+{{--                                        </tr>--}}
                                     @endforeach
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Total</th>
+                                        <th>Full_Name</th>
+                                        <th>Telephone</th>
+                                        <th>Address</th>
+                                        <th>Payment</th>
+                                        <th>Shipping</th>
+                                        <th>Is_Paid</th>
+                                        <th>Status</th>
+                                        <th>Created_at</th>
+                                    </tr>
+                                    </tfoot>
                                 </table>
-                                {!! $orders->links("pagination::bootstrap-4") !!}
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -94,13 +116,13 @@
                                     <tbody>
                                     <tr>
                                         <td>1.</td>
-                                        <td>Update software</td>
+                                        <td>Sold 100 orders</td>
                                         <td>
                                             <div class="progress progress-xs">
                                                 <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
                                             </div>
                                         </td>
-                                        <td><span class="badge bg-danger">55%</span></td>
+                                        <td><span class="badge bg-danger">{{ $orders->count()*100/100 }}%</span></td>
                                     </tr>
                                     <tr>
                                         <td>2.</td>
@@ -258,4 +280,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+@endsection
+@section("after_js")
+    @include("components.admin.embedded.table_script")
 @endsection
