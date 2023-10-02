@@ -85,6 +85,28 @@
 @endsection
 @section("main")
     @include("components.other-page.hero-section")
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/img/breadcrumb.jpg') }}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Thank you</h2>
+                        <div class="breadcrumb__option">
+                            <a href="/">Home</a>
+                            <span>Thank you</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    @if(session()->has("success"))
+        <div class="alert alert-success" role="alert">
+            {{ session("success") }}
+        </div>
+    @endif
     <!-- Thank you Section Begin -->
 {{--    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">--}}
 {{--        <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"--}}
@@ -120,10 +142,10 @@
 {{--            </li>--}}
 {{--        </ul>--}}
 {{--    </div>--}}
-    <main style="background: #f5f5f5;">
+    <main>
         <section class=" text-center container">
             <div class="row pt-lg-5">
-                <div class="col-lg-6 col-md-8 mx-auto">
+                <div class="col-md-8 mx-auto">
                     <h2 class="fw-light">Thank you!</h2>
                     <h4 class="my-3">Your order #{{ $order->id }} has been placed!</h4>
                     <p class="lead text-body-secondary">
@@ -211,7 +233,7 @@
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     <div class="col-md-8">
-                        <div class="" style="background: white; border: 1px solid rgba(0,0,0,.125);">
+                        <div class="">
                             <div class="card-body">
                                 <p class="text-left" style="font-size: 20px">
                                     <strong>Order List</strong>
@@ -280,6 +302,9 @@
         </div>
     </main>
     <!-- Thank you Section End -->
+    @if($order->payment_method == "paypal" && !$order->is_paid)
+        <a href="#" class="btn btn-warning">Thanh toán lại</a>
+    @endif
 @endsection
 @section("before_js")
     <script src="js/bootstrap.bundle.min.js"></script>

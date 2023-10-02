@@ -18,7 +18,11 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-
+    @if(session()->has('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">

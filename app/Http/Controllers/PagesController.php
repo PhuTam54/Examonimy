@@ -134,16 +134,14 @@ class PagesController extends Controller
             $product = Product::find($item->id);
             $product->update(["qty"=>$product->qty - $item->buy_qty]);
         }
+
         // clear cart
 //        session()->forget("cart");
-
         // send email
-        Mail::to($email)
-//            ->cc("mail nhan vien")
-//            ->bcc("mail quan ly")
-            ->send(new OrderMail($order));
+//        event(new CreateNewOrder($order));
 
-        return redirect()->to("thank-you/$order->id")->with("email", $email);
+        // Go to Paypal
+        return redirect()->to("paypal-process/$order->id")->with("email", $email);
     }
 
     public function thankYou(Order $order) {

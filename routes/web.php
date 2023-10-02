@@ -47,3 +47,12 @@ Route::get('/admin-dashboard', [\App\Http\Controllers\AdminController::class, "d
 Route::get('/admin-table1', [\App\Http\Controllers\AdminController::class, "table1"]);
 Route::get('/admin-table2', [\App\Http\Controllers\AdminController::class, "table2"]);
 Route::get('/admin-table3', [\App\Http\Controllers\AdminController::class, "table3"]);
+
+// Paypal
+Route::get('/paypal-process/{order}', [\App\Http\Controllers\PayPalController::class, "paypalProcess"]);
+Route::get('/paypal-success/{order}', [\App\Http\Controllers\PayPalController::class, "paypalSuccess"]);
+Route::get('/paypal-cancel', [\App\Http\Controllers\PayPalController::class, "paypalCancel"]);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
