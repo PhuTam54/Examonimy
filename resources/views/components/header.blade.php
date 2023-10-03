@@ -29,7 +29,18 @@
                             </ul>
                         </div>
                         <div class="header__top__right__auth">
-                            <a href="#"><i class="fa fa-user"></i> Login</a>
+                            @auth()
+                                <a href="#"><i class="fa fa-user"></i> {{auth()->user()->name}}</a>
+                                <form id="form-logout" action="{{route("logout")}}" method="post">
+                                    @csrf
+                                </form>
+                                <a href="javascript:void(0);" onclick="$('#form-logout').submit();">
+                                    <i class="fa fa-align-right"></i>Logout</a>
+                            @endauth
+                            @guest()
+                                    <a href="{{ route("login") }}"><i class="fa fa-user"></i> Login</a>
+                                    <a href="{{ route("register") }}"><i class="fa fa-user"></i> Register</a>
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -70,11 +81,11 @@
                         >
                             <a href="/blog">Blog</a>
                         </li>
-                        <li
-                            class = "{{request()->is('contact') ? 'active' : '' }}"
-                        >
-                            <a href="/contact">Contact</a>
-                        </li>
+{{--                        <li--}}
+{{--                            class = "{{request()->is('contact') ? 'active' : '' }}"--}}
+{{--                        >--}}
+{{--                            <a href="/contact">Contact</a>--}}
+{{--                        </li>--}}
                         <li>
                             <a href="/admin-dashboard">Admin Dashboard</a>
                         </li>
