@@ -32,6 +32,27 @@ class Order extends Model
         return $this->belongsToMany(Product::class, "order_details")->withPivot(["qty", "price"]);
     }
 
+    public function getGrandTotal() {
+        return "$".number_format($this->grand_total, 2);
+    }
+
+    public function getIsPaid() {
+        return $this->is_paid?
+            "<span class='btn btn-success'>Paid</span>":
+            "<span class='btn btn-secondary'>No...</span>";
+    }
+
+    public function getStatus() {
+        switch ($this->status) {
+            case self::PENDING: return "<span class='text-secondary'>Pending</span>";
+            case self::CONFIRMED: return "<span class='text-info'>Confirmed</span>";
+            case self::SHIPPING: return "<span class='text-warning'>Shipping</span>";
+            case self::SHIPPED: return "<span class='text-primary'>Shipped</span>";
+            case self::COMPLETE: return "<span class='text-success'>Complete</span>";
+            case self::CANCEL: return "<span class='text-danger'>Cancel</span>";
+        }
+    }
+
     public function User() {
         return $this->belongsTo(User::class);
     }

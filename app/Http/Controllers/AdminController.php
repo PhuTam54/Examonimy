@@ -37,4 +37,8 @@ class AdminController extends Controller
         $categories = Category::all();
         return view("pages.admin.admin-table3", compact("categories"));
     }
+
+    public function orderDetails(Order $order) {
+        return view("pages.admin.order-details")->with('order', $order);
+    }
 }

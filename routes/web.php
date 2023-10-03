@@ -23,36 +23,42 @@ Route::get('/shop-grid/{category:slug}', [\App\Http\Controllers\ShopGridControll
 
 // pages
 Route::get('/shopping-cart', [\App\Http\Controllers\PagesController::class, "shoppingCart"]);
-Route::get('/add-to-cart/{product}', [\App\Http\Controllers\PagesController::class, "addToCart"]);
 Route::get('/delete-from-cart/{product}', [\App\Http\Controllers\PagesController::class, "deleteFromCart"]);
 Route::get('/clear-cart', [\App\Http\Controllers\PagesController::class, "clearCart"]);
-
 Route::get('/shop-details/{product:slug}', [\App\Http\Controllers\PagesController::class, "shopDetails"]);
 
-Route::get('/checkout', [\App\Http\Controllers\PagesController::class, "checkOut"]);
-    // post
-Route::post('/checkout', [\App\Http\Controllers\PagesController::class, "placeOrder"]);
-Route::get('/thank-you/{order}', [\App\Http\Controllers\PagesController::class, "thankYou"]);
-
-Route::get('/blog-details', [\App\Http\Controllers\PagesController::class, "blogDetails"]);
-
 // blog
+Route::get('/blog-details', [\App\Http\Controllers\PagesController::class, "blogDetails"]);
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, "blog"]);
 
 //contact
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, "contact"]);
 
+    // Middleware
+Route::middleware("auth")->group(function () {
+    // add to cart
+    Route::get('/add-to-cart/{product}', [\App\Http\Controllers\PagesController::class, "addToCart"]);
+
+    // checkout
+    Route::get('/checkout', [\App\Http\Controllers\PagesController::class, "checkOut"]);
+
+    // post
+    Route::post('/checkout', [\App\Http\Controllers\PagesController::class, "placeOrder"]);
+    Route::get('/thank-you/{order}', [\App\Http\Controllers\PagesController::class, "thankYou"]);
+
+    // Paypal
+    Route::get('/paypal-process/{order}', [\App\Http\Controllers\PayPalController::class, "paypalProcess"]);
+    Route::get('/paypal-success/{order}', [\App\Http\Controllers\PayPalController::class, "paypalSuccess"]);
+    Route::get('/paypal-cancel', [\App\Http\Controllers\PayPalController::class, "paypalCancel"]);
+
+});
+
 // ADMIN
-Route::get('/admin-dashboard', [\App\Http\Controllers\AdminController::class, "dashboard"]);
-Route::get('/admin-table1', [\App\Http\Controllers\AdminController::class, "table1"]);
-Route::get('/admin-table2', [\App\Http\Controllers\AdminController::class, "table2"]);
-Route::get('/admin-table3', [\App\Http\Controllers\AdminController::class, "table3"]);
+Route::middleware(["auth", "is_admin"])->group(function () { //->prefix("admin")
+    include_once "admin.php";
+});
 
-// Paypal
-Route::get('/paypal-process/{order}', [\App\Http\Controllers\PayPalController::class, "paypalProcess"]);
-Route::get('/paypal-success/{order}', [\App\Http\Controllers\PayPalController::class, "paypalSuccess"]);
-Route::get('/paypal-cancel', [\App\Http\Controllers\PayPalController::class, "paypalCancel"]);
+    // Authenticate
+    Auth::routes();
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
