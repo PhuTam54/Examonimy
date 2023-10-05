@@ -38,8 +38,8 @@ class Order extends Model
 
     public function getIsPaid() {
         return $this->is_paid?
-            "<span class='btn btn-success'>Paid</span>":
-            "<span class='btn btn-secondary'>No...</span>";
+            "<span class='bg-success p-2 small'>Has paid</span>":
+            "<span class='bg-secondary p-2 small'>Not pay</span>";
     }
 
     public function getStatus() {

@@ -22,10 +22,12 @@ Route::get('/shop-grid', [\App\Http\Controllers\ShopGridController::class, "shop
 Route::get('/shop-grid/{category:slug}', [\App\Http\Controllers\ShopGridController::class, "category"]);
 
 // pages
-Route::get('/shopping-cart', [\App\Http\Controllers\PagesController::class, "shoppingCart"]);
-Route::get('/delete-from-cart/{product}', [\App\Http\Controllers\PagesController::class, "deleteFromCart"]);
-Route::get('/clear-cart', [\App\Http\Controllers\PagesController::class, "clearCart"]);
-Route::get('/shop-details/{product:slug}', [\App\Http\Controllers\PagesController::class, "shopDetails"]);
+Route::controller(\App\Http\Controllers\PagesController::class)->group(function () {
+    Route::get('/shopping-cart', "shoppingCart");
+    Route::get('/delete-from-cart/{product}', "deleteFromCart");
+    Route::get('/clear-cart', "clearCart");
+    Route::get('/shop-details/{product:slug}', "shopDetails");
+});
 
 // blog
 Route::get('/blog-details', [\App\Http\Controllers\PagesController::class, "blogDetails"]);
@@ -47,18 +49,20 @@ Route::middleware("auth")->group(function () {
     Route::get('/thank-you/{order}', [\App\Http\Controllers\PagesController::class, "thankYou"]);
 
     // Paypal
-    Route::get('/paypal-process/{order}', [\App\Http\Controllers\PayPalController::class, "paypalProcess"]);
-    Route::get('/paypal-success/{order}', [\App\Http\Controllers\PayPalController::class, "paypalSuccess"]);
-    Route::get('/paypal-cancel', [\App\Http\Controllers\PayPalController::class, "paypalCancel"]);
+    Route::controller(\App\Http\Controllers\PayPalController::class)->group(function () {
+        Route::get('/paypal-process/{order}', "paypalProcess");
+        Route::get('/paypal-success/{order}', "paypalSuccess");
+        Route::get('/paypal-cancel', "paypalCancel");
+    });
 
 });
 
 // ADMIN
-Route::middleware(["auth", "is_admin"])->group(function () { //->prefix("admin")
+Route::middleware(["auth", "is_admin"])->prefix("admin")->group(function () { //
     include_once "admin.php";
 });
 
-    // Authenticate
-    Auth::routes();
+// Authenticate
+Auth::routes();
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

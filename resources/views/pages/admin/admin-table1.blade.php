@@ -26,38 +26,38 @@
                                     <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>User</th>
+{{--                                        <th>User</th>--}}
                                         <th>Total</th>
                                         <th>Full_Name</th>
-                                        <th>Telephone</th>
+{{--                                        <th>Telephone</th>--}}
                                         <th>Payment</th>
                                         <th>Shipping</th>
                                         <th>Is_Paid</th>
                                         <th>Status</th>
                                         <th>Created_at</th>
                                         <th>Action</th>
-                                        <th>Address</th>
+{{--                                        <th>Address</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($orders as $order)
 {{--                                        <tr data-widget="expandable-table" aria-expanded="false">--}}
                                         <tr>
-                                            <td>#{{ ($loop->index + 1) }}</td>
-                                            <td>{{ $order->User->name }}</td>
+                                            <td>#{{ $loop->index + 1 }}</td>
+{{--                                            <td>{{ $order->User->name }}</td>--}}
 {{--                                            <td>{{ $order->Products->name }}</td>--}}
                                             <td>{{ $order->getGrandTotal() }}</td>
                                             <td>{{ $order->full_name }}</td>
-                                            <td>{{ $order->tel }}</td>
+{{--                                            <td>{{ $order->tel }}</td>--}}
                                             <td>{{ $order->payment_method }}</td>
                                             <td>{{ $order->shipping_method }}</td>
                                             <td>{!! $order->getIsPaid() !!}</td>
                                             <td>{!! $order->getStatus() !!}</td>
                                             <td>{{ $order->created_at }}</td>
                                             <td>
-                                                <a href="order-details/{{ $order->id }}" class="btn btn-outline-info">Details</a>
+                                                <a href="admin/order-details/{{ $order->id }}" class="btn btn-outline-info">Details</a>
                                             </td>
-                                            <td>{{ $order->address }}</td>
+{{--                                            <td>{{ $order->address }}</td>--}}
                                         </tr>
 {{--                                        <tr class="expandable-body">--}}
 {{--                                            <td colspan="10">--}}
@@ -71,17 +71,17 @@
                                     <tfoot>
                                     <tr>
                                         <th>No.</th>
-                                        <th>User</th>
+{{--                                        <th>User</th>--}}
                                         <th>Total</th>
                                         <th>Full_Name</th>
-                                        <th>Telephone</th>
+{{--                                        <th>Telephone</th>--}}
                                         <th>Payment</th>
                                         <th>Shipping</th>
                                         <th>Is_Paid</th>
                                         <th>Status</th>
                                         <th>Created_at</th>
                                         <th>Action</th>
-                                        <th>Address</th>
+{{--                                        <th>Address</th>--}}
                                     </tr>
                                     </tfoot>
                                 </table>

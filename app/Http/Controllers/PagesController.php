@@ -136,7 +136,7 @@ class PagesController extends Controller
         }
 
         // clear cart
-//        session()->forget("cart");
+        session()->forget("cart");
         // send email
 //        event(new CreateNewOrder($order));
 

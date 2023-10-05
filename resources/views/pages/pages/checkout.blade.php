@@ -42,7 +42,11 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Full Name<span>*</span></p>
-                                        <input name="full_name" value="{{ old("full_name") }}" type="text">
+                                        <input
+                                            name="full_name"
+                                            value="{{ auth()?auth()->user()->name:old("full_name") }}"
+                                            type="text"
+                                        >
                                         @error("full_name")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                         @enderror
@@ -51,7 +55,13 @@
                             </div>
                             <div class="checkout__input">
                                 <p>Address<span>*</span></p>
-                                <input name="address" value="{{ old("address") }}" type="text" placeholder="Street Address" class="checkout__input__add">
+                                <input
+                                    name="address"
+                                    value="{{ old("address") }}"
+                                    type="text"
+                                    placeholder="Street Address"
+                                    class="checkout__input__add"
+                                >
                                 @error("address")
                                 <p class="text-danger"><i>{{ $message }}</i></p>
                                 @enderror
@@ -69,7 +79,11 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
-                                        <input name="email" value="{{ old("email") }}" type="email">
+                                        <input
+                                            name="email"
+                                            value="{{ auth()?auth()->user()->email:old("email") }}"
+                                            type="email"
+                                        >
                                         @error("email")
                                         <p class="text-danger"><i>{{ $message }}</i></p>
                                         @enderror

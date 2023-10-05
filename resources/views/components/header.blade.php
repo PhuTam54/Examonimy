@@ -6,7 +6,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__left">
                         <ul>
-                            <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+                            <li><i class="fa fa-envelope"></i> phutamytb@gmail.com</li>
                             <li>Free Shipping for all Order of $99</li>
                         </ul>
                     </div>
@@ -28,19 +28,21 @@
                                 <li><a href="#">English</a></li>
                             </ul>
                         </div>
-                        <div class="header__top__right__auth">
-                            @auth()
-                                <a href="#"><i class="fa fa-user"></i> {{auth()->user()->name}}</a>
+                        <div class="header__top__right__auth w-25">
+                            <div class="d-flex justify-content-between">
+                                @auth()
+                                <a href="#"><i class="fa fa-user"></i> {{auth()->user()->name}} </a>
                                 <form id="form-logout" action="{{route("logout")}}" method="post">
                                     @csrf
                                 </form>
                                 <a href="javascript:void(0);" onclick="$('#form-logout').submit();">
-                                    <i class="fa fa-align-right"></i>Logout</a>
+                                    <i class="fa fa-arrow-circle-o-right"></i>Logout</a>
                             @endauth
                             @guest()
                                     <a href="{{ route("login") }}"><i class="fa fa-user"></i> Login</a>
                                     <a href="{{ route("register") }}"><i class="fa fa-user"></i> Register</a>
                             @endguest
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -87,7 +89,7 @@
 {{--                            <a href="/contact">Contact</a>--}}
 {{--                        </li>--}}
                         <li>
-                            <a href="/admin-dashboard">Admin Dashboard</a>
+                            <a href="admin/admin-dashboard">Admin Dashboard</a>
                         </li>
                     </ul>
                 </nav>

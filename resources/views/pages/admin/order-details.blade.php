@@ -55,7 +55,7 @@
                                     <br>
                                     <b>Order ID:</b> {{ $order->id }}<br>
                                     <b>Payment Due:</b> {{ $order->updated_at }}<br>
-                                    <b>Account:</b> {{ $order->User->email }}
+                                    <b>Account:</b> {{ $order->User->name }}
                                 </div>
                                 <!-- /.col -->
                             </div>
@@ -77,7 +77,7 @@
                                         <tbody>
                                         @foreach($order->Products as $item)
                                             <tr>
-                                                <td>#{{ ($loop->index + 1) }}</td>
+                                                <td>#{{ $loop->index + 1 }}</td>
                                                 <td class="shoping__cart__item">
 {{--                                                    <img src=" {{ $item->thumbnail }}" width="100" alt="">--}}
                                                     <h5 style="font-size: 16px">{{ $item->name }}</h5>
@@ -114,7 +114,11 @@
                                     <img src="storage/img/dist/img/credit/paypal2.png" alt="Paypal">
 
                                     <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                        Phu Tam <3 Tran Thuy
+                                        Phu Tam <3 Tran Thuy <br>
+                                        Phu Tam <3 Tran Thuy <br>
+                                        Phu Tam <3 Tran Thuy <br>
+                                        Phu Tam <3 Tran Thuy <br>
+                                        Phu Tam <3 Tran Thuy <br>
                                     </p>
                                 </div>
                                 <!-- /.col -->
@@ -131,13 +135,17 @@
                                                 <th>Tax (10%)</th>
                                                 <td>${{ ($order->grand_total / 100 * 10) }}</td>
                                             </tr>
-{{--                                            <tr>--}}
-{{--                                                <th>Shipping:</th>--}}
-{{--                                                <td>$5.80</td>--}}
-{{--                                            </tr>--}}
+                                            <tr>
+                                                <th>Shipping:</th>
+                                            @if($order->shipping_method == "Free_Shipping")
+                                                <td class="text-success">Free</td>
+                                            @else
+                                                <td>$5.00</td>
+                                            @endif
+                                            </tr>
                                             <tr>
                                                 <th>Total:</th>
-                                                <td>${{ $order->grand_total + ($order->grand_total / 100 * 10) }}</td>
+                                                <td>${{ number_format($order->grand_total + ($order->grand_total / 100 * 10) + 5, 2) }}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -181,7 +189,7 @@
                                         @case(4)
                                         @case(5)
                                             <button type="button" class="btn btn-secondary float-right"><i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                                Rebuy
+                                                Re buy
                                             </button>
                                             @break
                                     @endswitch

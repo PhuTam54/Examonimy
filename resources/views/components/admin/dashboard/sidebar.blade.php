@@ -14,7 +14,7 @@
                 <img src="storage/img/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="/admin-dashboard" class="d-block">Phú Tâm</a>
+                <a href="admin/admin-dashboard" class="d-block">Phú Tâm</a>
             </div>
         </div>
 
@@ -37,15 +37,15 @@
                      with font-awesome or any other icon font library -->
                 <li
                     class="nav-item
-                    {{ request()->is('admin-dashboard') ||
-                      request()->is('admin-dashboard2') ||
-                      request()->is('admin-dashboard3')
+                    {{ request()->is('admin/admin-dashboard') ||
+                      request()->is('admin/admin-dashboard2') ||
+                      request()->is('admin/admin-dashboard3')
                       ? 'menu-open' : '' }}"
                 >
                     <a
-                        href="/admin-dashboard"
+                        href="admin/admin-dashboard"
                         class="nav-link
-                        {{request()->is('admin-dashboard') || request()->is('admin-dashboard2') || request()->is('admin-dashboard') ? 'active' : '' }}"
+                        {{request()->is('admin/admin-dashboard') || request()->is('admin/admin-dashboard2') || request()->is('admin/admin-dashboard') ? 'active' : '' }}"
                     >
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -56,22 +56,22 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a
-                                href="/admin-dashboard"
+                                href="admin/admin-dashboard"
                                 class="nav-link
-                                {{request()->is('admin-dashboard') || request()->is('admin-dashboard2') || request()->is('admin-dashboard3') ? 'active' : '' }}"
+                                {{request()->is('admin/admin-dashboard') || request()->is('admin/admin-dashboard2') || request()->is('admin/admin-dashboard3') ? 'active' : '' }}"
                             >
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard v1</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin-dashboard" class="nav-link">
+                            <a href="admin/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard v2</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin-dashboard" class="nav-link">
+                            <a href="admin/admin-dashboard" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard v3</p>
                             </a>
@@ -80,12 +80,12 @@
                 </li>
                 <li
                     class="nav-item
-                    {{request()->is('admin-table1') || request()->is('admin-table2') || request()->is('admin-table3') ? 'menu-open' : '' }}"
+                    {{request()->is('admin/admin-table1') || request()->is('admin/admin-table2') || request()->is('admin/admin-table3') ? 'menu-open' : '' }}"
                 >
                     <a
-                        href="/admin-dashboard"
+                        href="admin/admin-dashboard"
                         class="nav-link
-                        {{request()->is('admin-table1') || request()->is('admin-table2') || request()->is('admin-table3') ? 'active' : '' }}"
+                        {{request()->is('admin/admin-table1') || request()->is('admin/admin-table2') || request()->is('admin/admin-table3') ? 'active' : '' }}"
                     >
                         <i class="nav-icon fas fa-table"></i>
                         <p>
@@ -95,19 +95,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin-table1" class="nav-link {{request()->is('admin-table1') ? 'active' : '' }}">
+                            <a href="admin/admin-table1" class="nav-link {{request()->is('admin/admin-table1') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Orders</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin-table2" class="nav-link {{request()->is('admin-table2') ? 'active' : '' }}">
+                            <a href="admin/admin-table2" class="nav-link {{request()->is('admin/admin-table2') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Products</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin-table3" class="nav-link {{request()->is('admin-table3') ? 'active' : '' }}">
+                            <a href="admin/admin-table3" class="nav-link {{request()->is('admin/admin-table3') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Categories</p>
                             </a>
