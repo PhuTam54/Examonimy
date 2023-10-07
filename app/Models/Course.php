@@ -5,20 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Course extends Model
 {
     use HasFactory;
 
-    protected $table = "categories";
+    protected $table = "courses";
 
 //    protected $primaryKey = "id"; // Nếu là id thì không cần viết lại
 
     protected $fillable = [
-        "name",
-        "slug"
+        "course_name",
+        "course_description",
+        "course_year",
     ];
 
     public function Products() {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Subject::class);
     }
 }

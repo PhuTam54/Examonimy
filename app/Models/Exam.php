@@ -5,20 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Exam extends Model
 {
     use HasFactory;
-    protected $table = "orders";
+    protected $table = "exams";
     protected $fillable = [
-        "user_id",
-        "grand_total",
+        "exam_name",
+        "description",
         "status",
-        "full_name",
-        "tel",
-        "address",
-        "payment_method",
-        "shipping_method",
-        "is_paid",
+        "start_date",
+        "end_date",
+        "duration",
+        "number_of_questions",
+        "total_marks",
+        "passing_marks",
+        "type_of_exam",
+        "created_by",
+        "course_id",
     ];
 
     const PENDING = 0;
@@ -29,7 +32,7 @@ class Order extends Model
     const CANCEL = 5;
 
     public function Products() {
-        return $this->belongsToMany(Product::class, "order_details")->withPivot(["qty", "price"]);
+        return $this->belongsToMany(Subject::class, "order_details")->withPivot(["qty", "price"]);
     }
 
     public function getGrandTotal() {
