@@ -8,6 +8,7 @@ use App\Models\Exam;
 use App\Models\Subject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use function Webmozart\Assert\Tests\StaticAnalysis\integer;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(10)->create();
         \App\Models\Course::factory(10)->create();
-        \App\Models\Subject::factory(10)->create();
+        \App\Models\Subject::factory(20)->create();
         \App\Models\Exam::factory(30)->create();
 
         $exams = Exam::all();
@@ -48,13 +49,25 @@ class DatabaseSeeder extends Seeder
             DB::table("attendances")
                 ->insert([
                     "user_id"=> random_int(2, 11),
-                    "subject_id"=> random_int(1, 10),
+                    "subject_id"=> random_int(1, 20),
                     "class_id"=> $class->id,
                     "lesson_attendance"=> random_int(0, 50),
                 ]);
         }
 
+        \App\Models\ExamQuestion::factory(50)->create();
+        \App\Models\QuestionOption::factory(200)->create();
 
+        $exams = Exam::all();
+        foreach ($exams as $exam) {
+            DB::table("exam_answers")
+                ->insert([
+                    "enrollment_id"=> random_int(1, 30),
+                    "option_id"=>random_int(1, 200),
+                    "status"=>random_int(0, 3)
+                ]);
+        }
 
+        \App\Models\ExamResult::factory(30)->create();
     }
 }

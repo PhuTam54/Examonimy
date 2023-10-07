@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('enrollments', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("exam_id");
             $table->dateTime("enrollments_date")->nullable();
             $table->smallInteger("status");
             $table->foreign("user_id")->references("id")->on("users");
             $table->foreign("exam_id")->references("id")->on("exams");
-            $table->primary(["user_id", "exam_id"]); // composite key
+//            $table->primary(["user_id", "exam_id"]); // composite key
         });
     }
 
