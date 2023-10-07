@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Order;
+use App\Models\Exam;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -20,7 +20,7 @@ class CreateNewOrder
     /**
      * Create a new event instance.
      */
-    public function __construct(Order $order)
+    public function __construct(Exam $order)
     {
         $this->order = $order;
     }

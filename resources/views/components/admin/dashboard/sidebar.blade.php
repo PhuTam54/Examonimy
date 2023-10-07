@@ -1,9 +1,10 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/admin-dashboard" class="brand-link">
-        <img src="storage/img/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Examonimy</span>
+    <a href="/admin-dashboard" class="brand-link navbar-brand d-flex align-items-center px-4 px-lg-5">
+{{--        <img src="storage/img/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
+{{--        <span class="brand-text font-weight-light">Examonimy</span>--}}
+        <h3 class="m-0" style="color: #c2c7d0"><i class="fa fa-book me-3" style="margin: 0 10px 0 -16px"></i>Examonimy</h3>
     </a>
 
     <!-- Sidebar -->
@@ -14,7 +15,7 @@
                 <img src="storage/img/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="admin/admin-dashboard" class="d-block">Phú Tâm</a>
+                <a href="admin/admin-dashboard" class="d-block">{{auth()->user()->name}}</a>
             </div>
         </div>
 
@@ -114,7 +115,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">EXAMPLES</li>
+                <li class="nav-header">Phu Tam 54</li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

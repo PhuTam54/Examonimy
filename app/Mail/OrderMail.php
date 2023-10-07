@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Order;
+use App\Models\Exam;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,7 +17,7 @@ class OrderMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(Order $order)
+    public function __construct(Exam $order)
     {
         $this->order = $order;
     }
@@ -28,7 +28,7 @@ class OrderMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Mail',
+            subject: 'Exam Mail',
         );
     }
 

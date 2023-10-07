@@ -21,7 +21,7 @@ class Admin
 
         // Nếu login rồi mà không phải admin -> 404
         if (auth()->user()->role != "ADMIN")
-            return abort("404");
+            return redirect()->to("404");
 
         return $next($request);
     }

@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("title", "Admin | Product Add")
+@section("title", "Admin | Subject Add")
 @section("before_css")
 {{--    @include("components.admin.embedded.table_head")--}}
 @endsection

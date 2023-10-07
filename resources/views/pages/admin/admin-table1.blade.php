@@ -62,7 +62,7 @@
 {{--                                        <tr class="expandable-body">--}}
 {{--                                            <td colspan="10">--}}
 {{--                                                <p>--}}
-{{--                                                    Order is purchase at: {{ $order->updated_at }}--}}
+{{--                                                    Exam is purchase at: {{ $order->updated_at }}--}}
 {{--                                                </p>--}}
 {{--                                            </td>--}}
 {{--                                        </tr>--}}

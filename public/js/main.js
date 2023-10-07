@@ -101,7 +101,7 @@
     });
 
     /*--------------------------
-        Latest Product Slider
+        Latest Subject Slider
     ----------------------------*/
     $(".latest-product__slider").owlCarousel({
         loop: true,
@@ -116,7 +116,7 @@
     });
 
     /*-----------------------------
-        Product Discount Slider
+        Subject Discount Slider
     -------------------------------*/
     $(".product__discount__slider").owlCarousel({
         loop: true,
@@ -147,7 +147,7 @@
     });
 
     /*---------------------------------
-        Product Details Pic Slider
+        Subject Details Pic Slider
     ----------------------------------*/
     $(".product__details__pic__slider").owlCarousel({
         loop: true,
@@ -186,7 +186,7 @@
     $("select").niceSelect();
 
     /*------------------
-		Single Product
+		Single Subject
 	--------------------*/
     $('.product__details__pic__slider img').on('click', function () {
 
