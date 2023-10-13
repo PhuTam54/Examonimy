@@ -20,7 +20,7 @@ class Admin
             return redirect()->route("login");
 
         // Nếu login rồi mà không phải admin -> 404
-        if (auth()->user()->role != "ADMIN")
+        if (auth()->user()->role != 3)
             return redirect()->to("404");
 
         return $next($request);

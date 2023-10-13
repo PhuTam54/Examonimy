@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("title", "Admin | Subject Edit")
+@section("title", "Admin | Subject Add")
 @section("before_css")
 {{--    @include("components.admin.embedded.table_head")--}}
 @endsection
@@ -7,20 +7,20 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include("components.admin.tables.table2.content_header")
+        @include("components.admin.tables.subject.content_header")
         <!-- /.content-header -->
 
         <!-- Main content -->
         <section class="content">
-            <form action="admin/product-edit/{{ $product->id }}" method="post">
+            <form action="admin/subject-add" method="post">
                 @csrf
-                @method('PUT')
+                @method('POST')
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <div class="card card-info">
+                            <div class="card card-success">
                                 <div class="card-header">
-                                    <h3 class="card-title">Edit product</h3>
+                                    <h3 class="card-title">Add new subject</h3>
                                 </div>
                                 <div class="card-body d-flex">
                                     <div class="col-md-6">
@@ -28,7 +28,7 @@
                                             <label for="inputName">Name</label>
                                             <input
                                                 name="name"
-                                                value="{{ old("name")??$product->name }}"
+                                                value="{{ old("name") }}"
                                                 type="text"
                                                 class="form-control"
                                             >
@@ -36,38 +36,39 @@
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
+{{--                                        <div class="form-group">--}}
+{{--                                            <label for="inputName">Price</label>--}}
+{{--                                            <input--}}
+{{--                                                name="price"--}}
+{{--                                                value="{{ old("price") }}"--}}
+{{--                                                type="number"--}}
+{{--                                                class="form-control"--}}
+{{--                                            >--}}
+{{--                                            @error("price")--}}
+{{--                                            <p class="text-danger"><i>{{ $message }}</i></p>--}}
+{{--                                            @enderror--}}
+{{--                                        </div>--}}
                                         <div class="form-group">
-                                            <label for="inputName">Price</label>
+                                            <label for="lesson">Lesson</label>
                                             <input
-                                                name="price"
-                                                value="{{ old("price")??$product->price }}"
+                                                name="lesson"
+                                                value="{{ old("lesson") }}"
                                                 type="number"
                                                 class="form-control"
                                             >
-                                            @error("price")
+                                            @error("lesson")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputName">Quantity</label>
-                                            <input
-                                                name="qty"
-                                                value="{{ old("qty")??$product->qty }}"
-                                                type="number"
-                                                class="form-control"
-                                            >
-                                            @error("qty")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputCategory">Category</label>
-                                            <select name="category" id="inputCategory" class="form-control custom-select">
-                                                @foreach($categories as $category)
-                                                    <option @if(old("category") || $product->category_id == "$category->id") selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <label for="inputCourse">Course</label>
+                                            <select name="course" id="inputCourse" class="form-control custom-select">
+                                                <option selected disabled>Select one</option>
+                                                @foreach($courses as $course)
+                                                    <option @if(old("course") == "$course->id") selected @endif value="{{ $course->id }}">{{ $course->course_name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error("category")
+                                            @error("course")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
@@ -75,7 +76,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputDescription">Description</label>
-                                            <textarea id="inputDescription" class="form-control" name="description" rows="4">{{ old('description')??$product->description }}</textarea>
+                                            <textarea id="inputDescription" class="form-control" name="description" rows="1">{{ old('description') }}</textarea>
                                             @error("description")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
@@ -100,7 +101,7 @@
                                                 accept="image/*,.pdf"
                                             >
                                             @if (old('thumbnail'))
-                                                <p class="text-info">Old thumb nail: {{ old("thumbnail")??$product->thumbnail }}</p>
+                                                <p class="text-info">Old thumb nail: {{ old("thumbnail") }}</p>
                                                 <p class="text-danger">Please choose again.</p>
                                             @endif
                                             @error("thumbnail")
@@ -118,8 +119,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="admin/admin-table2" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Edit Product" class="btn btn-info float-right">
+                            <a href="admin/admin-subject" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" value="Create new Product" class="btn btn-success float-right">
                         </div>
                     </div>
                 </div>

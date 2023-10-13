@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('exam_results', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("enrollment_id");
+            $table->unsignedBigInteger("enrollment_id"); //->unique()
             $table->foreign("enrollment_id")->references("id")->on("enrollments");
-            $table->float("marks_obtained");
-            $table->dateTime("date_submit")->nullable();
-            $table->float("duration")->nullable();
+            $table->float("score", 14, 2);
+            $table->integer("time_taken")->nullable(); // seconds
+            $table->string("note")->nullable(); // instructor note
             $table->smallInteger("status")->default(0);
             $table->timestamps();
         });

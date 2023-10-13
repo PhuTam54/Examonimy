@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("subject_name")->unique();
 //            $table->string("slug")->unique();
-            $table->string("thumbnail")->nullable();
+            $table->string("subject_thumbnail")->nullable();
             $table->text("subject_description")->nullable();
             $table->unsignedSmallInteger("lesson")->default(0);
             $table->unsignedBigInteger("course_id");

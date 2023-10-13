@@ -18,9 +18,9 @@ class QuestionOptionFactory extends Factory
     public function definition(): array
     {
         return [
-            "question_id"=>random_int(1, 50),
-            "option_text"=> $this->faker->countryCode,
-            "is_correct"=>random_int(0, 1),
+//            "question_id"=>1,
+//            "option_text"=> $this->faker->countryCode,
+//            "is_correct"=>random_int(0, 1),
         ];
     }
 }

@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("student_id");
+            $table->foreign("student_id")->references("id")->on("users");
             $table->unsignedBigInteger("exam_id");
-            $table->dateTime("enrollments_date")->nullable();
-            $table->smallInteger("status");
-            $table->foreign("user_id")->references("id")->on("users");
             $table->foreign("exam_id")->references("id")->on("exams");
+            $table->unsignedSmallInteger("status")->default(0);
+            // 1. Easy 2. Medium 3. Difficult ...
+            $table->timestamps();
 //            $table->primary(["user_id", "exam_id"]); // composite key
         });
     }

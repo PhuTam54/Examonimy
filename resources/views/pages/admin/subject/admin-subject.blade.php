@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("title", "Admin | Products Tables")
+@section("title", "Admin | Subjects Tables")
 @section("before_css")
     @include("components.admin.embedded.table_head")
 @endsection
@@ -7,7 +7,7 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include("components.admin.tables.table2.content_header")
+        @include("components.admin.tables.subject.content_header")
         <!-- /.content-header -->
         @if(session()->has("add-success"))
             <div class="alert alert-success" role="alert">
@@ -31,10 +31,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <a class="btn btn-success btn-md" href="admin/product-add">
+                                <a class="btn btn-success btn-md" href="admin/subject-add">
                                     <i class="fas fa-plus">
                                     </i>
-                                    Add new product
+                                    Add new subject
                                 </a>
                             </h3>
                         </div>
@@ -43,48 +43,44 @@
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
+                                    <th>No.</th>
                                     <th>Image</th>
-                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Price</th>
-{{--                                    <th>Description</th>--}}
-                                    <th>Qty</th>
-                                    <th>Category</th>
+                                    <th>Lesson</th>
+                                    <th>Course</th>
                                     <th>Created</th>
                                     <th>Updated</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $product)
+                                @foreach($subjects as $subject)
                                 <tr>
+                                    <td>#{{ $loop->index + 1 }}</td>
                                     <td class="">
-                                        <img src=" {{ $product->thumbnail }}" width="100" alt="img">
+                                        <img src=" {{ $subject->subject_thumbnail }}" width="100" alt="img">
                                     </td>
-                                    <td>{{ $product->id }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>${{ $product->price }}</td>
-{{--                                    <td>{{ $product->description }}</td>--}}
-                                    <td>{{ $product->qty }}</td>
-                                    <td>{{ $product->Category->name }}</td>
-                                    <td>{{ $product->created_at }}</td>
-                                    <td>@if($product->updated_at == $product->created_at) Nothing changed @else{{ $product->updated_at }}@endif</td>
+                                    <td>{{ $subject->subject_name }}</td>
+                                    <td>{{ $subject->lesson }}</td>
+                                    <td>{{ $subject->Course->course_name }}</td>
+                                    <td>{{ $subject->created_at }}</td>
+                                    <td>@if($subject->updated_at == $subject->created_at) Nothing has changed @else{{ $subject->updated_at }}@endif</td>
                                     <td class="project-actions text-center">
-                                        <a class="btn btn-primary btn-sm" href="admin/product-details/{{ $product->id }}">
-                                            <i class="fas fa-folder">
-                                            </i>
-                                            View
-                                        </a>
-                                        <a class="btn btn-info btn-sm" href="admin/product-edit/{{ $product->id }}">
+{{--                                        <a class="btn btn-primary btn-sm" href="admin/subject-details/{{ $subject->id }}">--}}
+{{--                                            <i class="fas fa-folder">--}}
+{{--                                            </i>--}}
+{{--                                            View--}}
+{{--                                        </a>--}}
+                                        <a class="btn btn-info btn-sm" href="admin/subject-edit/{{ $subject->id }}">
                                             <i class="fas fa-pencil-alt">
                                             </i>
                                             Edit
                                         </a>
                                         <a class="btn">
-                                            <form action="admin/product-delete/{{ $product->id }}" method="post">
+                                            <form action="admin/subject-delete/{{ $subject->id }}" method="post">
                                             @csrf
                                             @method("DELETE")
-                                                <button onclick="return confirm('Are you sure to delete this product???')" class="btn btn-danger btn-sm" style="margin-left: -12px" type="submit">
+                                                <button onclick="return confirm('Are you sure to delete this subject???')" class="btn btn-danger btn-sm" style="margin-left: -12px" type="submit">
                                                     <i class="fas fa-trash">
                                                     </i>
                                                     Delete
@@ -97,13 +93,11 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                    <th>No.</th>
                                     <th>Image</th>
-                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Price</th>
-{{--                                    <th>Description</th>--}}
-                                    <th>Qty</th>
-                                    <th>Category</th>
+                                    <th>Lesson</th>
+                                    <th>Course</th>
                                     <th>Created</th>
                                     <th>Updated</th>
                                     <th>Action</th>

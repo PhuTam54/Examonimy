@@ -16,14 +16,14 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ $orders->count() }}</h3>
+                                <h3>{{ $exams->count() }}</h3>
 
-                                <p>New Orders</p>
+                                <p>New Exams</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="admin/admin-table1" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="admin/admin-exam" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -31,14 +31,14 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{ $products->count() }}<sup style="font-size: 20px"></sup></h3>
+                                <h3>{{ $subjects->count() }}<sup style="font-size: 20px"></sup></h3>
 
-                                <p>Products</p>
+                                <p>Subjects</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                            <a href="admin/admin-table2" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="admin/admin-subject" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -61,9 +61,9 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>${{ $income }}</h3>
+                                <h3>{{ $classroom->count() }}</h3>
 
-                                <p>Income</p>
+                                <p>Classroom</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
@@ -450,7 +450,7 @@
 
                         <!-- Map card -->
                         <div class="card bg-gradient-primary">
-                            <div class="card-header border-0">
+                            <div class="card-header bexam-0">
                                 <h3 class="card-title">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
                                     Visitors
@@ -495,7 +495,7 @@
 
                         <!-- solid sales graph -->
                         <div class="card bg-gradient-info">
-                            <div class="card-header border-0">
+                            <div class="card-header bexam-0">
                                 <h3 class="card-title">
                                     <i class="fas fa-th mr-1"></i>
                                     Sales Graph
@@ -520,7 +520,7 @@
                                         <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
                                                data-fgColor="#39CCCC">
 
-                                        <div class="text-white">Mail-Orders</div>
+                                        <div class="text-white">Mail-Exams</div>
                                     </div>
                                     <!-- ./col -->
                                     <div class="col-4 text-center">
@@ -546,7 +546,7 @@
 
                         <!-- Calendar -->
                         <div class="card bg-gradient-success">
-                            <div class="card-header border-0">
+                            <div class="card-header bexam-0">
 
                                 <h3 class="card-title">
                                     <i class="far fa-calendar-alt"></i>

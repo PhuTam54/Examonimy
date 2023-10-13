@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('exam_answers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("enrollment_id")->nullable();
+            $table->unsignedBigInteger("enrollment_id"); //->unique()
             $table->foreign("enrollment_id")->references("id")->on("enrollments");
             $table->unsignedBigInteger("option_id")->nullable();
             $table->foreign("option_id")->references("id")->on("question_options");
             $table->string("answer_text")->nullable();
             $table->smallInteger("status")->default(0);
+            // 0. Not answer yet 1. Correct 2. Incorrect
             $table->timestamps();
-//            $table->primary(["enrollment_id", "option_id"]); // composite key
+//            $table->primary(["user_id", "exam_id", "option_id"]); // composite key
         });
     }
 

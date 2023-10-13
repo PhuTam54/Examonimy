@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classrooms', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();  // unsigned bigint
             $table->string("class_name", 100)->unique(); // varchar(255)
             $table->smallInteger("number_of_students")->nullable();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classrooms');
+        Schema::dropIfExists('classes');
     }
 };

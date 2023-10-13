@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("title", "Admin | Orders Tables")
+@section("title", "Admin | Results Table")
 @section("before_css")
     @include("components.admin.embedded.table_head")
 @endsection
@@ -7,9 +7,21 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include("components.admin.tables.table1.content_header")
+        @include("components.admin.tables.result.content_header")
         <!-- /.content-header -->
-
+        @if(session()->has("add-success"))
+            <div class="alert alert-success" role="alert">
+                {{ session("add-success") }}
+            </div>
+        @elseif(session()->has("edit-success"))
+            <div class="alert alert-info" role="alert">
+                {{ session("edit-success") }}
+            </div>
+        @elseif(session()->has("delete-success"))
+            <div class="alert alert-danger" role="alert">
+                {{ session("delete-success") }}
+            </div>
+        @endif
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
@@ -18,7 +30,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Orders</h3>
+                                <h3 class="card-title">Results</h3>
                             </div>
                             <!-- ./card-header -->
                             <div class="card-body">
@@ -26,43 +38,34 @@
                                     <thead>
                                     <tr>
                                         <th>No.</th>
-{{--                                        <th>User</th>--}}
-                                        <th>Total</th>
-                                        <th>Full_Name</th>
-{{--                                        <th>Telephone</th>--}}
-                                        <th>Payment</th>
-                                        <th>Shipping</th>
-                                        <th>Is_Paid</th>
+                                        <th>Student</th>
+                                        <th>Exam</th>
+                                        <th>Score</th>
+                                        <th>Date_Submit</th>
+                                        <th>Time_taken</th>
                                         <th>Status</th>
-                                        <th>Created_at</th>
                                         <th>Action</th>
-{{--                                        <th>Address</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($orders as $order)
+                                    @foreach($results as $result)
 {{--                                        <tr data-widget="expandable-table" aria-expanded="false">--}}
                                         <tr>
                                             <td>#{{ $loop->index + 1 }}</td>
-{{--                                            <td>{{ $order->User->name }}</td>--}}
-{{--                                            <td>{{ $order->Products->name }}</td>--}}
-                                            <td>{{ $order->getGrandTotal() }}</td>
-                                            <td>{{ $order->full_name }}</td>
-{{--                                            <td>{{ $order->tel }}</td>--}}
-                                            <td>{{ $order->payment_method }}</td>
-                                            <td>{{ $order->shipping_method }}</td>
-                                            <td>{!! $order->getIsPaid() !!}</td>
-                                            <td>{!! $order->getStatus() !!}</td>
-                                            <td>{{ $order->created_at }}</td>
+                                            <td>{{ $result->Enrollment->User->name }}</td>
+                                            <td>{{ $result->Enrollment->Exam->exam_name }}</td>
+                                            <td>{{ $result->score }}</td>
+                                            <td>{{ $result->created_at }}</td>
+                                            <td>{{ $result->time_taken }}</td>
+                                            <td>{!! $result->getStatus() !!}</td>
                                             <td>
-                                                <a href="admin/order-details/{{ $order->id }}" class="btn btn-outline-info">Details</a>
+                                                <a href="admin/result-details/{{ $result->id }}" class="btn btn-outline-info">Details</a>
                                             </td>
-{{--                                            <td>{{ $order->address }}</td>--}}
                                         </tr>
 {{--                                        <tr class="expandable-body">--}}
 {{--                                            <td colspan="10">--}}
 {{--                                                <p>--}}
-{{--                                                    Exam is purchase at: {{ $order->updated_at }}--}}
+{{--                                                    Exam is purchase at: {{ $result->updated_at }}--}}
 {{--                                                </p>--}}
 {{--                                            </td>--}}
 {{--                                        </tr>--}}
@@ -71,17 +74,13 @@
                                     <tfoot>
                                     <tr>
                                         <th>No.</th>
-{{--                                        <th>User</th>--}}
-                                        <th>Total</th>
-                                        <th>Full_Name</th>
-{{--                                        <th>Telephone</th>--}}
-                                        <th>Payment</th>
-                                        <th>Shipping</th>
-                                        <th>Is_Paid</th>
+                                        <th>Student</th>
+                                        <th>Exam</th>
+                                        <th>Score</th>
+                                        <th>Date_Submit</th>
+                                        <th>Time_taken</th>
                                         <th>Status</th>
-                                        <th>Created_at</th>
                                         <th>Action</th>
-{{--                                        <th>Address</th>--}}
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -127,7 +126,7 @@
                                                 <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
                                             </div>
                                         </td>
-                                        <td><span class="badge bg-danger">{{ $orders->count()*100/100 }}%</span></td>
+                                        <td><span class="badge bg-danger">{{ $results->count()*100/100 }}%</span></td>
                                     </tr>
                                     <tr>
                                         <td>2.</td>

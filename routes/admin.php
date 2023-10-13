@@ -1,24 +1,84 @@
 <?php
 // ADMIN
-Route::controller(\App\Http\Controllers\AdminController::class)->group(function () {
+Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(function () {
     Route::get('/admin-dashboard', "dashboard");
 
-    // Orders
-    Route::get('/admin-table1', "table1");
-    Route::get('/order-details/{order}', "orderDetails");
+    // Exams
+    Route::get('/admin-exam', "exam");
+    Route::get('/exam-details/{exam}', "examDetails");
 
-    // Products
-    Route::get('/admin-table2', "table2");
-    Route::get('/product-details/{product}', "productDetails");
+    Route::get('/exam-add', "examAdd");
+    Route::post('/exam-add', "examStore");
 
-    Route::get('/product-add', "productAdd");
-    Route::post('/product-add', "productStore");
+    Route::get('/exam-edit/{exam}', "examEdit");
+    Route::put('/exam-edit/{exam}', "examUpdate");
 
-    Route::get('/product-edit/{product}', "productEdit");
-    Route::put('/product-edit/{product}', "productUpdate");
+    Route::delete('/exam-delete/{exam}', "examDelete");
 
-    Route::delete('/product-delete/{product}', "productDelete");
+    // Subjects
+    Route::get('/admin-subject', "subject");
+    Route::get('/subject-details/{subject}', "subjectDetails");
 
-    // Categories
-    Route::get('/admin-table3', "table3");
+    Route::get('/subject-add', "subjectAdd");
+    Route::post('/subject-add', "subjectStore");
+
+    Route::get('/subject-edit/{subject}', "subjectEdit");
+    Route::put('/subject-edit/{subject}', "subjectUpdate");
+
+    Route::delete('/subject-delete/{subject}', "subjectDelete");
+
+    // Courses
+    Route::get('/admin-courses', "courses");
+
+    Route::get('/course-add', "courseAdd");
+    Route::post('/course-add', "courseStore");
+
+    Route::get('/course-edit/{course}', "courseEdit");
+    Route::put('/course-edit/{course}', "courseUpdate");
+
+    Route::delete('/course-delete/{course}', "courseDelete");
+
+    // Questions
+    Route::get('/admin-question', "question");
+
+    Route::get('/question-add', "questionAdd");
+    Route::post('/question-add', "questionStore");
+
+    Route::get('/question-edit/{question}', "questionEdit");
+    Route::put('/question-edit/{question}', "questionUpdate");
+
+    Route::delete('/question-delete/{question}', "questionDelete");
+
+    // classes
+    Route::get('/admin-classroom', "classroom");
+
+    Route::get('/classroom-add', "classroomAdd");
+    Route::post('/classroom-add', "classestore");
+
+    Route::get('/classroom-edit/{classroom}', "classroomEdit");
+    Route::put('/classroom-edit/{classroom}', "classroomUpdate");
+
+    Route::delete('/classroom-delete/{classroom}', "classroomDelete");
+
+    // Exam Results
+    Route::get('/admin-result', "result");
+
+    Route::get('/result-add', "resultAdd");
+    Route::post('/result-add', "resultStore");
+
+    Route::get('/result-edit/{result}', "resultEdit");
+    Route::put('/result-edit/{result}', "resultUpdate");
+
+    Route::delete('/result-delete/{result}', "resultDelete");
+
+    // Users
+    Route::get('/admin-user', "user");
+
+    Route::get('/user-add', "userAdd");
+    Route::post('/user-add', "userStore");
+
+    Route::get('/user-edit/{user}', "userEdit");
+    Route::put('/user-edit/{user}', "userUpdate");
+
+    Route::delete('/user-delete/{user}', "userDelete");
 });

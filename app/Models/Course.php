@@ -16,10 +16,11 @@ class Course extends Model
     protected $fillable = [
         "course_name",
         "course_description",
+        "course_thumbnail",
         "course_year",
     ];
 
-    public function Products() {
+    public function Subjects() {
         return $this->hasMany(Subject::class);
     }
 }

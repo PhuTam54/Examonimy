@@ -12,5 +12,15 @@ class ExamQuestion extends Model
     protected $fillable = [
         "exam_id",
         "question_text",
+        "question_mark",
+        "difficulty"
     ];
+
+    public function QuestionOptions() {
+        return $this->hasMany(QuestionOption::class, "question_id");
+    }
+
+    public function Exams() {
+        return $this->belongsTo(Exam::class, "exam_id");
+    }
 }

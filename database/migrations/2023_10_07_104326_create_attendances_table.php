@@ -12,14 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attendances', function (Blueprint $table) {
+            $table->id();
             $table->smallInteger("lesson_attendance")->nullable();
-            $table->unsignedBigInteger("user_id")->nullable();
-            $table->foreign("user_id")->references("id")->on("users");
+            $table->unsignedBigInteger("student_id")->nullable();
+            $table->foreign("student_id")->references("id")->on("users");
             $table->unsignedBigInteger("subject_id")->nullable();
             $table->foreign("subject_id")->references("id")->on("subjects");
             $table->unsignedBigInteger("class_id")->nullable();
-            $table->foreign("class_id")->references("id")->on("classrooms");
-            $table->primary(["user_id", "subject_id"]); // composite key
+            $table->foreign("class_id")->references("id")->on("classes");
+//            $table->primary(["user_id", "subject_id"]); // composite key
         });
     }
 

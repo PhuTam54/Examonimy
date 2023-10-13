@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\ClassRoom;
+use App\Models\Classes;
 use App\Models\Exam;
+use App\Models\ExamQuestion;
 use App\Models\Subject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class DatabaseSeeder extends Seeder
              'name' => 'Phu Tam',
              'email' => 'phutamytb@gmail.com',
              'password' => bcrypt('123456'),
-             'role' => "ADMIN",
+             'role' => 3,
              "full_name"=> "Nguyen Phu Tam",
              "phone_number"=> "0987654321",
              "address"=> "TS - BN",
@@ -36,19 +37,19 @@ class DatabaseSeeder extends Seeder
         foreach ($exams as $exam) {
             DB::table("enrollments")
                 ->insert([
-                    "user_id"=> random_int(2, 11),
+                    "student_id"=> random_int(2, 11),
                     "exam_id"=>$exam->id,
                     "status"=>random_int(0, 3)
                 ]);
         }
 
-        \App\Models\ClassRoom::factory(10)->create();
+        \App\Models\Classes::factory(10)->create();
 
-        $classes = ClassRoom::all();
+        $classes = Classes::all();
         foreach ($classes as $class) {
             DB::table("attendances")
                 ->insert([
-                    "user_id"=> random_int(2, 11),
+                    "student_id"=> random_int(2, 11),
                     "subject_id"=> random_int(1, 20),
                     "class_id"=> $class->id,
                     "lesson_attendance"=> random_int(0, 50),
@@ -56,7 +57,26 @@ class DatabaseSeeder extends Seeder
         }
 
         \App\Models\ExamQuestion::factory(50)->create();
-        \App\Models\QuestionOption::factory(200)->create();
+        $questions = ExamQuestion::all();
+        $option_text = "I don't know";
+        foreach ($questions as $question) {
+            for ($i = 0; $i < 4; $i ++) {
+                DB::table("question_options")
+                    ->insert([
+                        "question_id"=> $question->id,
+                        "option_text"=> $question->id.$option_text.$i,
+                        "is_correct"=> random_int(0, 1)
+                    ]);
+            }
+//                        if ($i = 3) {
+////                        "is_correct"=>random_int(0, 1),
+//
+//                        } else {
+//
+//                        }
+        }
+
+//        \App\Models\QuestionOption::factory(200)->create();
 
         $exams = Exam::all();
         foreach ($exams as $exam) {
@@ -64,10 +84,10 @@ class DatabaseSeeder extends Seeder
                 ->insert([
                     "enrollment_id"=> random_int(1, 30),
                     "option_id"=>random_int(1, 200),
-                    "status"=>random_int(0, 3)
+                    "status"=>random_int(0, 2)
                 ]);
         }
 
-        \App\Models\ExamResult::factory(30)->create();
+        \App\Models\ExamResult::factory(50)->create();
     }
 }

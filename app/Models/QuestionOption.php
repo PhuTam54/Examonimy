@@ -14,4 +14,8 @@ class QuestionOption extends Model
         "option_text",
         "is_correct",
     ];
+
+    public function ExamQuestion() {
+        return $this->belongsTo(ExamQuestion::class, "question_id");
+    }
 }

@@ -18,11 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'name',
         'email',
         "role",
         'password',
         'full_name',
+        'avatar',
         'date_of_birth',
         'address',
         'phone_number',
@@ -48,4 +49,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    const STUDENT = 1;
+    const INSTRUCTOR = 2;
+    const ADMIN = 3;
+
+    public function getRole() {
+        switch($this->role) {
+            case self::STUDENT: return "<span class='text-secondary'>STUDENT</span>";
+            case self::INSTRUCTOR: return "<span class='text-info'>INSTRUCTOR</span>";
+//            case self::COMPLETE: return "<span class='text-success'>Completed</span>";
+            case self::ADMIN: return "<span class='text-danger'>ADMIN</span>";
+            default: return "<span class='text-warning'>Not found 404</span>";
+        }
+    }
 }

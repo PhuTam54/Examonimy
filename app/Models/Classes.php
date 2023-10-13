@@ -5,13 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassRoom extends Model
+class Classes extends Model
 {
     use HasFactory;
-    protected $table = "classrooms";
+    protected $table = "classes";
     protected $fillable = [
         "class_name",
         "number_of_students",
         "instructor_id",
     ];
+
+    public function Instructor() {
+        return $this->belongsTo(User::class, "instructor_id");
+    }
 }

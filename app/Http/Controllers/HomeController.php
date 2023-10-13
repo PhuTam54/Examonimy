@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Course;
@@ -10,7 +11,9 @@ use App\Models\Course;
 class HomeController extends Controller
 {
     public function home() {
-        return view("pages.home");
+        $instructors = User::where("role", "like", "INSTRUCTOR")->limit(4)->get();
+        $data_wow_delay = -0.1;
+        return view("pages.home", compact("instructors", "data_wow_delay"));
     }
 
     public function notFound() {

@@ -22,6 +22,7 @@ class CourseFactory extends Factory
             "course_name"=> $name,
 //            "slug"=> Str::slug($name),
             "course_description"=> $this->faker->unique()->city,
+            "course_thumbnail"=>"storage/img/main-img/cat-".random_int(1, 4).".jpg",
             "course_year"=> random_int(0, 2),
         ];
     }

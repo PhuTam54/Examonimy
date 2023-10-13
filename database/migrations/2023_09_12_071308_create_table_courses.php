@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();  // unsigned bigint
             $table->string("course_name", 100)->unique(); // varchar(255)
             $table->text("course_description")->nullable();
-            $table->unsignedFloat("course_year")->nullable();
+            $table->string("course_thumbnail")->nullable();
+            $table->unsignedFloat("course_year", 14, 2)->nullable();
             $table->timestamps();  // create_at , updated_at
         });
     }
