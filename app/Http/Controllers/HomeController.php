@@ -11,9 +11,10 @@ use App\Models\Course;
 class HomeController extends Controller
 {
     public function home() {
-        $instructors = User::where("role", "like", "INSTRUCTOR")->limit(4)->get();
+        $instructors = User::where("role", User::INSTRUCTOR)->limit(4)->get();
+        $students = User::where("role", User::STUDENT)->orderBy("created_at", "desc")->limit(10)->get();
         $data_wow_delay = -0.1;
-        return view("pages.home", compact("instructors", "data_wow_delay"));
+        return view("pages.home", compact("instructors", "students", "data_wow_delay"));
     }
 
     public function notFound() {

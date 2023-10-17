@@ -24,7 +24,7 @@ class SubjectFactory extends Factory
             "subject_thumbnail"=>"storage/img/main-img/cat-".random_int(1, 4).".jpg",
             "subject_description"=> $this->faker->text(500),
             "lesson"=> random_int(0, 50),
-            "course_id"=> random_int(1, 10),
+            "course_id"=> random_int(1, 4),
         ];
     }
 }

@@ -1,15 +1,4 @@
-{{--<!-- Google Font -->--}}
-{{--<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">--}}
 
-{{--<!-- Css Styles -->--}}
-{{--<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/nice-select.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">--}}
-{{--<link rel="stylesheet" href="css/style.css" type="text/css">--}}
 <!-- Favicon -->
 <link href="img/favicon.ico" rel="icon">
 
@@ -21,6 +10,9 @@
 <!-- Icon Font Stylesheet -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="css/icheck-bootstrap.min.css">
 
 <!-- Libraries Stylesheet -->
 <link href="lib/animate/animate.min.css" rel="stylesheet">

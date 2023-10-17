@@ -62,7 +62,12 @@
                                     @foreach($question->QuestionOptions as $option)
                                         <td>{{ $option->option_text }} is_true: {{ $option->is_correct }}</td>
                                     @endforeach
-                                    <td>{{ $question->Exams->exam_name }}</td>
+                                    @if($question->QuestionOptions->count() < 4)
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    @endif
+                                    <td>{{ $question->Exam->exam_name }}</td>
                                     <td class="project-actions text-center">
 {{--                                        <a class="btn btn-primary btn-sm" href="admin/question-details/{{ $question->id }}">--}}
 {{--                                            <i class="fas fa-folder">--}}

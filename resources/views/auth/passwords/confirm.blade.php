@@ -1,24 +1,25 @@
 @extends('layouts.app')
 
 @section('main')
-    @include("components.other-page.hero-section")
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/img/breadcrumb.jpg') }}">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Comfirm password</h2>
-                        <div class="breadcrumb__option">
-                            <a href="/">Home</a>
-                            <span>Comfirm password</span>
-                        </div>
-                    </div>
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Password</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Auth</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Password</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    </div>
+    <!-- Header End -->
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

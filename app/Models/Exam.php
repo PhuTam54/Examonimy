@@ -23,7 +23,7 @@ class Exam extends Model
         "status",
         "type_of_exam",
         "created_by",
-        "course_id",
+        "subject_id",
     ];
 
     const PENDING = 0;
@@ -32,13 +32,18 @@ class Exam extends Model
     const COMPLETE = 3;
     const CANCEL = 4;
 
-    public function Course() {
-        return $this->belongsTo(Course::class);
+    public function Subject() {
+        return $this->belongsTo(Subject::class);
     }
 
     public function Instructor() {
         return $this->belongsTo(User::class, "created_by");
     }
+
+    public function Questions() {
+        return $this->hasMany(ExamQuestion::class, "exam_id");
+    }
+
     public function getStatus() {
         switch($this->status) {
             case self::PENDING: return "<span class='text-secondary'>Pending</span>";

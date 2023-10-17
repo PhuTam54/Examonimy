@@ -8,7 +8,7 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/exam-details/{exam}', "examDetails");
 
     Route::get('/exam-add', "examAdd");
-    Route::post('/exam-add', "examStore");
+    Route::post('/exam-add', "examSubmit");
 
     Route::get('/exam-edit/{exam}', "examEdit");
     Route::put('/exam-edit/{exam}', "examUpdate");

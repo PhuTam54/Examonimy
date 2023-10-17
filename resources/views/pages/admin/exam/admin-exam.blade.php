@@ -68,7 +68,7 @@
 {{--                                            <td>{{ $exam->end_date ?? "Never end" }}</td>--}}
                                             <td>{{ $exam->duration }}</td>
                                             <td>{{ $exam->number_of_questions }}</td>
-                                            <td>{{ $exam->Course->course_name }}</td>
+                                            <td>{{ $exam->subject->Course->course_name }}</td>
                                             <td>{!! $exam->getStatus() !!}</td>
                                             <td>{{ $exam->Instructor->name }}</td>
                                             <td class="project-actions text-center">

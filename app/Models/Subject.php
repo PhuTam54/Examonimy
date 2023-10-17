@@ -18,10 +18,6 @@ class Subject extends Model
     ];
 
     public function Course() {  // Model relationship
-        return $this->belongsTo(Course::class ); //"category_id"
-    }
-
-    public function Exams() {
-        return $this->belongsToMany(Exam::class, "order_details")->withPivot(["price", "qty"]);
+        return $this->belongsTo(Course::class, "course_id");
     }
 }

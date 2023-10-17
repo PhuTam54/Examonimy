@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("created_by")->nullable();
-            $table->unsignedBigInteger("course_id")->nullable();
+            $table->unsignedBigInteger("subject_id")->nullable();
             $table->string("exam_name");
             $table->text("exam_description");
             $table->string("exam_thumbnail")->nullable();
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->smallInteger("type_of_exam")->default(1); // 1. Trac Nghiem 2. Tu Luan
             $table->timestamps();
             $table->foreign("created_by")->references("id")->on("users");
-            $table->foreign("course_id")->references("id")->on("courses");
+            $table->foreign("subject_id")->references("id")->on("subjects");
         });
     }
 

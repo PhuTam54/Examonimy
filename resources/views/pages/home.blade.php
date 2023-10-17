@@ -1,4 +1,5 @@
 @extends("layouts.app")
+@section("title", "Examonimy | Dashboard")
 @section("main")
 {{--    @include("components.home-page.hero-section")--}}
     <!-- Carousel Start -->
@@ -143,8 +144,8 @@
                             <a class="position-relative d-block overflow-hidden" href="">
                                 <img class="img-fluid" src="{{ asset('storage/img/main-img/cat-1.jpg') }}" alt="">
                                 <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                    <h5 class="m-0">Web Design</h5>
-                                    <small class="text-primary">49 Courses</small>
+                                    <h5 class="m-0">ADSE</h5>
+                                    <small class="text-primary">2 Years</small>
                                 </div>
                             </a>
                         </div>
@@ -152,8 +153,8 @@
                             <a class="position-relative d-block overflow-hidden" href="">
                                 <img class="img-fluid" src="{{ asset('storage/img/main-img/cat-2.jpg') }}" alt="">
                                 <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                    <h5 class="m-0">Graphic Design</h5>
-                                    <small class="text-primary">49 Courses</small>
+                                    <h5 class="m-0">FontEnd</h5>
+                                    <small class="text-primary">6 Months</small>
                                 </div>
                             </a>
                         </div>
@@ -161,8 +162,8 @@
                             <a class="position-relative d-block overflow-hidden" href="">
                                 <img class="img-fluid" src="{{ asset('storage/img/main-img/cat-3.jpg') }}" alt="">
                                 <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                    <h5 class="m-0">Video Editing</h5>
-                                    <small class="text-primary">49 Courses</small>
+                                    <h5 class="m-0">BackEnd</h5>
+                                    <small class="text-primary">1 Years</small>
                                 </div>
                             </a>
                         </div>
@@ -172,8 +173,8 @@
                     <a class="position-relative d-block h-100 overflow-hidden" href="">
                         <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('storage/img/main-img/cat-4.jpg') }}" alt="" style="object-fit: cover;">
                         <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
-                            <h5 class="m-0">Online Marketing</h5>
-                            <small class="text-primary">49 Courses</small>
+                            <h5 class="m-0">Game development with Unity</h5>
+                            <small class="text-primary">1 Years</small>
                         </div>
                     </a>
                 </div>
@@ -199,7 +200,6 @@
                 @endif
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-{{--                            <img class="img-fluid" src="{{ asset('storage/img/main-img/team-1.jpg') }}" alt="">--}}
                             <img class="img-fluid" src="{{ $instructor->avatar }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
@@ -230,38 +230,16 @@
                 <h1 class="mb-5">Our Students Say!</h1>
             </div>
             <div class="owl-carousel testimonial-carousel position-relative">
+                @foreach($students as $student)
                 <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ asset('storage/img/main-img/testimonial-1.jpg') }}" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
+                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ $student->avatar }}" style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">{{ $student->name }}</h5>
+                    <p>{{ $student->email }}</p>
                     <div class="testimonial-text bg-light text-center p-4">
                         <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
                     </div>
                 </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ asset('storage/img/main-img/testimonial-2.jpg') }} "style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                        <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ asset('storage/img/main-img/testimonial-3.jpg') }}" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                        <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ asset('storage/img/main-img/testimonial-4.jpg') }}" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                        <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

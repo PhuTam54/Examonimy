@@ -18,7 +18,7 @@ class ExamFactory extends Factory
     {
         return [
             "created_by"=>random_int(2, 11),
-            "course_id"=>random_int(1, 10),
+            "subject_id"=>random_int(1, 10),
             "exam_name"=> $this->faker->colorName,
             "exam_description"=> $this->faker->text(500),
             "duration"=>random_int(5, 60),
