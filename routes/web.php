@@ -19,29 +19,26 @@ Route::controller(\App\Http\Controllers\HomeController::class)->group(function (
     Route::get('404',  "notFound");
 });
 
-//contact
-Route::get('/contact', [\App\Http\Controllers\ContactController::class, "contact"]);
-
-    // Middleware
+// Middleware - auth
 Route::middleware("auth")->group(function () {
-//    // add to cart
-//    Route::get('/add-to-cart/{product}', [\App\Http\Controllers\PagesController::class, "addToCart"]);
-//
-//    // checkout
-//    Route::get('/checkout', [\App\Http\Controllers\PagesController::class, "checkOut"]);
-//
-//    // post
-//    Route::post('/checkout', [\App\Http\Controllers\PagesController::class, "placeOrder"]);
-//    Route::get('/thank-you/{order}', [\App\Http\Controllers\PagesController::class, "thankYou"]);
+    // my exam
+    Route::controller(\App\Http\Controllers\MyExamController::class)->group(function () {
+        Route::get('my-exam/{student}',  "myExam");
+        Route::get('exam-info/{exam}',  "examInfo");
+        Route::get('exam-taking/{exam}',  "examTaking");
+        Route::post('exam-taking/{exam}',  "examSubmit");
+        Route::get('exam-submit/{exam}',  "submit");
+    });
 
-    // Paypal
-//Route::controller(\App\Http\Controllers\PayPalController::class)->group(function () {
-//    Route::get('/paypal-process/{order}', "paypalProcess");
-//    Route::get('/paypal-success/{order}', "paypalSuccess");
-//    Route::get('/paypal-cancel', "paypalCancel");
-//});
+    // my result
+    Route::controller(\App\Http\Controllers\MyResultController::class)->group(function () {
+        Route::get('my-result',  "myResult");
+    });
 
 });
+
+//contact
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, "contact"]);
 
 // ADMIN
 Route::middleware(["auth", "is_admin"])->prefix("admin")->group(function () { //
