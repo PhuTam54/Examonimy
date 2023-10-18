@@ -31,12 +31,12 @@
                 >Exams</a>
                 <div class="dropdown-menu fade-down m-0">
                     @auth()
-                    <a href="/my-exam/{{auth()->user()->id}}"
-                       class="dropdown-item {{request()->is('my-exam/{student}')? 'active' : '' }}"
+                    <a href="/my-exam"
+                       class="dropdown-item {{request()->is('my-exam')? 'active' : '' }}"
                     >My Exam</a>
                     <a href="/my-result"
                        class="dropdown-item {{request()->is('my-result')? 'active' : '' }}"
-                    >Exam Result</a>
+                    >My Result</a>
                     @endauth
                     <a href="/404"
                        class="dropdown-item {{request()->is('404')? 'active' : '' }}"

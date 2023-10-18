@@ -38,9 +38,9 @@ class DatabaseSeeder extends Seeder
         foreach ($exams as $exam) {
             DB::table("enrollments")
                 ->insert([
-                    "student_id"=> random_int(2, 11),
+                    "student_id"=> random_int(1, 1),
                     "exam_id"=>$exam->id,
-                    "status"=>random_int(0, 3)
+                    "status"=>random_int(0, 5)
                 ]);
         }
 
@@ -62,29 +62,46 @@ class DatabaseSeeder extends Seeder
         $option_text = "A. Answer";
         $string_text = "This is Answer";
         foreach ($questions as $question) {
-            if ($question->type_of_question == 1 || $question->type_of_question == 2) {
-            for ($i = 0; $i < 4; $i ++) {
-                DB::table("question_options")
-                    ->insert([
-                        "question_id"=> $question->id,
-                        "option_text"=> $question->id." ".$option_text." ".$i,
-                        "is_correct"=> random_int(0, 1)
-                    ]);
-            }
+            if ($question->type_of_question == 1) {
+                for ($i = 0; $i < 3; $i++) {
+                    DB::table("question_options")
+                        ->insert([
+                            "question_id" => $question->id,
+                            "option_text" => $question->id . " " . $option_text . " " . $i,
+                            "is_correct" => random_int(0, 1)
+                        ]);
+                }
+                DB::table("question_options") // Make sure at least 1 option is correct
+                ->insert([
+                    "question_id" => $question->id,
+                    "option_text" => $question->id . " " . $option_text . " " . $i,
+                    "is_correct" => 1
+                ]);
+
+            } elseif ($question->type_of_question == 2) {
+                for ($i = 0; $i < 3; $i++) {
+                    DB::table("question_options")
+                        ->insert([
+                            "question_id" => $question->id,
+                            "option_text" => $question->id . " " . $option_text . " " . $i,
+                            "is_correct" => 0
+                        ]);
+                }
+                DB::table("question_options") // Make sure at least 1 option is correct
+                ->insert([
+                    "question_id" => $question->id,
+                    "option_text" => $question->id . " " . $option_text . " " . $i,
+                    "is_correct" => 1
+                ]);
+
             } else {
                 DB::table("question_options")
                     ->insert([
-                        "question_id"=> $question->id,
-                        "option_text"=> $question->id." ".$string_text,
-                        "is_correct"=> 1
+                        "question_id" => $question->id,
+                        "option_text" => $question->id . " " . $string_text,
+                        "is_correct" => 1
                     ]);
             }
-//                        if ($i = 3) {
-////                        "is_correct"=>random_int(0, 1),
-//
-//                        } else {
-//
-//                        }
         }
 
 //        \App\Models\QuestionOption::factory(200)->create();
@@ -92,14 +109,14 @@ class DatabaseSeeder extends Seeder
         $exams = Exam::all();
         foreach ($exams as $exam) {
 //            DB::table("exam_answers")
-                $options = [1, 2];
                 $answer = new ExamAnswer;
                 $answer->enrollment_id = random_int(1, 30);
                 $answer->question_id = random_int(1, 50);
-                $answer->answer_text = 'This is my answer';
+                $answer->answers = str(random_int(1, 200) .','. random_int(1, 200));
                 $answer->status = random_int(0, 2);
                 $answer->save();
-                $answer->Options()->attach($options);
+//                $answer->Options()->attach($options);
+
 //                ->insert([
 //                    "enrollment_id"=> random_int(1, 30),
 //                    "option_id"=>random_int(1, 200),

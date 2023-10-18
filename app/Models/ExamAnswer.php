@@ -12,7 +12,7 @@ class ExamAnswer extends Model
     protected $fillable = [
         "enrollment_id",
         "question_id",
-        "answer_text",
+        "answers",
         "status",
     ];
 
@@ -23,7 +23,7 @@ class ExamAnswer extends Model
 
     public function Question()
     {
-        return $this->belongsTo(Enrollment::class, 'question_id');
+        return $this->belongsTo(ExamQuestion::class, 'question_id');
     }
 
     public function Options()

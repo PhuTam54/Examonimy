@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("enrollment_id"); //->unique()
             $table->foreign("enrollment_id")->references("id")->on("enrollments");
-            $table->unsignedBigInteger("question_id")->nullable();
+            $table->unsignedBigInteger("question_id");
             $table->foreign("question_id")->references("id")->on("exam_questions");
-            $table->string("answer_text")->nullable();
+            $table->string("answers", 255);
             $table->smallInteger("status")->default(0);
             // 0. Not answer yet 1. Correct 2. Incorrect
             $table->timestamps();

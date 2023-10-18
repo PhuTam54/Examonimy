@@ -18,6 +18,11 @@ class ExamQuestion extends Model
         "difficulty"
     ];
 
+    // 1. Choice 2. Multiple Choice 3. Fill in the blank
+    const CHOICE = 1;
+    const MULTIPLE_CHOICE = 2;
+    const FILL_IN_BLANK = 3;
+
     // 1. Easy 2. Medium 3. Difficult
     const EASY = 1;
     const MEDIUM = 2;
@@ -47,19 +52,14 @@ class ExamQuestion extends Model
 //        ';
 //    }
 
-    public function checkChoiceExact()
+    public function checkChoiceExact($answer)
     {
-//        $optionId = $request->get("choice-$this->id");
-        $optionId = request()->input("choice-$this->id");
-//        $optionId = 28;
-//        dd($optionId);
-
-        if (!$optionId) {
+        if (!$answer) {
             return false;
         }
 
         foreach ($this->QuestionOptions as $option) {
-            if ($optionId === $option->id) {
+            if ($answer == $option->id) {
                 return $option->is_correct;
             }
         }
@@ -67,12 +67,33 @@ class ExamQuestion extends Model
         return false;
     }
 
-    public function checkFillInBlankExact()
+    public function checkMultipleChoiceExact($answer_array)
     {
-        $value = strtolower(request()->input('fillInBlank-' . $this->id));
+        if (!$answer_array) {
+            return false;
+        }
 
-        if ($value === strtolower($this->answers[0]['content'])) {
-            return true;
+        $isCorrect = true;
+
+        foreach ($answer_array as $answer) {
+            $result = $this->checkChoiceExact($answer);
+            if (!$result) {
+                $isCorrect = false;
+                break;
+            }
+        }
+
+        return $isCorrect;
+    }
+
+    public function checkFillInBlankExact($answer_text)
+    {
+        $value = strtolower($answer_text);
+
+        foreach ($this->QuestionOptions as $option) {
+            if ($value === strtolower($option->option_text)) {
+                return true;
+            }
         }
 
         return false;

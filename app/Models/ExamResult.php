@@ -14,6 +14,7 @@ class ExamResult extends Model
         "score",
         "time_taken",
         "status",
+        "note"
     ];
 
     public function Enrollment()

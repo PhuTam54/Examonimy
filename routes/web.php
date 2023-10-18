@@ -23,11 +23,11 @@ Route::controller(\App\Http\Controllers\HomeController::class)->group(function (
 Route::middleware("auth")->group(function () {
     // my exam
     Route::controller(\App\Http\Controllers\MyExamController::class)->group(function () {
-        Route::get('my-exam/{student}',  "myExam");
+        Route::get('my-exam',  "myExam");
         Route::get('exam-info/{exam}',  "examInfo");
         Route::get('exam-taking/{exam}',  "examTaking");
         Route::post('exam-taking/{exam}',  "examSubmit");
-        Route::get('exam-submit/{exam}',  "submit");
+        Route::get('exam-result/{exam}',  "examResult");
     });
 
     // my result
