@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign("enrollment_id")->references("id")->on("enrollments");
             $table->unsignedBigInteger("question_id");
             $table->foreign("question_id")->references("id")->on("exam_questions");
-            $table->string("answers", 255);
+            $table->string("answers", 255)->nullable();
             $table->smallInteger("status")->default(0);
             // 0. Not answer yet 1. Correct 2. Incorrect
             $table->timestamps();

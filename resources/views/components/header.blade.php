@@ -24,7 +24,7 @@
                 <a
                     href="#"
                     class="nav-link dropdown-toggle
-                    {{request()->is('my-exam/{student}') ||
+                    {{request()->is('my-exam') ||
                     request()->is('my-result') ||
                     request()->is('404') ? 'active' : '' }}"
                     data-bs-toggle="dropdown"

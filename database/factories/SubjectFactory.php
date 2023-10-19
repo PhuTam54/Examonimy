@@ -23,7 +23,7 @@ class SubjectFactory extends Factory
 //            "slug" => Str::slug($name),
             "subject_thumbnail"=>"storage/img/main-img/cat-".random_int(1, 4).".jpg",
             "subject_description"=> $this->faker->text(500),
-            "lesson"=> random_int(0, 50),
+            "lesson"=> random_int(1, 20),
             "course_id"=> random_int(1, 4),
         ];
     }

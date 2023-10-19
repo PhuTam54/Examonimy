@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>
                                     {{ $examination->exam_name }}
-                                    <td>{{ $examination->duration }} minutes</td>
+                                    <td>{{ $examination->duration }} seconds</td>
                                     <td>{{ $examination->Subject->subject_name }}</td>
 {{--                                    @foreach($questions as $question)--}}
 {{--                                        @foreach($question->QuestionOptions as $option) @endforeach--}}

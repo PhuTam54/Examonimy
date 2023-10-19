@@ -19,7 +19,7 @@ class ExamResult extends Model
 
     public function Enrollment()
     {
-        return $this->belongsTo(Enrollment::class, 'enrollment_id');
+        return $this->belongsTo(Enrollment::class, "enrollment_id");
     }
 
     const FAIL = 1;

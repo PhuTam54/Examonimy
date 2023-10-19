@@ -15,7 +15,7 @@ class ExamQuestion extends Model
         "question_text",
         "question_mark",
         "type_of_question",
-        "difficulty"
+        "difficulty" // No. STT
     ];
 
     // 1. Choice 2. Multiple Choice 3. Fill in the blank

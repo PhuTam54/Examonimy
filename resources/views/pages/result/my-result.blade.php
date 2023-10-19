@@ -34,6 +34,7 @@
                             <thead>
                             <tr>
                                 <th>Exam</th>
+                                <th>Subject</th>
 {{--                                <th>Result</th>--}}
 {{--                                <th>Correct</th>--}}
 {{--                                <th>Incorrect</th>--}}
@@ -44,22 +45,47 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($exam_results as $exam_result)
+                            @foreach($enrollments as $enrollment)
                                 <tr>
                                     <td>
-                                        <p class="mb-1">{{ $exam_result->Enrollment->Exam->exam_name }}</p>
-                                        <img class="image mt-2" src=" {{ $exam_result->Enrollment->Exam->exam_thumbnail }}" width="100" alt="img">
+                                        <p class="mb-1">{{ $enrollment->Exam->exam_name }}</p>
+                                        <img class="image mt-2" src=" {{ $enrollment->Exam->exam_thumbnail }}" width="100" alt="img">
                                     </td>
-{{--                                    <td class="text-secondary">{{ $correct_counter }} / {{ $exam_result->Enrollment->Exam->Questions->count() }}</td>--}}
+                                    <td>
+                                        <p class="mb-1">{{ $enrollment->Exam->Subject->subject_name }}</p>
+{{--                                        <img class="image mt-2" src=" {{ $enrollment->Exam->Subject->subject_thumbnail }}" width="100" alt="img">--}}
+                                    </td>
+{{--                                    <td class="text-secondary">{{ $correct_counter }} / {{ $enrollment->Enrollment->Exam->Questions->count() }}</td>--}}
 {{--                                    <td class="text-success">{{ $correct_counter }}</td>--}}
 {{--                                    <td class="text-danger">{{ $incorrect_counter }}</td>--}}
-                                    <td>{{ $exam_result->time_taken }} seconds</td>
-                                    <td class="text-primary">{{ number_format($exam_result->score, 2) }} / {{  number_format($exam_result->score, 2) }}</td>
+                                    <td>{{ $enrollment->ExamResult->time_taken }} seconds</td>
+                                    <span class="d-none">
+                                        @foreach ($enrollment->Exam->Questions as $question)
+                                            {{ $total_score += $question->question_mark }}
+                                        @endforeach
+                                    </span>
+                                    <td class="text-primary">{{ number_format($enrollment->ExamResult->score, 2) }} / {{  number_format($total_score, 2) }}</td>
+                                    <span class="d-none">
+                                        {{ $total_score = 0 }}
+                                    </span>
                                     <td>
-                                        {!! $exam_result->getStatus() !!}
+                                        {!! $enrollment->ExamResult->getStatus() !!}
                                     </td>
                                     <td>
-                                        <a href="my-result-details/{{ $exam_result->id }}" class="btn btn-info">Details</a>
+                                        <a href="my-result-details/{{ $enrollment->ExamResult->id }}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-pencil-alt"></i>
+                                            Details
+                                        </a>
+                                        <a class="btn">
+                                            <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="get">
+{{--                                                @csrf--}}
+{{--                                                @method("DELETE")--}}
+                                                <button onclick="return confirm('Are you sure to retaken this exam???')" class="btn btn-danger btn-sm" type="submit">
+                                                    <i class="fas fa-history"></i>
+                                                    Retaken
+                                                </button>
+                                            </form>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -68,7 +94,7 @@
                     </div>
                     <div class="text-center wow fadeInUp" data-wow-delay="0s">
                         <h6 class="section-title bg-white text-center text-primary px-3">
-                            {!! $exam_results->links("pagination::bootstrap-4") !!}
+                            {!! $enrollments->links("pagination::bootstrap-4") !!}
                         </h6>
                     </div>
                 </div>

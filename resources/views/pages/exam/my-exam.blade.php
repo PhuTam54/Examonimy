@@ -49,7 +49,7 @@
                         </div>
                         <div class="d-flex border-top">
                             <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>{{ $enrollment->Exam->Instructor->name }}</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>{{ $enrollment->Exam->duration }} minutes</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>{{ $enrollment->Exam->duration / 60 }} minutes</small>
                             <small class="flex-fill text-center py-2"><i class="fa fa-question text-primary me-2"></i>{{ $enrollment->Exam->Questions->count() }} Questions</small>
                         </div>
                     </div>

@@ -63,7 +63,7 @@ class MyExamController extends Controller
 
         try {
 //            $status = 0;
-            $answers = null;
+            $answerString = null;
             $isCorrect = false;
             // Check is_correct
 //                if ($question->type_of_question == 1) {
@@ -102,10 +102,14 @@ class MyExamController extends Controller
 //                    break;
                 } elseif ($question->type_of_question == 2) {
                     $answers = $request->get("oneChoice-$question->id");
-                    $isCorrect = $question->checkChoiceExact($answers);
+                    if ($answers != null) {
+                        $isCorrect = $question->checkChoiceExact($answers);
+                    }
                 } else {
                     $answers = $request->get("fillInBlank-$question->id");
-                    $isCorrect = $question->checkFillInBlankExact($answers);
+                    if ($answers != null) {
+                        $isCorrect = $question->checkFillInBlankExact($answers);
+                    }
                 }
 
                 // Set status
@@ -177,7 +181,7 @@ class MyExamController extends Controller
         }
 
         // Get the time ( test )
-        $time_counter = $examination->duration * 60;
+        $time_counter = $examination->duration;
 
         // Get the status ( test )
         if($score_counter > ($total_score / 1.3)) {
