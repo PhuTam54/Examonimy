@@ -17,7 +17,7 @@ class ClassesFactory extends Factory
     public function definition(): array
     {
         return [
-            "class_name"=> "T".random_int(20, 23).random_int(1, 12)."A",
+            "class_name"=> "T".random_int(23, 99).random_int(1, 12)."A",
             "number_of_students"=>random_int(1, 20),
             "instructor_id"=>random_int(1, 20),
         ];

@@ -27,7 +27,6 @@ Route::middleware("auth")->group(function () {
         Route::get('exam-info/{exam}',  "examInfo");
         Route::get('exam-taking/{exam}',  "examTaking");
         Route::post('exam-taking/{exam}',  "examSubmit");
-        Route::get('exam-result/{exam}',  "examResult");
     });
 
     // my result

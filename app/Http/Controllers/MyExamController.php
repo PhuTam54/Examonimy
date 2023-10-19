@@ -56,15 +56,25 @@ class MyExamController extends Controller
             ->orderBy("difficulty")
 //            ->paginate(1);
             ->get();
+
         $student = auth()->user();
+        $examination = Exam::find($exam->id);
+
         $enrollment = Enrollment::where('student_id', '=', $student->id)
-            ->where('exam_id', '=', $exam->id)
+            ->where('exam_id', '=', $examination->id)
             ->first();
 
         try {
-//            $status = 0;
+            $answer_status = 0;
             $answerString = null;
             $isCorrect = false;
+            $correct_counter = 0;
+            $incorrect_counter = 0;
+            $score_counter = 0;
+            $total_score = 0;
+            $time_counter = 0;
+            $result_status = 1;
+
             // Check is_correct
 //                if ($question->type_of_question == 1) {
 //                    foreach ($question->QuestionOptions as $option) {
@@ -85,11 +95,11 @@ class MyExamController extends Controller
                             if ($answer != null && $answer != "") {
                                 $isThisCorrect = $question->checkChoiceExact($answer);
 
-                                echo "Is correct: ". $isCorrect;
+//                                echo "Is correct: ". $isCorrect;
 //                                $answerString = implode(",", $answers);
 //                                echo " Answers: ".$answerString; //...
                                 $answerString = implode(",", $answers);
-                                echo " Answers: ".$answerString; //...
+//                                echo " Answers: ".$answerString; //...
                             }
                         }
 //                    dd($isCorrect);
@@ -114,11 +124,11 @@ class MyExamController extends Controller
 
                 // Set status
                 if ($answers == null) {
-                    $status = 0;
+                    $answer_status = 0;
                 } elseif ($isCorrect) {
-                    $status = 1;
+                    $answer_status = 1;
                 } else {
-                    $status = 2;
+                    $answer_status = 2;
                 }
 //                dd($status);
                 // create new exam answer
@@ -126,91 +136,64 @@ class MyExamController extends Controller
                     "enrollment_id" => $enrollment->id,
                     "question_id" => $question->id,
                     "answers" => $answers,
-                    "status" => $status,
+                    "status" => $answer_status,
                 ]);
 //                dd($isCorrect);
+                $total_score += $question->question_mark;
+                $exam_answers = ExamAnswer::where("enrollment_id", $enrollment->id)
+                    ->where("question_id", $question->id)
+                    ->orderBy("id", "desc")
+                    ->limit(1)
+                    ->get();
+                foreach ($exam_answers as $exam_answer) {
+                    if ($exam_answer->status === 1) {
+                        $score_counter += $exam_answer->Question->question_mark;
+                        $correct_counter += 1;
+                    } elseif($exam_answer->status === 2) {
+                        $incorrect_counter += 1;
+                    } else {
+                        $incorrect_counter += 1;
+//                    dd($exam_answer);
+                    }
+                }
             }
 //            dd($status);
-            return redirect()->to('exam-result/'.$exam->id)
+
+            // Get the time taken ( test )
+            $duration = $request->get("duration");
+            $time_counter = $examination->duration - $duration;
+
+            // Get the result status ( test )
+            if($score_counter > ($total_score / 1.3)) {
+                $result_status = ExamResult::EXCELLENT;
+            } elseif($score_counter >= ($total_score / 1.6)) {
+                $result_status = ExamResult::VERYGOOD;
+            } elseif($score_counter >= ($total_score / 1.9)) {
+                $result_status = ExamResult::GOOD;
+            } elseif($score_counter >= ($total_score / 2.2)) {
+                $result_status = ExamResult::ACCEPTABLE;
+            }else {
+                $result_status = ExamResult::FAIL;
+            }
+
+            // Create new Result
+            $exam_result = ExamResult::create([
+                "enrollment_id" => $enrollment->id,
+                "score" => $score_counter,
+                "time_taken" => $time_counter,
+                "status" => $result_status,
+                "note" => "This is a note for you."
+            ]);
+
+            // Update the status of Enrollment to completed
+            $enrollment->status = Enrollment::COMPLETED;
+            $enrollment->save();
+            return view("pages.exam.exam-result", compact("examination","exam_result",
+                "correct_counter","incorrect_counter", "total_score"))
                 ->with("exam-submit-success" , "Submit exam successfully!!!");
 
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
-    }
-
-    public function examResult(Exam $exam) {
-        $correct_counter = 0;
-        $incorrect_counter = 0;
-        $score_counter = 0;
-        $total_score = 0;
-        $time_counter = 0;
-        $status = 1;
-
-        $examination = Exam::find($exam->id);
-        $questions = ExamQuestion::where("exam_id", $exam->id)
-            ->orderBy("difficulty")
-            //->where("type_of_question", 1)
-//            ->paginate(1);
-            ->get();
-        $student = auth()->user();
-        $enrollment = Enrollment::where('student_id', '=', $student->id)
-            ->where('exam_id', '=', $exam->id)
-            ->first();
-
-        $answer_limit = $questions->count();
-        foreach ($questions as $question) {
-            $total_score += $question->question_mark;
-            $exam_answers = ExamAnswer::where("enrollment_id", $enrollment->id)
-                ->where("question_id", $question->id)
-                ->orderBy("id", "desc")
-                ->limit(1)
-                ->get();
-
-            foreach ($exam_answers as $exam_answer) {
-                if ($exam_answer->status === 1) {
-                    $score_counter += $exam_answer->Question->question_mark;
-                    $correct_counter += 1;
-                } elseif($exam_answer->status === 2) {
-                    $incorrect_counter += 1;
-                } else {
-                    $incorrect_counter += 1;
-//                    dd($exam_answer);
-                }
-            }
-        }
-
-        // Get the time ( test )
-        $time_counter = $examination->duration;
-
-        // Get the status ( test )
-        if($score_counter > ($total_score / 1.3)) {
-            $status = ExamResult::EXCELLENT;
-        } elseif($score_counter >= ($total_score / 1.6)) {
-            $status = ExamResult::VERYGOOD;
-        } elseif($score_counter >= ($total_score / 1.9)) {
-            $status = ExamResult::GOOD;
-        } elseif($score_counter >= ($total_score / 2.2)) {
-            $status = ExamResult::ACCEPTABLE;
-        }else {
-            $status = ExamResult::FAIL;
-        }
-
-        // Create new Result
-        $exam_result = ExamResult::create([
-            "enrollment_id" => $enrollment->id,
-            "score" => $score_counter,
-            "time_taken" => $time_counter,
-            "status" => $status,
-            "note" => "This is a note for you."
-        ]);
-
-        // Update the status of Enrollment to completed
-        $enrollment->status = Enrollment::COMPLETED;
-        $enrollment->save();
-
-        return view("pages.exam.exam-result",
-            compact("examination", "exam_result",
-                "correct_counter","incorrect_counter", "total_score"));
     }
 }

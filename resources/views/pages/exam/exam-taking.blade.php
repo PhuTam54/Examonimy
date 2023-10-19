@@ -5,7 +5,7 @@
 {{--Main Section Start--}}
 <section class="content">
     <div class="container-fluid">
-        <form action="exam-taking/{{ $examination->id }}" method="post">
+        <form action="exam-taking/{{ $examination->id }}" method="post" id="exam-form">
             @csrf
 
             <!-- Exam Taking Start -->
@@ -31,7 +31,12 @@
                                 <tr>
                                     <td>
                                     {{ $examination->exam_name }}
-                                    <td>{{ $examination->duration }} seconds</td>
+{{--                                    <td>{{ $examination->duration }} seconds</td>--}}
+                                    <td>
+                                        <label for="duration" class="d-none">Duration</label>
+                                        <input id="duration" class="d-none" name="duration">
+                                        <span id="countdown" class="text-primary text-center fs-5"></span>
+                                    </td>
                                     <td>{{ $examination->Subject->subject_name }}</td>
 {{--                                    @foreach($questions as $question)--}}
 {{--                                        @foreach($question->QuestionOptions as $option) @endforeach--}}
@@ -164,4 +169,37 @@
 </section>
 {{--Main Section End--}}
 
+@endsection
+@section("after_js")
+    <script>
+        // const startingMinutes = 40;
+        let time = {{ $examination->duration }};
+        // let time = 10;
+
+        const countdownEl = document.getElementById('countdown');
+        const durationEl = document.getElementById('duration');
+        const examForm = document.getElementById('exam-form');
+
+        const intervalId = setInterval(updateCountdown, 1000);
+
+        function updateCountdown() {
+            const minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            countdownEl.innerHTML = `${minutes}:${seconds} time left`;
+            time--;
+            durationEl.value = time;
+
+            if (time === 300) {
+                alert("You only have 5 minutes left.")
+            }
+            if (time === 0) {
+                alert("Your exam has been auto submitted.")
+                clearInterval(intervalId);
+                examForm.submit();
+            }
+        }
+    </script>
 @endsection
