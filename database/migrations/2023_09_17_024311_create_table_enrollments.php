@@ -18,9 +18,14 @@ return new class extends Migration
             $table->unsignedBigInteger("exam_id");
             $table->foreign("exam_id")->references("id")->on("exams");
             $table->unsignedSmallInteger("status")->default(0);
-            // 1. Easy 2. Medium 3. Difficult ...
+            //    const PENDING = 0;
+            //    const CONFIRMED = 1;
+            //    const COMPLETED = 2;
+            //    const NOT_TAKEN = 3;
+            //    const CANCELED = 4;
+            //    const RETAKEN = 5;
+            $table->smallInteger("attempt")->default(1); // The Time taking the exam
             $table->timestamps();
-//            $table->primary(["user_id", "exam_id"]); // composite key
         });
     }
 

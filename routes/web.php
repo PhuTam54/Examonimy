@@ -24,7 +24,10 @@ Route::middleware("auth")->group(function () {
     // my exam
     Route::controller(\App\Http\Controllers\MyExamController::class)->group(function () {
         Route::get('my-exam',  "myExam");
+
         Route::get('exam-info/{exam}',  "examInfo");
+        Route::put('exam-info/{exam}',  "examCancel");
+
         Route::get('exam-taking/{exam}',  "examTaking");
         Route::post('exam-taking/{exam}',  "examSubmit");
     });
@@ -32,6 +35,7 @@ Route::middleware("auth")->group(function () {
     // my result
     Route::controller(\App\Http\Controllers\MyResultController::class)->group(function () {
         Route::get('my-result',  "myResult");
+        Route::post('exam-retaken/{exam}',  "examRetaken");
     });
 
 });

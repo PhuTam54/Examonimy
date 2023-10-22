@@ -27,6 +27,11 @@
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center text-primary px-3">Exams</h6>
                     <h2 class="mb-1">My Result</h2>
+                    @if(session()->has('retaken'))
+                        <h3 class="bg-white text-center text-primary px-3">
+                            {{ session('retaken') }}
+                        </h3>
+                    @endif
                 </div>
                 <div class="row g-0 justify-content-center">
                     <div class="card-body">
@@ -41,6 +46,8 @@
                                 <th>Duration</th>
                                 <th>Score</th>
                                 <th>Rank</th>
+                                <th>Attempt</th>
+                                <th>Submitted</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -71,16 +78,14 @@
                                     <td>
                                         {!! $enrollment->ExamResult->getStatus() !!}
                                     </td>
+                                    <td>{{ $enrollment->attempt }} {{ $enrollment->attempt > 1 ? 'times' : 'time' }}</td>
+                                    <td>{{ $enrollment->updated_at }}</td>
                                     <td>
-                                        <a href="my-result-details/{{ $enrollment->ExamResult->id }}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-pencil-alt"></i>
-                                            Details
-                                        </a>
-                                        <a class="btn">
-                                            <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="get">
-{{--                                                @csrf--}}
-{{--                                                @method("DELETE")--}}
-                                                <button onclick="return confirm('Are you sure to retaken this exam???')" class="btn btn-danger btn-sm" type="submit">
+                                        <a class="btn" href="exam-retaken/{{ $enrollment->Exam->id }}">
+                                            <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="post">
+                                                @csrf
+{{--                                                @method("PUT")--}}
+                                                <button onclick="return confirm('Are you sure to retaken {{ $enrollment->Exam->exam_name }}???')" class="btn btn-danger btn-sm" type="submit">
                                                     <i class="fas fa-history"></i>
                                                     Retaken
                                                 </button>

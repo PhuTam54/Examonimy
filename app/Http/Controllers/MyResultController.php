@@ -35,4 +35,28 @@ class MyResultController extends Controller
         return view("pages.result.my-result",
             compact("enrollments", "exam_results", "total_score"));
     }
+
+    public function examRetaken(Exam $exam) {
+//        dd("ok");
+        $student = auth()->user();
+        $enrollment = Enrollment::where('student_id', '=', $student->id)
+            ->where("exam_id", $exam->id)
+            ->orderBy("updated_at", "desc")
+            ->first();
+
+        // Update status to retaken
+        $enrollment->update([
+            "status", Enrollment::RETAKEN
+        ]);
+
+        // Create new enrollment with attempt = 2
+        Enrollment::create([
+            'student_id' => $student->id,
+            'exam_id' => $exam->id,
+            'status' => Enrollment::PENDING,
+            'attempt' => $enrollment->attempt + 1
+        ]);
+
+        return redirect()->back()->with("retaken", "You have been retaken $exam->exam_name. We'll send you an email when your exam get started!");
+    }
 }

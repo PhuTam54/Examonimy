@@ -183,12 +183,15 @@
         const intervalId = setInterval(updateCountdown, 1000);
 
         function updateCountdown() {
-            const minutes = Math.floor(time / 60);
+            let hours = Math.floor(time / 3600);
+            let minutes = Math.floor((time % 3600) / 60);
             let seconds = time % 60;
 
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
             seconds = seconds < 10 ? '0' + seconds : seconds;
 
-            countdownEl.innerHTML = `${minutes}:${seconds} time left`;
+            countdownEl.innerHTML = hours < 1 ? `${minutes}:${seconds} time left` : `${hours}:${minutes}:${seconds} time left`;
             time--;
             durationEl.value = time;
 

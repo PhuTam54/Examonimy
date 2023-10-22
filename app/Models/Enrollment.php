@@ -13,7 +13,8 @@ class Enrollment extends Model
     protected $fillable = [
         'student_id',
         'exam_id',
-        'status'
+        'status',
+        'attempt'
     ];
 
     const PENDING = 0;

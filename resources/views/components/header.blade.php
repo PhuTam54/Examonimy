@@ -14,12 +14,6 @@
             <a href="/"
                class="nav-item nav-link {{request()->is('/')? 'active' : '' }}"
             >Home</a>
-{{--            <a href="/about"--}}
-{{--               class="nav-item nav-link {{request()->is('about')? 'active' : '' }}"--}}
-{{--            >About</a>--}}
-{{--            <a href="/courses"--}}
-{{--               class="nav-item nav-link {{request()->is('courses')? 'active' : '' }}"--}}
-{{--            >Courses</a>--}}
             <div class="nav-item dropdown">
                 <a
                     href="#"
@@ -30,14 +24,12 @@
                     data-bs-toggle="dropdown"
                 >Exams</a>
                 <div class="dropdown-menu fade-down m-0">
-                    @auth()
                     <a href="/my-exam"
                        class="dropdown-item {{request()->is('my-exam')? 'active' : '' }}"
                     >My Exam</a>
                     <a href="/my-result"
                        class="dropdown-item {{request()->is('my-result')? 'active' : '' }}"
                     >My Result</a>
-                    @endauth
                     <a href="/404"
                        class="dropdown-item {{request()->is('404')? 'active' : '' }}"
                     >404 Page</a>

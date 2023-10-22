@@ -20,6 +20,16 @@
     </div>
     <!-- Header End -->
 
+    @if(session()->has("canceled"))
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Exams</h6>
+                    <h1 class="mb-5">{{ session("canceled") }}</h1>
+                </div>
+            </div>
+        </div>
+    @else
     <!-- Exam Information Start -->
     <div class="container-xxl py-5">
         <div class="container">
@@ -36,7 +46,7 @@
                             <th>Description</th>
                             <th>Start_date</th>
                             <th>End_date</th>
-                            <th>Duration(min)</th>
+                            <th>Duration</th>
                             <th>Questions</th>
                             <th>Subject</th>
                             <th>Created_by</th>
@@ -51,7 +61,7 @@
                                 <td>{{ $examination->exam_description }}</td>
                                 <td>{{ $examination->start_date ?? "Never start" }}</td>
                                 <td>{{ $examination->end_date ?? "Never end" }}</td>
-                                <td>{{ $examination->duration }}</td>
+                                <td>{{ $examination->duration }} seconds</td>
                                 <td>{{ $examination->Questions->count() }}</td>
                                 <td>{{ $examination->Subject->subject_name }}</td>
                                 <td>{{ $examination->Instructor->name }}</td>
@@ -64,10 +74,10 @@
                                         </button>
                                     </a>
                                     <a class="btn">
-                                        <form action="exam-cancel/{{ $examination->id }}" method="post">
+                                        <form action="exam-info/{{ $examination->id }}" method="post">
                                             @csrf
-                                            @method("DELETE")
-                                            <button onclick="return confirm('Are you sure to cancel this exam???')" class="btn btn-danger btn-sm" style="margin-left: -12px" type="submit">
+                                            @method("PUT")
+                                            <button onclick="return confirm('Are you sure to cancel {{$examination->exam_name}}???')" class="btn btn-danger btn-sm" style="margin-left: -12px" type="submit">
                                                 <i class="fas fa-trash">
                                                 </i>
                                                 Cancel
@@ -97,4 +107,5 @@
         </div>
     </div>
     <!-- Exam Information End -->
+    @endif
 @endsection
