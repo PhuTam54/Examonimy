@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
 //            ]);
 
         \App\Models\Subject::factory(20)->create();
-        \App\Models\Exam::factory(20)->create();
+        \App\Models\Exam::factory(10)->create();
 
         $exams = Exam::all();
         foreach ($exams as $exam) {
@@ -66,52 +66,52 @@ class DatabaseSeeder extends Seeder
                 ]);
         }
 
-        \App\Models\ExamQuestion::factory(200)->create();
-        $questions = ExamQuestion::all();
-        $option_text = "A. Answer";
-        $string_text = "This is Answer";
-        foreach ($questions as $question) {
-            if ($question->type_of_question == 1) {
-                for ($i = 0; $i < 3; $i++) {
-                    DB::table("question_options")
-                        ->insert([
-                            "question_id" => $question->id,
-                            "option_text" => $question->id . " " . $option_text . " " . $i,
-                            "is_correct" => random_int(0, 1)
-                        ]);
-                }
-                DB::table("question_options") // Make sure at least 1 option is correct
-                ->insert([
-                    "question_id" => $question->id,
-                    "option_text" => $question->id . " " . $option_text . " " . $i,
-                    "is_correct" => 1
-                ]);
-
-            } elseif ($question->type_of_question == 2) {
-                for ($i = 0; $i < 3; $i++) {
-                    DB::table("question_options")
-                        ->insert([
-                            "question_id" => $question->id,
-                            "option_text" => $question->id . " " . $option_text . " " . $i,
-                            "is_correct" => 0
-                        ]);
-                }
-                DB::table("question_options") // Make sure at least 1 option is correct
-                ->insert([
-                    "question_id" => $question->id,
-                    "option_text" => $question->id . " " . $option_text . " " . $i,
-                    "is_correct" => 1
-                ]);
-
-            } else {
-                DB::table("question_options")
-                    ->insert([
-                        "question_id" => $question->id,
-                        "option_text" => $question->id . " " . $string_text,
-                        "is_correct" => 1
-                    ]);
-            }
-        }
+//        \App\Models\ExamQuestion::factory(200)->create();
+//        $questions = ExamQuestion::all();
+//        $option_text = "A. Answer";
+//        $string_text = "This is Answer";
+//        foreach ($questions as $question) {
+//            if ($question->type_of_question == 1) {
+//                for ($i = 0; $i < 3; $i++) {
+//                    DB::table("question_options")
+//                        ->insert([
+//                            "question_id" => $question->id,
+//                            "option_text" => $question->id . " " . $option_text . " " . $i,
+//                            "is_correct" => random_int(0, 1)
+//                        ]);
+//                }
+//                DB::table("question_options") // Make sure at least 1 option is correct
+//                ->insert([
+//                    "question_id" => $question->id,
+//                    "option_text" => $question->id . " " . $option_text . " " . $i,
+//                    "is_correct" => 1
+//                ]);
+//
+//            } elseif ($question->type_of_question == 2) {
+//                for ($i = 0; $i < 3; $i++) {
+//                    DB::table("question_options")
+//                        ->insert([
+//                            "question_id" => $question->id,
+//                            "option_text" => $question->id . " " . $option_text . " " . $i,
+//                            "is_correct" => 0
+//                        ]);
+//                }
+//                DB::table("question_options") // Make sure at least 1 option is correct
+//                ->insert([
+//                    "question_id" => $question->id,
+//                    "option_text" => $question->id . " " . $option_text . " " . $i,
+//                    "is_correct" => 1
+//                ]);
+//
+//            } else {
+//                DB::table("question_options")
+//                    ->insert([
+//                        "question_id" => $question->id,
+//                        "option_text" => $question->id . " " . $string_text,
+//                        "is_correct" => 1
+//                    ]);
+//            }
+//        }
 
 //        \App\Models\QuestionOption::factory(200)->create();
 

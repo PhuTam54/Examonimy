@@ -11,16 +11,17 @@ class ExamQuestion extends Model
     use HasFactory;
     protected $table = "exam_questions";
     protected $fillable = [
-        "exam_id",
+        "question_no", // No. STT
         "question_text",
+        "exam_id",
         "question_mark",
         "type_of_question",
-        "difficulty" // No. STT
+        "difficulty"
     ];
 
-    // 1. Choice 2. Multiple Choice 3. Fill in the blank
-    const CHOICE = 1;
-    const MULTIPLE_CHOICE = 2;
+    // 1. Multiple Choice 2. Choice 3. Fill in the blank
+    const MULTIPLE_CHOICE = 1;
+    const CHOICE = 2;
     const FILL_IN_BLANK = 3;
 
     // 1. Easy 2. Medium 3. Difficult

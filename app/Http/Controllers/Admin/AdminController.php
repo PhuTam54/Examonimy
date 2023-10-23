@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\QnaImport;
 use App\Models\Classes;
 use App\Models\Course;
 use App\Models\Exam;
@@ -12,6 +13,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -133,6 +135,16 @@ class AdminController extends Controller
     public function question() {
         $questions = ExamQuestion::orderBy("id","desc")->get();
         return view("pages.admin.question.admin-question", compact("questions"));
+    }
+    // excel
+    public function importQna(Request $request) {
+        try {
+            Excel::import(new QnaImport, $request->file('file'));
+
+            return response()->json(['success'=>true, 'msg'=>'Import Q&A successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
+        }
     }
 
     // Classroom

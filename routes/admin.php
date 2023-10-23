@@ -43,6 +43,8 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/question-add', "questionAdd");
     Route::post('/question-add', "questionStore");
+    // excel
+    Route::post('/import-qna', "importQna")->name('importQna');
 
     Route::get('/question-edit/{question}', "questionEdit");
     Route::put('/question-edit/{question}', "questionUpdate");
