@@ -33,9 +33,9 @@ class MyResultController extends Controller
 
     public function examRetaken(Exam $exam) {
         $student = auth()->user();
-        $enrollment = Enrollment::where('student_id', '=', $student->id)
+        $enrollment = Enrollment::where('student_id', $student->id)
             ->where("exam_id", $exam->id)
-            ->orderBy("updated_at", "desc")
+            ->orderBy("id", "desc")
             ->first();
 
         // Update status to retaken

@@ -35,7 +35,7 @@ Route::middleware("auth")->group(function () {
     // my result
     Route::controller(\App\Http\Controllers\MyResultController::class)->group(function () {
         Route::get('my-result',  "myResult");
-        Route::post('exam-retaken/{exam}',  "examRetaken");
+        Route::get('exam-retaken/{exam}',  "examRetaken");
     });
 
 });

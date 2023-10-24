@@ -44,7 +44,7 @@
                                 <th>No.</th>
                                 <th>Exam</th>
                                 <th>Subject</th>
-                                <th>Duration</th>
+                                <th>Time_taken</th>
                                 <th>Score</th>
                                 <th>Rank</th>
                                 <th>Attempt</th>
@@ -55,29 +55,29 @@
                             <tbody>
                             @foreach($enrollments as $enrollment)
                                 <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td class="text-center">{{ $loop->index + 1 }}</td>
                                     <td>
                                         <p class="mb-1">{{ $enrollment->Exam->exam_name }}</p>
-                                        <img class="image mt-2" src=" {{ $enrollment->Exam->exam_thumbnail }}" width="60" alt="img">
+                                        <img class="image mt-2" src=" {{ $enrollment->Exam->exam_thumbnail }}" width="100" alt="img">
                                     </td>
                                     <td>
                                         <p class="mb-1">{{ $enrollment->Exam->Subject->subject_name }}</p>
-                                        <img class="image mt-2" src=" {{ $enrollment->Exam->Subject->subject_thumbnail }}" width="60" alt="img">
+                                        <img class="image mt-2" src=" {{ $enrollment->Exam->Subject->subject_thumbnail }}" width="100" alt="img">
                                     </td>
                                     @if($enrollment->ExamResult->time_taken / 3600 > 1)
                                         <td>
-                                            {{ round($enrollment->ExamResult->time_taken / 3600) }} hours
-                                            {{ round($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
-                                            {{ round($enrollment->ExamResult->time_taken % 60) }} seconds
+                                            {{ floor($enrollment->ExamResult->time_taken / 3600) }} hours
+                                            {{ floor($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
+                                            {{ $enrollment->ExamResult->time_taken % 60 }} seconds
                                         </td>
                                     @elseif(($enrollment->ExamResult->time_taken % 3600) / 60 > 1)
                                         <td>
-                                            {{ round($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
-                                            {{ round($enrollment->ExamResult->time_taken % 60) }} seconds
+                                            {{ floor($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
+                                            {{ $enrollment->ExamResult->time_taken % 60 }} seconds
                                         </td>
-                                    @elseif($enrollment->ExamResult->time_taken % 60 > 1)
+                                    @else
                                         <td>
-                                            {{ round($enrollment->ExamResult->time_taken % 60, 2) }} seconds
+                                            {{ $enrollment->ExamResult->time_taken % 60 }} seconds
                                         </td>
                                     @endif
                                     <span class="d-none">
@@ -96,9 +96,7 @@
                                     <td>{{ $enrollment->updated_at }}</td>
                                     <td>
                                         <a class="btn" href="exam-retaken/{{ $enrollment->Exam->id }}">
-                                            <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="post">
-                                                @csrf
-{{--                                                @method("PUT")--}}
+                                            <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="get">
                                                 <button onclick="return confirm('Are you sure to retaken {{ $enrollment->Exam->exam_name }}???')" class="btn btn-danger btn-sm" type="submit">
                                                     <i class="fas fa-history"></i>
                                                     Retaken

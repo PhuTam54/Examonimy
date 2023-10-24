@@ -36,7 +36,7 @@ class MyExamController extends Controller
         $student = auth()->user();
         $enrollment = Enrollment::where('student_id', '=', $student->id)
             ->where('exam_id', $exam->id)
-            ->orderBy("id")
+            ->orderBy("id", 'desc')
             ->first();
 
         // Update enrollment status to Canceled: 4
@@ -47,28 +47,18 @@ class MyExamController extends Controller
     }
 
     public function examTaking(Exam $exam) {
-        $question_counter = 0; //
-//        $questionsEasy = ExamQuestion::where("exam_id", $exam->id)
-//            ->where("difficulty", ExamQuestion::EASY)->get();
-//
-//        $questionsMedium = ExamQuestion::where("exam_id", $exam->id)
-//            ->where("difficulty", ExamQuestion::MEDIUM)->get();
-//
-//        $questionsDifficult = ExamQuestion::where("exam_id", $exam->id)
-//            ->where("difficulty", ExamQuestion::DIFFICULT)->get();
         $questions = ExamQuestion::where("exam_id", $exam->id)
-            ->orderBy("difficulty")
+            ->orderBy("question_no")
             ->get();
         $examination = Exam::find($exam->id);
         return view("pages.exam.exam-taking", // "questionsEasy","questionsMedium", "questionsDifficult",
-            compact("examination", "questions",
-                "question_counter"));
+            compact("examination", "questions"));
     }
 
     public function examSubmit(Request $request, Exam $exam) {
         // Get the questions
         $questions = ExamQuestion::where("exam_id", $exam->id)
-            ->orderBy("difficulty")
+            ->orderBy("question_no")
             ->get();
 
         // Get the enrollments
@@ -80,28 +70,18 @@ class MyExamController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
-//        dd($enrollment);
         try {
-//            $answer_status = 0;
             $correct_counter = 0;
             $incorrect_counter = 0;
             $score_counter = 0;
             $total_score = 0;
-//            $time_counter = 0;
             $result_status = ExamResult::FAIL;
             // Question 1
             $answerString = null;
-            $isCorrect = true;
             $isCorrect_total = 0;
             $isCorrect_counter = 0;
 
             // Check is_correct
-
-//            foreach ($question->QuestionOptions as $option) {
-//                $answers = explode(",", $request->get("multipleChoice-$option->id"));
-//                $isCorrect = $question->checkMultipleChoiceExact($answers);
-//            }
-
             foreach ($questions as $question) {
                 if ($question->type_of_question == ExamQuestion::MULTIPLE_CHOICE) {
                     foreach ($question->QuestionOptions as $option) {
@@ -110,8 +90,6 @@ class MyExamController extends Controller
                             $isCorrect_total += 1;
                         }
 
-                        //echo 'Iscorrect: '.$option->is_correct.'<br>';
-                        //echo 'Iscorrect Total: '.$isCorrect_total.'<br>';
                         // convert answers to array
                         $answers = explode(",", $request->get("multipleChoice-$option->id"));
 
@@ -119,23 +97,16 @@ class MyExamController extends Controller
                         foreach ($answers as $key => $answer) {
                             if ($answer != null) {
                                 $isMultipleCorrect = $question->checkChoiceExact($answer);
-//                                //echo " Answer: ". $answer.'<br>';
-//                                foreach ($isMultipleCorrect as $isEachCorrect) {
                                 if ($isMultipleCorrect) {
                                     $isCorrect_counter += 1;
                                 } else {
                                     $isCorrect_counter -= 1;
                                 }
-                                //echo 'Iscorrect Counter: '.$isCorrect_counter.'<br>';
 
                                 // convert answers to string
                                 $answerString .= implode(",", $answers).',';
-                                //echo "Answers: ".$answerString; //...
-                                //echo " - Is correct: ". $isMultipleCorrect.'<br>';
                             }
                         }
-
-//                    dd($isCorrect);
                     }
 
                     // get final is_correct
@@ -144,14 +115,9 @@ class MyExamController extends Controller
                     } else {
                         $isCorrect = false;
                     }
-                    //echo 'Iscorrect Final: '.$isCorrect.'<br>';
                     // Set 0 $isCorrect_counter & $isCorrect_total
                     $isCorrect_counter = 0;
                     $isCorrect_total = 0;
-
-                    //echo "End foreach".'<br>';
-//                    $isCorrect = $isMultipleCorrect;
-//                    //echo "Final isCorrect: ".$isCorrect;
 
                     // get final answers
                     if ($answerString == null || $answerString == "") {
@@ -162,13 +128,6 @@ class MyExamController extends Controller
                     // Set null answer string
                     $answerString = null;
 
-                    //echo "Final answer: ".$answers;
-//                    //echo " - Final Answers: ".$answers;
-//                    $answerString = implode(",", $answers);
-//                    //echo $answerString; //...
-//                    }
-//                    dd($isCorrect);
-//                    break;
                 } elseif ($question->type_of_question == ExamQuestion::CHOICE) {
                     $answers = $request->get("oneChoice-$question->id");
                     $isCorrect = $question->checkChoiceExact($answers);
@@ -183,8 +142,7 @@ class MyExamController extends Controller
                 } else{
                     $answer_status = 2;
                 }
-//                dd($answer_status);
-//
+
                 // create new exam answer
                 ExamAnswer::create([
                     "enrollment_id" => $enrollment->id,
@@ -192,7 +150,6 @@ class MyExamController extends Controller
                     "answers" => $answers,
                     "status" => $answer_status,
                 ]);
-//                dd($isCorrect);
 
                 // Get total score
                 $total_score += $question->question_mark;
@@ -209,12 +166,9 @@ class MyExamController extends Controller
                         $correct_counter += 1;
                     } else {
                         $incorrect_counter += 1;
-//                    dd($exam_answer);
                     }
                 }
-                //echo '<br>'."Final Answer status: ".$answer_status.'<br>';
             }
-//            dd($answer_status);
 
             // Get the time taken
             $duration = $request->get("duration");

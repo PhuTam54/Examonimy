@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Imports\QnaImport;
 use App\Models\Classes;
 use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Exam;
+use App\Models\ExamAnswer;
 use App\Models\ExamQuestion;
 use App\Models\ExamResult;
 use App\Models\Subject;
@@ -33,6 +35,68 @@ class AdminController extends Controller
 
     public function examDetails(Exam $exam) {
         return view("pages.admin.exam.exam-details")->with('exam', $exam);
+    }
+
+    // Exam Result
+    public function result() {
+        $results = ExamResult::orderBy("created_at","desc")->get();
+        return view("pages.admin.result.admin-result", compact("results"));
+    }
+
+    // Enrollments
+    public function enrollment() {
+        $enrollments = Enrollment::orderBy("id","desc")->get();
+        return view("pages.admin.enrollment.admin-enrollment", compact("enrollments"));
+    }
+
+    public function enrollmentConfirm(Enrollment $enrollment) {
+        try {
+            $enrollment->update([
+                'status' => Enrollment::CONFIRMED
+            ]);
+            return redirect()->back()->with("confirm-success", "Confirm enrollment successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function enrollmentCancel(Enrollment $enrollment) {
+        try {
+            $enrollment->update([
+                'status' => Enrollment::CANCELED
+            ]);
+            return redirect()->back()->with("cancel-success", "Cancel enrollment successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    // User
+    public function user() {
+        $users = User::orderBy("id","desc")->get();
+        return view("pages.admin.user.admin-user", compact("users"));
+    }
+
+    // Question
+    public function question() {
+        $questions = ExamQuestion::orderBy("id","desc")->get();
+        return view("pages.admin.question.admin-question", compact("questions"));
+    }
+    // excel
+    public function importQna(Request $request) {
+        try {
+            Excel::import(new QnaImport, $request->file('file'));
+
+            return response()->json(['success'=>true, 'msg'=>'Import Q&A successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
+        }
+    }
+
+    // Answers
+    public function answer() {
+        $answer = ExamAnswer::orderBy("id","desc")->get();
+        return view("pages.admin.answer.admin-answer", compact("answer"));
     }
 
     // Subjects
@@ -125,43 +189,21 @@ class AdminController extends Controller
         return redirect()->to("admin/admin-subject")->with("delete-success", "Delete subject successfully!!!");
     }
 
+    // Attendances
+    public function attendance() {
+        $attendance = Enrollment::orderBy("id","desc")->get();
+        return view("pages.admin.attendance.admin-attendance", compact("attendance"));
+    }
+
     // Courses
     public function courses() {
         $courses = Course::orderBy("id","desc")->get();
         return view("pages.admin.course.admin-courses", compact("courses"));
     }
 
-    // Question
-    public function question() {
-        $questions = ExamQuestion::orderBy("id","desc")->get();
-        return view("pages.admin.question.admin-question", compact("questions"));
-    }
-    // excel
-    public function importQna(Request $request) {
-        try {
-            Excel::import(new QnaImport, $request->file('file'));
-
-            return response()->json(['success'=>true, 'msg'=>'Import Q&A successfully!']);
-        } catch (\Exception $e) {
-            return response()->json(['success'=>false, 'msg'=>$e->getMessage()]);
-        }
-    }
-
     // Classroom
     public function classroom() {
         $classes = Classes::orderBy("id","desc")->get();
         return view("pages.admin.classroom.admin-classroom", compact("classes"));
-    }
-
-    // Exam Result
-    public function result() {
-        $results = ExamResult::orderBy("created_at","desc")->get();
-        return view("pages.admin.result.admin-result", compact("results"));
-    }
-
-    // Classroom
-    public function user() {
-        $users = User::orderBy("id","desc")->get();
-        return view("pages.admin.user.admin-user", compact("users"));
     }
 }

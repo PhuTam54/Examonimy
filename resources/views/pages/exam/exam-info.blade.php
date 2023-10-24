@@ -26,6 +26,12 @@
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center text-primary px-3">Exams</h6>
                     <h1 class="mb-5">{{ session("canceled") }}</h1>
+                    <div class="col-12 text-center">
+                        <a href="/my-exam" class="btn btn-primary float-right"><i
+                                class="fa fa-history" aria-hidden="true"></i>
+                            See my another exam
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,18 +73,17 @@
                                 <td>{{ $examination->end_date ?? "Never end" }}</td>
                                 @if($examination->duration / 3600 > 1)
                                     <td>
-                                        {{ round($examination->duration / 3600) }} hours
-                                        {{ round($examination->duration % 3600 / 60) }} minutes
-                                        {{ round($examination->duration % 60) }} seconds
+                                        {{ floor($examination->duration / 3600) }} hours
+                                        {{ floor($examination->duration % 3600 / 60) }} minutes
+                                        {{ $examination->duration % 60 }} seconds
                                     </td>
                                 @elseif(($examination->duration % 3600) / 60 > 1)
                                     <td>
-                                        {{ round($examination->duration % 3600 / 60) }} minutes
-{{--                                        {{ round($examination->duration % 60) }} seconds--}}
+                                        {{ floor($examination->duration % 3600 / 60) }} minutes
                                     </td>
                                 @elseif($examination->duration % 60 > 1)
                                     <td>
-                                        {{ round($examination->duration % 60, 2) }} seconds
+                                        {{ $examination->duration % 60 }} seconds
                                     </td>
                                 @endif
                                 <td>{{ $examination->Questions->count() }}</td>

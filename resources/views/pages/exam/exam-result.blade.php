@@ -52,18 +52,18 @@
                         <td class="text-danger">{{ $incorrect_counter }}</td>
                         @if($exam_result->time_taken / 3600 > 1)
                             <td>
-                                {{ round($exam_result->time_taken / 3600) }} hours
-                                {{ round($exam_result->time_taken % 3600 / 60) }} minutes
-                                {{ round($exam_result->time_taken % 60) }} seconds
+                                {{ floor($exam_result->time_taken / 3600) }} hours
+                                {{ floor($exam_result->time_taken % 3600 / 60) }} minutes
+                                {{ $exam_result->time_taken % 60 }} seconds
                             </td>
                         @elseif(($exam_result->time_taken % 3600) / 60 > 1)
                             <td>
-                                {{ round($exam_result->time_taken % 3600 / 60) }} minutes
-                                {{ round($exam_result->time_taken % 60) }} seconds
+                                {{ floor($exam_result->time_taken % 3600 / 60) }} minutes
+                                {{ $exam_result->time_taken % 60 }} seconds
                             </td>
                         @elseif($exam_result->time_taken % 60 > 1)
                             <td>
-                                {{ round($exam_result->time_taken % 60, 2) }} seconds
+                                {{ $exam_result->time_taken % 60 }} seconds
                             </td>
                         @endif
                         <td class="text-primary">{{ number_format($exam_result->score, 2) }} / {{  number_format($total_score, 2) }}</td>

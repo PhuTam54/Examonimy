@@ -15,6 +15,61 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/exam-delete/{exam}', "examDelete");
 
+    // Results
+    Route::get('/admin-result', "result");
+
+    Route::get('/result-add', "resultAdd");
+    Route::post('/result-add', "resultStore");
+
+    Route::get('/result-edit/{result}', "resultEdit");
+    Route::put('/result-edit/{result}', "resultUpdate");
+
+    Route::delete('/result-delete/{result}', "resultDelete");
+
+    // Enrollments
+    Route::get('/admin-enrollment', "enrollment");
+
+    Route::get('/enrollment-confirm/{enrollment}', "enrollmentConfirm");
+
+    Route::get('/enrollment-cancel/{enrollment}', "enrollmentCancel");
+
+    Route::delete('/enrollment-delete/{enrollment}', "enrollmentDelete");
+
+    // Users
+    Route::get('/admin-user', "user");
+
+    Route::get('/user-add', "userAdd");
+    Route::post('/user-add', "userStore");
+
+    Route::get('/user-edit/{user}', "userEdit");
+    Route::put('/user-edit/{user}', "userUpdate");
+
+    Route::delete('/user-delete/{user}', "userDelete");
+
+    // Questions
+    Route::get('/admin-question', "question");
+
+    Route::get('/question-add', "questionAdd");
+    Route::post('/question-add', "questionStore");
+        // excel
+    Route::post('/import-qna', "importQna")->name('importQna');
+
+    Route::get('/question-edit/{question}', "questionEdit");
+    Route::put('/question-edit/{question}', "questionUpdate");
+
+    Route::delete('/question-delete/{question}', "questionDelete");
+
+    // Answers
+    Route::get('/admin-answer', "answer");
+
+    Route::get('/answer-add', "answerAdd");
+    Route::post('/answer-add', "answerStore");
+
+    Route::get('/answer-edit/{answer}', "answerEdit");
+    Route::put('/answer-edit/{answer}', "answerUpdate");
+
+    Route::delete('/answer-delete/{answer}', "answerDelete");
+
     // Subjects
     Route::get('/admin-subject', "subject");
     Route::get('/subject-details/{subject}', "subjectDetails");
@@ -27,6 +82,17 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/subject-delete/{subject}', "subjectDelete");
 
+    // Attendances
+    Route::get('/admin-attendance', "attendance");
+
+    Route::get('/attendance-add', "attendanceAdd");
+    Route::post('/attendance-add', "attendanceStore");
+
+    Route::get('/attendance-edit/{attendance}', "attendanceEdit");
+    Route::put('/attendance-edit/{attendance}', "attendanceUpdate");
+
+    Route::delete('/attendance-delete/{attendance}', "attendanceDelete");
+
     // Courses
     Route::get('/admin-courses', "courses");
 
@@ -37,19 +103,6 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::put('/course-edit/{course}', "courseUpdate");
 
     Route::delete('/course-delete/{course}', "courseDelete");
-
-    // Questions
-    Route::get('/admin-question', "question");
-
-    Route::get('/question-add', "questionAdd");
-    Route::post('/question-add', "questionStore");
-    // excel
-    Route::post('/import-qna', "importQna")->name('importQna');
-
-    Route::get('/question-edit/{question}', "questionEdit");
-    Route::put('/question-edit/{question}', "questionUpdate");
-
-    Route::delete('/question-delete/{question}', "questionDelete");
 
     // classes
     Route::get('/admin-classroom', "classroom");
@@ -62,25 +115,4 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/classroom-delete/{classroom}', "classroomDelete");
 
-    // Exam Results
-    Route::get('/admin-result', "result");
-
-    Route::get('/result-add', "resultAdd");
-    Route::post('/result-add', "resultStore");
-
-    Route::get('/result-edit/{result}', "resultEdit");
-    Route::put('/result-edit/{result}', "resultUpdate");
-
-    Route::delete('/result-delete/{result}', "resultDelete");
-
-    // Users
-    Route::get('/admin-user', "user");
-
-    Route::get('/user-add', "userAdd");
-    Route::post('/user-add', "userStore");
-
-    Route::get('/user-edit/{user}', "userEdit");
-    Route::put('/user-edit/{user}', "userUpdate");
-
-    Route::delete('/user-delete/{user}', "userDelete");
 });

@@ -16,8 +16,6 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{{auth()->user()->avatar}}" style="width: 40px;" class="img-circle elevation-2" alt="User Image">
-{{--                <img src="" class="rounded-3" style="width: 50px;"--}}
-{{--                     alt="Avatar"/> {{auth()->user()->name }}--}}
             </div>
             <div class="info">
                 <a href="admin/admin-dashboard" class="d-block">{{auth()->user()->name}}</a>
@@ -80,6 +78,9 @@
                         request()->is('admin/admin-question') ||
                         request()->is('admin/admin-classroom') ||
                         request()->is('admin/admin-result') ||
+                        request()->is('admin/admin-answer') ||
+                        request()->is('admin/admin-enrollment') ||
+                        request()->is('admin/admin-attendance') ||
                         request()->is('admin/admin-user') ? 'menu-open' : '' }}"
                 >
                     <a
@@ -91,6 +92,9 @@
                         request()->is('admin/admin-question') ||
                         request()->is('admin/admin-classroom') ||
                         request()->is('admin/admin-result') ||
+                        request()->is('admin/admin-answer') ||
+                        request()->is('admin/admin-enrollment') ||
+                        request()->is('admin/admin-attendance') ||
                         request()->is('admin/admin-user') ? 'active' : '' }}"
                     >
                         <i class="nav-icon fas fa-table"></i>
@@ -113,6 +117,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="admin/admin-enrollment" class="nav-link {{request()->is('admin/admin-enrollment') ? 'active' : '' }}">
+                                <i class="fa fa-pen-nib nav-icon"></i>
+                                <p>Enrollments</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="admin/admin-user" class="nav-link {{request()->is('admin/admin-user') ? 'active' : '' }}">
                                 <i class="fa fa-user-astronaut nav-icon"></i>
                                 <p>Users</p>
@@ -121,13 +131,25 @@
                         <li class="nav-item">
                             <a href="admin/admin-question" class="nav-link {{request()->is('admin/admin-question') ? 'active' : '' }}">
                                 <i class="fa fa-question-circle nav-icon"></i>
-                                <p>Questions</p>
+                                <p>Q&A</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/admin-answer" class="nav-link {{request()->is('admin/admin-answer') ? 'active' : '' }}">
+                                <i class="fa fa-marker nav-icon"></i>
+                                <p>Answers</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="admin/admin-subject" class="nav-link {{request()->is('admin/admin-subject') ? 'active' : '' }}">
                                 <i class="fa fa-book-open nav-icon"></i>
                                 <p>Subjects</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/admin-attendance" class="nav-link {{request()->is('admin/admin-attendance') ? 'active' : '' }}">
+                                <i class="fa fa-calendar-day nav-icon"></i>
+                                <p>Attendances</p>
                             </a>
                         </li>
                         <li class="nav-item">
