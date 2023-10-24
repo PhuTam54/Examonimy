@@ -18,18 +18,13 @@ class MyResultController extends Controller
         $enrollments = Enrollment::where('student_id', '=', $student->id)
             ->where("status", Enrollment::COMPLETED)
             ->orderBy("updated_at", "desc")
-            ->paginate(5);
-//            ->get();
+            ->get();
 
         $exam_results = null;
         foreach ($enrollments as $enrollment) {
             $exam_results = ExamResult::where("enrollment_id", $enrollment->id)
                 ->orderBy("id", "desc")
                 ->get();
-
-//            foreach ($enrollment->Exam->Questions as $question) {
-//                $total_score += $question->question_mark;
-//            }
         }
 
         return view("pages.result.my-result",
@@ -37,7 +32,6 @@ class MyResultController extends Controller
     }
 
     public function examRetaken(Exam $exam) {
-//        dd("ok");
         $student = auth()->user();
         $enrollment = Enrollment::where('student_id', '=', $student->id)
             ->where("exam_id", $exam->id)

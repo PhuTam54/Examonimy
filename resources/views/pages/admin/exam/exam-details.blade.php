@@ -77,7 +77,7 @@
                                         <tbody>
                                         {{--                                        @foreach($exam->Products as $item)--}}
                                         {{--                                            <tr>--}}
-                                        {{--                                                <td>#{{ $loop->index + 1 }}</td>--}}
+                                        {{--                                                <td>{{ $loop->index + 1 }}</td>--}}
                                         {{--                                                <td class="shoping__cart__item">--}}
                                         {{--                                                    <img src=" {{ $item->thumbnail }}" width="100" alt="">--}}
                                         {{--                                                    <h5 style="font-size: 16px">{{ $item->name }}</h5>--}}

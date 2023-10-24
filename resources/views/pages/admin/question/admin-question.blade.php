@@ -21,10 +21,6 @@
             <div class="alert alert-danger" role="alert">
                 {{ session("delete-success") }}
             </div>
-        @elseif($response['msg'])
-            <div class="alert alert-success" role="alert">
-                {{ $response['msg'] }}
-            </div>
         @endif
         <!-- Main content -->
         <section class="content">
@@ -76,7 +72,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example2" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>No.</th>

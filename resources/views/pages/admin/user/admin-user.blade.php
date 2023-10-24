@@ -40,7 +40,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example2" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>No.</th>
@@ -55,7 +55,7 @@
                                 <tbody>
                                 @foreach($users as $user)
                                 <tr>
-                                    <td>#{{ $loop->index + 1 }}</td>
+                                    <td>{{ $loop->index + 1 }}</td>
                                     <td class="">
                                         <img src=" {{ $user->avatar }}" width="100" alt="img">
                                     </td>

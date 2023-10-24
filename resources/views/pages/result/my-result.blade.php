@@ -1,5 +1,8 @@
 @extends("layouts.app")
 @section("title", "Examonimy | My Result")
+@section("before_css")
+    @include("components.admin.embedded.table_head")
+@endsection
 @section("main")
     <!-- Header Start -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header">
@@ -35,14 +38,12 @@
                 </div>
                 <div class="row g-0 justify-content-center">
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example2" class="table table-bordered border table-striped">
                             <thead>
                             <tr>
+                                <th>No.</th>
                                 <th>Exam</th>
                                 <th>Subject</th>
-{{--                                <th>Result</th>--}}
-{{--                                <th>Correct</th>--}}
-{{--                                <th>Incorrect</th>--}}
                                 <th>Duration</th>
                                 <th>Score</th>
                                 <th>Rank</th>
@@ -54,18 +55,31 @@
                             <tbody>
                             @foreach($enrollments as $enrollment)
                                 <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
                                     <td>
                                         <p class="mb-1">{{ $enrollment->Exam->exam_name }}</p>
-                                        <img class="image mt-2" src=" {{ $enrollment->Exam->exam_thumbnail }}" width="100" alt="img">
+                                        <img class="image mt-2" src=" {{ $enrollment->Exam->exam_thumbnail }}" width="60" alt="img">
                                     </td>
                                     <td>
                                         <p class="mb-1">{{ $enrollment->Exam->Subject->subject_name }}</p>
-{{--                                        <img class="image mt-2" src=" {{ $enrollment->Exam->Subject->subject_thumbnail }}" width="100" alt="img">--}}
+                                        <img class="image mt-2" src=" {{ $enrollment->Exam->Subject->subject_thumbnail }}" width="60" alt="img">
                                     </td>
-{{--                                    <td class="text-secondary">{{ $correct_counter }} / {{ $enrollment->Enrollment->Exam->Questions->count() }}</td>--}}
-{{--                                    <td class="text-success">{{ $correct_counter }}</td>--}}
-{{--                                    <td class="text-danger">{{ $incorrect_counter }}</td>--}}
-                                    <td>{{ $enrollment->ExamResult->time_taken }} seconds</td>
+                                    @if($enrollment->ExamResult->time_taken / 3600 > 1)
+                                        <td>
+                                            {{ round($enrollment->ExamResult->time_taken / 3600) }} hours
+                                            {{ round($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
+                                            {{ round($enrollment->ExamResult->time_taken % 60) }} seconds
+                                        </td>
+                                    @elseif(($enrollment->ExamResult->time_taken % 3600) / 60 > 1)
+                                        <td>
+                                            {{ round($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
+                                            {{ round($enrollment->ExamResult->time_taken % 60) }} seconds
+                                        </td>
+                                    @elseif($enrollment->ExamResult->time_taken % 60 > 1)
+                                        <td>
+                                            {{ round($enrollment->ExamResult->time_taken % 60, 2) }} seconds
+                                        </td>
+                                    @endif
                                     <span class="d-none">
                                         @foreach ($enrollment->Exam->Questions as $question)
                                             {{ $total_score += $question->question_mark }}
@@ -95,12 +109,17 @@
                                 </tr>
                             @endforeach
                             </tbody>
+                            <tfoot>
+                                <th>No.</th>
+                                <th>Exam</th>
+                                <th>Subject</th><th>Duration</th>
+                                <th>Score</th>
+                                <th>Rank</th>
+                                <th>Attempt</th>
+                                <th>Submitted</th>
+                                <th>Action</th>
+                            </tfoot>
                         </table>
-                    </div>
-                    <div class="text-center wow fadeInUp" data-wow-delay="0s">
-                        <h6 class="section-title bg-white text-center text-primary px-3">
-                            {!! $enrollments->links("pagination::bootstrap-4") !!}
-                        </h6>
                     </div>
                 </div>
             </div>
@@ -122,4 +141,7 @@
     </div>
     <!-- 404 End -->
     @endif
+@endsection
+@section("after_js")
+    @include("components.admin.embedded.table_script")
 @endsection

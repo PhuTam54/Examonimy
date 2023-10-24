@@ -29,7 +29,7 @@
         </div>
         <div class="row g-0 justify-content-center">
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example2" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>Exam</th>
@@ -50,7 +50,22 @@
                         <td class="text-secondary">{{ $correct_counter }} / {{ $examination->Questions->count() }}</td>
                         <td class="text-success">{{ $correct_counter }}</td>
                         <td class="text-danger">{{ $incorrect_counter }}</td>
-                        <td>{{ $exam_result->time_taken }} seconds</td>
+                        @if($exam_result->time_taken / 3600 > 1)
+                            <td>
+                                {{ round($exam_result->time_taken / 3600) }} hours
+                                {{ round($exam_result->time_taken % 3600 / 60) }} minutes
+                                {{ round($exam_result->time_taken % 60) }} seconds
+                            </td>
+                        @elseif(($exam_result->time_taken % 3600) / 60 > 1)
+                            <td>
+                                {{ round($exam_result->time_taken % 3600 / 60) }} minutes
+                                {{ round($exam_result->time_taken % 60) }} seconds
+                            </td>
+                        @elseif($exam_result->time_taken % 60 > 1)
+                            <td>
+                                {{ round($exam_result->time_taken % 60, 2) }} seconds
+                            </td>
+                        @endif
                         <td class="text-primary">{{ number_format($exam_result->score, 2) }} / {{  number_format($total_score, 2) }}</td>
                         <td>
                             {!! $exam_result->getStatus() !!}

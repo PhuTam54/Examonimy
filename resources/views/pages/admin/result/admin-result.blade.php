@@ -34,7 +34,7 @@
                             </div>
                             <!-- ./card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
+                                <table id="example2" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
                                         <th>No.</th>
@@ -51,7 +51,7 @@
                                     @foreach($results as $result)
 {{--                                        <tr data-widget="expandable-table" aria-expanded="false">--}}
                                         <tr>
-                                            <td>#{{ $loop->index + 1 }}</td>
+                                            <td>{{ $loop->index + 1 }}</td>
                                             <td>{{ $result->Enrollment->User->name }}</td>
                                             <td>{{ $result->Enrollment->Exam->exam_name }}</td>
                                             <td>{{ $result->score }}</td>

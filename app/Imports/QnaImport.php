@@ -30,43 +30,16 @@ class QnaImport implements ToModel
 
             $question = ExamQuestion::find($questionId);
 
-            if ($question->type_of_question == ExamQuestion::MULTIPLE_CHOICE) {
+            if ($question->type_of_question == ExamQuestion::MULTIPLE_CHOICE || $question->type_of_question == ExamQuestion::CHOICE) {
                 $answers = explode(',', $row[6]);
                 $options = array_slice($row, 2, 4); // Lấy mảng các đáp án sai từ $row[2] đến $row[5]
                 foreach ($options as $index => $option) {
                     $is_correct = in_array(chr($index + ord('A')), $answers); // Kiểm tra xem đáp án có nằm trong mảng $answers không
                     QuestionOption::insert([
                         "question_id" => $questionId,
-                        "option_text" => $option,
+                        "option_text" => chr($index + ord('A')).'. '.$option,
                         "is_correct" => $is_correct,
                     ]);
-                }
-            } elseif ($question->type_of_question == ExamQuestion::CHOICE) {
-                for ($i = 2; $i <= 5; $i ++) {
-                    if ($row[$i] != null) {
-                        $is_correct = false;
-                        $answer = null;
-
-                        if ($row[6] == 'A') {
-                            $answer = $row[2];
-                        } elseif ($row[6] == 'B') {
-                            $answer = $row[3];
-                        } elseif ($row[6] == 'C') {
-                            $answer = $row[4];
-                        } elseif ($row[6] == 'D') {
-                            $answer = $row[5];
-                        }
-
-                        if ($row[$i] == $answer) {
-                            $is_correct = true;
-                        }
-
-                        QuestionOption::insert([
-                            "question_id" => $questionId,
-                            "option_text" => $row[$i],
-                            "is_correct" => $is_correct,
-                        ]);
-                    }
                 }
             } else {
                 if ($row[2] != null) {
@@ -80,8 +53,5 @@ class QnaImport implements ToModel
                 }
             }
         }
-//        return new ExamQuestion([
-//            //
-//        ]);
     }
 }

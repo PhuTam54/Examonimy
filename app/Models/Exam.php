@@ -54,15 +54,4 @@ class Exam extends Model
             default: return "<span class='text-warning'>Not found 404</span>";
         }
     }
-
-//    public function getGrandTotal() {
-//        return "$".number_format($this->grand_total, 2);
-//    }
-//
-//    public function getIsPaid() {
-//        return $this->is_paid?
-//            "<span class='bg-success p-2 small'>Has paid</span>":
-//            "<span class='bg-secondary p-2 small'>Not pay</span>";
-//    }
-//
 }

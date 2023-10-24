@@ -39,7 +39,7 @@
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example2" class="table table-bordered table-striped">
                         <thead>
                         <tr>
                             <th>Exam</th>
@@ -57,11 +57,30 @@
                             <tr>
                                 <td>
                                     <p class="text-center mb-1">{{ $examination->exam_name }}</p>
-                                    <img class="image mt-2" src=" {{ $examination->exam_thumbnail }}" width="200" alt="img"></td>
-                                <td>{{ $examination->exam_description }}</td>
+                                    <img class="image mt-2" src=" {{ $examination->exam_thumbnail }}" width="100" alt="img"></td>
+                                @if(strlen($examination->exam_description) > 180)
+                                    <td>{{ substr($examination->exam_description, 0, 180) }}...</td>
+                                @else
+                                    <td>{{ $examination->exam_description }}</td>
+                                @endif
                                 <td>{{ $examination->start_date ?? "Never start" }}</td>
                                 <td>{{ $examination->end_date ?? "Never end" }}</td>
-                                <td>{{ $examination->duration }} seconds</td>
+                                @if($examination->duration / 3600 > 1)
+                                    <td>
+                                        {{ round($examination->duration / 3600) }} hours
+                                        {{ round($examination->duration % 3600 / 60) }} minutes
+                                        {{ round($examination->duration % 60) }} seconds
+                                    </td>
+                                @elseif(($examination->duration % 3600) / 60 > 1)
+                                    <td>
+                                        {{ round($examination->duration % 3600 / 60) }} minutes
+{{--                                        {{ round($examination->duration % 60) }} seconds--}}
+                                    </td>
+                                @elseif($examination->duration % 60 > 1)
+                                    <td>
+                                        {{ round($examination->duration % 60, 2) }} seconds
+                                    </td>
+                                @endif
                                 <td>{{ $examination->Questions->count() }}</td>
                                 <td>{{ $examination->Subject->subject_name }}</td>
                                 <td>{{ $examination->Instructor->name }}</td>
