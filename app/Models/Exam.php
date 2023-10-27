@@ -15,15 +15,12 @@ class Exam extends Model
         "status",
         "start_date",
         "end_date",
-        "duration",
-        "number_of_questions",
         "exam_thumbnail",
-        "total_marks",
-        "passing_marks",
         "status",
         "type_of_exam",
         "created_by",
         "subject_id",
+        "exam_question_id",
     ];
 
     const PENDING = 0;
@@ -40,8 +37,8 @@ class Exam extends Model
         return $this->belongsTo(User::class, "created_by");
     }
 
-    public function Questions() {
-        return $this->hasMany(ExamQuestion::class, "exam_id");
+    public function ExamQuestion() {
+        return $this->belongsTo(ExamQuestion::class, "exam_question_id");
     }
 
     public function getStatus() {

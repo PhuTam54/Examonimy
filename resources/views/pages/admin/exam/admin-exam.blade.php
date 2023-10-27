@@ -66,8 +66,8 @@
                                             <td>{{ $exam->exam_name }}</td>
 {{--                                            <td>{{ $exam->start_date ?? "Never start" }}</td>--}}
 {{--                                            <td>{{ $exam->end_date ?? "Never end" }}</td>--}}
-                                            <td>{{ $exam->duration }}</td>
-                                            <td>{{ $exam->number_of_questions }}</td>
+                                            <td>{{ $exam->ExamQuestion->duration }}</td>
+                                            <td>{{ $exam->ExamQuestion->number_of_questions }}</td>
                                             <td>{{ $exam->subject->Course->course_name }}</td>
                                             <td>{!! $exam->getStatus() !!}</td>
                                             <td>{{ $exam->Instructor->name }}</td>

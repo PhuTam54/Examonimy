@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\Exam;
-use App\Models\ExamQuestion;
-use App\Models\ExamResult;
+use App\Models\Question;
+use App\Models\EnrollmentResult;
 use Illuminate\Http\Request;
 
 class MyResultController extends Controller
@@ -20,15 +20,15 @@ class MyResultController extends Controller
             ->orderBy("updated_at", "desc")
             ->get();
 
-        $exam_results = null;
+        $enrollment_results = null;
         foreach ($enrollments as $enrollment) {
-            $exam_results = ExamResult::where("enrollment_id", $enrollment->id)
+            $enrollment_results = EnrollmentResult::where("enrollment_id", $enrollment->id)
                 ->orderBy("id", "desc")
                 ->get();
         }
 
         return view("pages.result.my-result",
-            compact("enrollments", "exam_results", "total_score"));
+            compact("enrollments", "enrollment_results", "total_score"));
     }
 
     public function examRetaken(Exam $exam) {

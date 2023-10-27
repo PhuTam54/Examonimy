@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_questions', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedSmallInteger("question_no");
             $table->text("question_text")->unique();
-            $table->unsignedBigInteger("exam_id");
-            $table->foreign("exam_id")->references("id")->on("exams");
+            $table->unsignedBigInteger("exam_question_id");
+            $table->foreign("exam_question_id")->references("id")->on("exam_questions");
             $table->unsignedFloat("question_mark", 14, 2);
             $table->unsignedSmallInteger("difficulty")->default(1);
             // 1. Easy 2. Medium 3. Difficult
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exam_questions');
+        Schema::dropIfExists('questions');
     }
 };

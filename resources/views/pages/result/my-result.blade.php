@@ -23,7 +23,7 @@
     </div>
     <!-- Header End -->
 
-    @if($exam_results != null)
+    @if($enrollment_results != null)
         <!-- My Result Start -->
         <div class="container-xxl py-5">
             <div class="container-fluid">
@@ -64,33 +64,33 @@
                                         <p class="mb-1">{{ $enrollment->Exam->Subject->subject_name }}</p>
                                         <img class="image mt-2" src=" {{ $enrollment->Exam->Subject->subject_thumbnail }}" width="100" alt="img">
                                     </td>
-                                    @if($enrollment->ExamResult->time_taken / 3600 > 1)
+                                    @if($enrollment->EnrollmentResult->time_taken / 3600 > 1)
                                         <td>
-                                            {{ floor($enrollment->ExamResult->time_taken / 3600) }} hours
-                                            {{ floor($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
-                                            {{ $enrollment->ExamResult->time_taken % 60 }} seconds
+                                            {{ floor($enrollment->EnrollmentResult->time_taken / 3600) }} hours
+                                            {{ floor($enrollment->EnrollmentResult->time_taken % 3600 / 60) }} minutes
+                                            {{ $enrollment->EnrollmentResult->time_taken % 60 }} seconds
                                         </td>
-                                    @elseif(($enrollment->ExamResult->time_taken % 3600) / 60 > 1)
+                                    @elseif(($enrollment->EnrollmentResult->time_taken % 3600) / 60 > 1)
                                         <td>
-                                            {{ floor($enrollment->ExamResult->time_taken % 3600 / 60) }} minutes
-                                            {{ $enrollment->ExamResult->time_taken % 60 }} seconds
+                                            {{ floor($enrollment->EnrollmentResult->time_taken % 3600 / 60) }} minutes
+                                            {{ $enrollment->EnrollmentResult->time_taken % 60 }} seconds
                                         </td>
                                     @else
                                         <td>
-                                            {{ $enrollment->ExamResult->time_taken % 60 }} seconds
+                                            {{ $enrollment->EnrollmentResult->time_taken % 60 }} seconds
                                         </td>
                                     @endif
                                     <span class="d-none">
-                                        @foreach ($enrollment->Exam->Questions as $question)
+                                        @foreach ($enrollment->Exam->ExamQuestion->Questions as $question)
                                             {{ $total_score += $question->question_mark }}
                                         @endforeach
                                     </span>
-                                    <td class="text-primary">{{ number_format($enrollment->ExamResult->score, 2) }} / {{  number_format($total_score, 2) }}</td>
+                                    <td class="text-primary">{{ number_format($enrollment->EnrollmentResult->score, 2) }} / {{  number_format($total_score, 2) }}</td>
                                     <span class="d-none">
                                         {{ $total_score = 0 }}
                                     </span>
                                     <td>
-                                        {!! $enrollment->ExamResult->getStatus() !!}
+                                        {!! $enrollment->EnrollmentResult->getStatus() !!}
                                     </td>
                                     <td>{{ $enrollment->attempt }} {{ $enrollment->attempt > 1 ? 'times' : 'time' }}</td>
                                     <td>{{ $enrollment->updated_at }}</td>

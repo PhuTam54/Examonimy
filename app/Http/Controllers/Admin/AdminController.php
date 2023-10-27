@@ -8,9 +8,9 @@ use App\Models\Classes;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Exam;
-use App\Models\ExamAnswer;
-use App\Models\ExamQuestion;
-use App\Models\ExamResult;
+use App\Models\EnrollmentAnswer;
+use App\Models\Question;
+use App\Models\EnrollmentResult;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class AdminController extends Controller
 
     // Exam Result
     public function result() {
-        $results = ExamResult::orderBy("created_at","desc")->get();
+        $results = EnrollmentResult::orderBy("created_at","desc")->get();
         return view("pages.admin.result.admin-result", compact("results"));
     }
 
@@ -79,7 +79,7 @@ class AdminController extends Controller
 
     // Question
     public function question() {
-        $questions = ExamQuestion::orderBy("id","desc")->get();
+        $questions = Question::orderBy("id","desc")->get();
         return view("pages.admin.question.admin-question", compact("questions"));
     }
     // excel
@@ -95,7 +95,7 @@ class AdminController extends Controller
 
     // Answers
     public function answer() {
-        $answer = ExamAnswer::orderBy("id","desc")->get();
+        $answer = EnrollmentAnswer::orderBy("id","desc")->get();
         return view("pages.admin.answer.admin-answer", compact("answer"));
     }
 

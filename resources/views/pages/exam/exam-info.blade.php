@@ -71,22 +71,22 @@
                                 @endif
                                 <td>{{ $examination->start_date ?? "Never start" }}</td>
                                 <td>{{ $examination->end_date ?? "Never end" }}</td>
-                                @if($examination->duration / 3600 > 1)
+                                @if($examination->ExamQuestion->duration / 3600 > 1)
                                     <td>
-                                        {{ floor($examination->duration / 3600) }} hours
-                                        {{ floor($examination->duration % 3600 / 60) }} minutes
-                                        {{ $examination->duration % 60 }} seconds
+                                        {{ floor($examination->ExamQuestion->duration / 3600) }} hours
+                                        {{ floor($examination->ExamQuestion->duration % 3600 / 60) }} minutes
+                                        {{ $examination->ExamQuestion->duration % 60 }} seconds
                                     </td>
-                                @elseif(($examination->duration % 3600) / 60 > 1)
+                                @elseif(($examination->ExamQuestion->duration % 3600) / 60 > 1)
                                     <td>
-                                        {{ floor($examination->duration % 3600 / 60) }} minutes
+                                        {{ floor($examination->ExamQuestion->duration % 3600 / 60) }} minutes
                                     </td>
-                                @elseif($examination->duration % 60 > 1)
+                                @elseif($examination->ExamQuestion->duration % 60 > 1)
                                     <td>
-                                        {{ $examination->duration % 60 }} seconds
+                                        {{ $examination->ExamQuestion->duration % 60 }} seconds
                                     </td>
                                 @endif
-                                <td>{{ $examination->Questions->count() }}</td>
+                                <td>{{ $examination->ExamQuestion->Questions->count() }}</td>
                                 <td>{{ $examination->Subject->subject_name }}</td>
                                 <td>{{ $examination->Instructor->name }}</td>
                                 <td class="project-actions text-center">

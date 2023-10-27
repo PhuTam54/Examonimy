@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\Exam;
-use App\Models\ExamAnswer;
-use App\Models\ExamQuestion;
-use App\Models\ExamResult;
+use App\Models\EnrollmentAnswer;
+use App\Models\Question;
+use App\Models\EnrollmentResult;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class MyExamController extends Controller
     }
 
     public function examTaking(Exam $exam) {
-        $questions = ExamQuestion::where("exam_id", $exam->id)
+        $questions = Question::where("exam_question_id", $exam->id)
             ->orderBy("question_no")
             ->get();
         $examination = Exam::find($exam->id);
@@ -57,7 +57,7 @@ class MyExamController extends Controller
 
     public function examSubmit(Request $request, Exam $exam) {
         // Get the questions
-        $questions = ExamQuestion::where("exam_id", $exam->id)
+        $questions = Question::where("exam_question_id", $exam->id)
             ->orderBy("question_no")
             ->get();
 
@@ -75,7 +75,8 @@ class MyExamController extends Controller
             $incorrect_counter = 0;
             $score_counter = 0;
             $total_score = 0;
-            $result_status = ExamResult::FAIL;
+            $result_status = EnrollmentResult::FAIL;
+            $note = "Sorry bro, you're failed. You have to learn hard more !!!";
             // Question 1
             $answerString = null;
             $isCorrect_total = 0;
@@ -83,7 +84,7 @@ class MyExamController extends Controller
 
             // Check is_correct
             foreach ($questions as $question) {
-                if ($question->type_of_question == ExamQuestion::MULTIPLE_CHOICE) {
+                if ($question->type_of_question == Question::MULTIPLE_CHOICE) {
                     foreach ($question->QuestionOptions as $option) {
                         // get total is_correct answers
                         if ($option->is_correct) {
@@ -128,7 +129,7 @@ class MyExamController extends Controller
                     // Set null answer string
                     $answerString = null;
 
-                } elseif ($question->type_of_question == ExamQuestion::CHOICE) {
+                } elseif ($question->type_of_question == Question::CHOICE) {
                     $answers = $request->get("oneChoice-$question->id");
                     $isCorrect = $question->checkChoiceExact($answers);
                 } else {
@@ -144,7 +145,7 @@ class MyExamController extends Controller
                 }
 
                 // create new exam answer
-                ExamAnswer::create([
+                EnrollmentAnswer::create([
                     "enrollment_id" => $enrollment->id,
                     "question_id" => $question->id,
                     "answers" => $answers,
@@ -155,12 +156,12 @@ class MyExamController extends Controller
                 $total_score += $question->question_mark;
 
                 // Get the exam answer to check the score + correct + incorrect
-                $exam_answers = ExamAnswer::where("enrollment_id", $enrollment->id)
+                $enrollment_answers = EnrollmentAnswer::where("enrollment_id", $enrollment->id)
                     ->where("question_id", $question->id)
                     ->orderBy("id", "desc")
                     ->limit(1)
                     ->get();
-                foreach ($exam_answers as $exam_answer) {
+                foreach ($enrollment_answers as $exam_answer) {
                     if ($exam_answer->status === 1) {
                         $score_counter += $exam_answer->Question->question_mark;
                         $correct_counter += 1;
@@ -172,26 +173,30 @@ class MyExamController extends Controller
 
             // Get the time taken
             $duration = $request->get("duration");
-            $time_counter = $examination->duration - $duration;
+            $time_counter = $examination->ExamQuestion->duration - $duration;
 
             // Get the result status
             if($score_counter >= ($total_score / 1.25)) {
-                $result_status = ExamResult::EXCELLENT;
+                $result_status = EnrollmentResult::EXCELLENT;
+                $note = "How did you do that, bro ???";
             } elseif($score_counter >= ($total_score / 1.5)) {
-                $result_status = ExamResult::VERYGOOD;
+                $result_status = EnrollmentResult::VERYGOOD;
+                $note = "You're genius, bro :))";
             } elseif($score_counter >= ($total_score / 2)) {
-                $result_status = ExamResult::GOOD;
+                $result_status = EnrollmentResult::GOOD;
+                $note = "Congratulation, bro !!!";
             } elseif($score_counter >= ($total_score / 3)) {
-                $result_status = ExamResult::ACCEPTABLE;
+                $result_status = EnrollmentResult::ACCEPTABLE;
+                $note = "Make more effort, bro !!!";
             }
 
             // Create new Exam Result
-            $exam_result = ExamResult::create([
+            $exam_result = EnrollmentResult::create([
                 "enrollment_id" => $enrollment->id,
                 "score" => $score_counter,
                 "time_taken" => $time_counter,
                 "status" => $result_status,
-                "note" => Null
+                "note" => $note
             ]);
 
             // Update the status of Enrollment to completed

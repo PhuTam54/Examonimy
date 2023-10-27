@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exam_answers', function (Blueprint $table) {
+        Schema::create('enrollment_answers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("enrollment_id"); //->unique()
             $table->foreign("enrollment_id")->references("id")->on("enrollments");
             $table->unsignedBigInteger("question_id");
-            $table->foreign("question_id")->references("id")->on("exam_questions");
+            $table->foreign("question_id")->references("id")->on("questions");
             $table->string("answers", 255)->nullable();
             $table->smallInteger("status")->default(0);
             // 0. Not answer yet 1. Correct 2. Incorrect
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exam_answers');
+        Schema::dropIfExists('enrollment_answers');
     }
 };

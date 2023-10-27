@@ -138,7 +138,7 @@
 @endsection
 @section("after_js")
     <script>
-        let time = {{ $examination->duration }};
+        let time = {{ $examination->ExamQuestion->duration }};
         // let time = 10;
 
         const countdownEl = document.getElementById('countdown');

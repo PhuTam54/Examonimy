@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("option_text")->nullable();
             $table->boolean("is_correct")->default(false);
             $table->unsignedBigInteger("question_id")->nullable();
-            $table->foreign("question_id")->references("id")->on("exam_questions");
+            $table->foreign("question_id")->references("id")->on("questions");
             $table->timestamps();
         });
     }

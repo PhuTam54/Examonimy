@@ -5,8 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Classes;
 use App\Models\Exam;
-use App\Models\ExamAnswer;
+use App\Models\EnrollmentAnswer;
 use App\Models\ExamQuestion;
+use App\Models\Question;
 use App\Models\Subject;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -41,7 +42,21 @@ class DatabaseSeeder extends Seeder
 //            ]);
 
         \App\Models\Subject::factory(20)->create();
-        \App\Models\Exam::factory(10)->create();
+        $subjects = Subject::all();
+        foreach ($subjects as $subject) {
+            DB::table("exam_questions")
+                ->insert([
+                    "exam_question_name"=>$subject->subject_name.' ExamQuestion',
+                    "exam_question_description"=>$subject->subject_description.' ExamQuestion',
+                    "duration"=> 40 * 60, // seconds
+                    "number_of_questions"=> 16,
+                    "total_marks"=> 20,
+                    "passing_marks"=> 6.7,
+                    "status"=>1
+                ]);
+        }
+
+        \App\Models\Exam::factory(5)->create();
 
         $exams = Exam::all();
         foreach ($exams as $exam) {
@@ -66,8 +81,8 @@ class DatabaseSeeder extends Seeder
                 ]);
         }
 
-//        \App\Models\ExamQuestion::factory(200)->create();
-//        $questions = ExamQuestion::all();
+//        \App\Models\Question::factory(200)->create();
+//        $questions = Question::all();
 //        $option_text = "A. Answer";
 //        $string_text = "This is Answer";
 //        foreach ($questions as $question) {
@@ -117,8 +132,8 @@ class DatabaseSeeder extends Seeder
 
 //        $exams = Exam::all();
 //        foreach ($exams as $exam) {
-////            DB::table("exam_answers")
-//                $answer = new ExamAnswer;
+////            DB::table("enrollment_answers")
+//                $answer = new EnrollmentAnswer;
 //                $answer->enrollment_id = random_int(1, 30);
 //                $answer->question_id = random_int(1, 50);
 //                $answer->answers = str(random_int(1, 200) .','. random_int(1, 200));
@@ -133,6 +148,6 @@ class DatabaseSeeder extends Seeder
 //                ]);
 //        }
 
-//        \App\Models\ExamResult::factory(50)->create();
+//        \App\Models\EnrollmentResult::factory(50)->create();
     }
 }

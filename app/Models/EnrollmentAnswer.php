@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ExamAnswer extends Model
+class EnrollmentAnswer extends Model
 {
     use HasFactory;
-    protected $table = "exam_answers";
+    protected $table = "enrollment_answers";
     protected $fillable = [
         "enrollment_id",
         "question_id",
@@ -23,10 +23,10 @@ class ExamAnswer extends Model
 
     public function Question()
     {
-        return $this->belongsTo(ExamQuestion::class, 'question_id');
+        return $this->belongsTo(Question::class, 'question_id');
     }
 
-    public function Options()
+    public function Options() // not uses
     {
         return $this->belongsToMany(QuestionOption::class, 'answer_options', 'answer_id', 'option_id');
     }

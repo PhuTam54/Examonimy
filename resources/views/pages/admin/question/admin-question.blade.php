@@ -81,7 +81,7 @@
                                     <th>Option_B</th>
                                     <th>Option_C</th>
                                     <th>Option_D</th>
-                                    <th>Exam</th>
+                                    <th>ExamQuestion</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -117,7 +117,7 @@
                                         <td></td>
                                         <td></td>
                                     @endif
-                                    <td>{{ $question->Exam->exam_name }}</td>
+                                    <td>{{ $question->ExamQuestion->exam_question_name }}</td>
                                     <td class="project-actions text-center">
                                         <a class="btn btn-info btn-sm" href="admin/question-edit/{{ $question->id }}">
                                             <i class="fas fa-pencil-alt">
@@ -147,7 +147,7 @@
                                     <th>Option_B</th>
                                     <th>Option_C</th>
                                     <th>Option_D</th>
-                                    <th>Exam</th>
+                                    <th>ExamQuestion</th>
                                     <th>Action</th>
                                 </tr>
                                 </tfoot>

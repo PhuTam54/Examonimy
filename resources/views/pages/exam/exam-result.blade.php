@@ -47,7 +47,7 @@
                             <p class="text-center mb-1">{{ $examination->exam_name }}</p>
                             <img class="image mt-2" src=" {{ $examination->exam_thumbnail }}" width="200" alt="img">
                         </td>
-                        <td class="text-secondary">{{ $correct_counter }} / {{ $examination->Questions->count() }}</td>
+                        <td class="text-secondary">{{ $correct_counter }} / {{ $examination->ExamQuestion->Questions->count() }}</td>
                         <td class="text-success">{{ $correct_counter }}</td>
                         <td class="text-danger">{{ $incorrect_counter }}</td>
                         @if($exam_result->time_taken / 3600 > 1)

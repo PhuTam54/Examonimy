@@ -34,8 +34,8 @@ class Enrollment extends Model
         return $this->belongsTo(Exam::class);
     }
 
-    public function ExamResult() {
-        return $this->hasOne(ExamResult::class, "enrollment_id");
+    public function EnrollmentResult() {
+        return $this->hasOne(EnrollmentResult::class, "enrollment_id");
     }
 
     public function getStatus() {

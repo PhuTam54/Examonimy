@@ -19,17 +19,15 @@ class ExamFactory extends Factory
     {
         return [
             "created_by"=>random_int(1, 20),
-            "subject_id"=>random_int(1, 10),
+            "subject_id"=>random_int(1, 20),
+            "exam_question_id"=>random_int(1, 3),
             "exam_name"=> $this->faker->colorName,
             "exam_description"=> $this->faker->text(500),
-            "duration"=> 40 * 60, // seconds
-            "number_of_questions"=> 16,
             "start_date" => Carbon::now(),
             "end_date" => Carbon::now()->addDay(),
             "status"=> 2,
             "exam_thumbnail"=>"storage/img/main-img/course-".random_int(1, 3).".jpg",
-            "total_marks"=> 20,
-            "passing_marks"=> 6.7,
+
         ];
     }
 }

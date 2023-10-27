@@ -17,11 +17,14 @@ class ExamQuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            "exam_id"=>random_int(1, 20),
-            "question_text"=> $this->faker->text,
-            "question_mark"=> random_int(1, 2),
-            "type_of_question"=> random_int(1, 3),
-            "difficulty"=> random_int(1, 3)
+            "exam_question_name",
+            "exam_question_description",
+            "duration"=> 40 * 60, // seconds
+            "number_of_questions"=> 16,
+            "total_marks"=> 20,
+            "passing_marks"=> 6.7,
+            "status",
+            "exam_id"
         ];
     }
 }

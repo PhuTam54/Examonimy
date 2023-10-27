@@ -16,7 +16,7 @@ class QuestionOption extends Model
     ];
 
     public function ExamQuestion() {
-        return $this->belongsTo(ExamQuestion::class, "question_id");
+        return $this->belongsTo(Question::class, "question_id");
     }
 
     const CORRECT = true;
