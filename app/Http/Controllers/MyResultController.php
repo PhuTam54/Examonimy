@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\Question;
 use App\Models\EnrollmentResult;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -58,60 +59,16 @@ class MyResultController extends Controller
                 'exam_id' => $exam->id,
                 'status' => Enrollment::PENDING,
                 'attempt' => $enrollment->attempt + 1,
-                'is_paid' => false
+                'is_paid' => false,
+                'created_at' => Carbon::now()
             ]);
 
             $retakenEnrollment = Enrollment::find($retakenEnrollmentId);
-            // Payment method: PayPal
-            if ($retakenEnrollment->Exam->retaken_fee > 0 && !$retakenEnrollment->is_paid) {
-                $provider = new PayPalClient;
-                $provider->setApiCredentials(config('paypal'));
-                $paypalToken = $provider->getAccessToken();
-
-                $response = $provider->createOrder([
-                    "intent" => "CAPTURE",
-                    "application_context" => [
-                        "return_url" => url("paypal-success", "retakenEnrollment",$retakenEnrollment),
-                        "cancel_url" => url("paypal-cancel"),
-                    ],
-                    "purchase_units" => [
-                        0 => [
-                            "amount" => [
-                                "currency_code" => "USD",
-                                "value" => number_format($retakenEnrollment->Exam->retaken_fee,2,".","") // 1234.45
-                            ]
-                        ]
-                    ]
-                ]);
-
-                if (isset($response['id']) && $response['id'] != null) {
-
-                    // redirect to approve href
-                    foreach ($response['links'] as $links) {
-                        if ($links['rel'] == 'approve') {
-                            return redirect()->away($links['href']);
-                        }
-                    }
-
-                    return redirect()
-                        ->back()
-                        ->with('error', 'Something went wrong.');
-
-                } else {
-                    return redirect()
-                        ->back()
-                        ->with('error', $response['message'] ?? 'Something went wrong.');
-                }
-            }
-            return redirect()->back()->with("retaken", "You have been retaken $exam->exam_name. We'll send you an email when your exam get started!");
+//            return redirect()->back()->with("retaken", "You have been retaken $exam->exam_name. We'll send you an email when your exam get started!");
 //            // Go to Paypal
-//            return redirect()->to("paypal-process/$retakenEnrollmentId");
+            return redirect()->to("paypal-process/$retakenEnrollment->id");
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
-    }
-
-    public function thankYou() {
-        return view("pages.result.thank-you");
     }
 }

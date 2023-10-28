@@ -36,14 +36,15 @@ Route::middleware("auth")->group(function () {
     Route::controller(\App\Http\Controllers\MyResultController::class)->group(function () {
         Route::get('my-result',  "myResult");
         Route::get('exam-retaken/{exam}',  "examRetaken");
-        Route::get('thank-you',  "thankYou");
     });
 
     // Paypal
     Route::controller(\App\Http\Controllers\PayPalController::class)->group(function () {
-//        Route::get('paypal-process/{enrollment}', "paypalProcess");
-        Route::get('paypal-success/{enrollment}', "paypalSuccess");
-        Route::get('paypal-cancel', "paypalCancel");
+        Route::get('paypal-process/{retakenEnrollment}', "paypalProcess");
+        Route::get('paypal-success/{retakenEnrollment}', "paypalSuccess");
+        Route::get('paypal-cancel/{retakenEnrollment}', "paypalCancel");
+
+        Route::get('thank-you/{retakenEnrollment}',  "thankYou");
     });
 });
 
