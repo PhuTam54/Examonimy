@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ConfirmRetakenExam;
 use App\Http\Controllers\Controller;
 use App\Imports\QnaImport;
 use App\Models\Classes;
@@ -54,6 +55,10 @@ class AdminController extends Controller
             $enrollment->update([
                 'status' => Enrollment::CONFIRMED
             ]);
+
+            // Send mail
+            event(new ConfirmRetakenExam($enrollment));
+
             return redirect()->back()->with("confirm-success", "Confirm enrollment successfully!!!");
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());

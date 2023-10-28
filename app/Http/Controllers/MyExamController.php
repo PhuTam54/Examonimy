@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CreateNewResult;
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
 use App\Models\Exam;
@@ -191,7 +192,7 @@ class MyExamController extends Controller
             }
 
             // Create new Exam Result
-            $exam_result = EnrollmentResult::create([
+            $enrollment_result = EnrollmentResult::create([
                 "enrollment_id" => $enrollment->id,
                 "score" => $score_counter,
                 "time_taken" => $time_counter,
@@ -203,7 +204,10 @@ class MyExamController extends Controller
             $enrollment->status = Enrollment::COMPLETED;
             $enrollment->save();
 
-            return view("pages.exam.exam-result", compact("examination","exam_result",
+            // Send mail
+            event(new CreateNewResult($enrollment_result));
+
+            return view("pages.exam.exam-result", compact("examination","enrollment_result",
                 "correct_counter","incorrect_counter", "total_score"))
                 ->with("exam-submit-success" , "Submit exam successfully!!!");
 

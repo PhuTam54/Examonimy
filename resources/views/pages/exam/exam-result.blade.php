@@ -50,25 +50,25 @@
                         <td class="text-secondary">{{ $correct_counter }} / {{ $examination->ExamQuestion->Questions->count() }}</td>
                         <td class="text-success">{{ $correct_counter }}</td>
                         <td class="text-danger">{{ $incorrect_counter }}</td>
-                        @if($exam_result->time_taken / 3600 > 1)
+                        @if($enrollment_result->time_taken / 3600 > 1)
                             <td>
-                                {{ floor($exam_result->time_taken / 3600) }} hours
-                                {{ floor($exam_result->time_taken % 3600 / 60) }} minutes
-                                {{ $exam_result->time_taken % 60 }} seconds
+                                {{ floor($enrollment_result->time_taken / 3600) }} hours
+                                {{ floor($enrollment_result->time_taken % 3600 / 60) }} minutes
+                                {{ $enrollment_result->time_taken % 60 }} seconds
                             </td>
-                        @elseif(($exam_result->time_taken % 3600) / 60 > 1)
+                        @elseif(($enrollment_result->time_taken % 3600) / 60 > 1)
                             <td>
-                                {{ floor($exam_result->time_taken % 3600 / 60) }} minutes
-                                {{ $exam_result->time_taken % 60 }} seconds
+                                {{ floor($enrollment_result->time_taken % 3600 / 60) }} minutes
+                                {{ $enrollment_result->time_taken % 60 }} seconds
                             </td>
-                        @elseif($exam_result->time_taken % 60 > 1)
+                        @elseif($enrollment_result->time_taken % 60 > 1)
                             <td>
-                                {{ $exam_result->time_taken % 60 }} seconds
+                                {{ $enrollment_result->time_taken % 60 }} seconds
                             </td>
                         @endif
-                        <td class="text-primary">{{ number_format($exam_result->score, 2) }} / {{  number_format($total_score, 2) }}</td>
+                        <td class="text-primary">{{ number_format($enrollment_result->score, 2) }} / {{  number_format($total_score, 2) }}</td>
                         <td>
-                            {!! $exam_result->getStatus() !!}
+                            {!! $enrollment_result->getStatus() !!}
                         </td>
                     </tr>
                     </tbody>

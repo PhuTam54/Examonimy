@@ -2,8 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\ConfirmRetakenExam;
 use App\Events\CreateNewOrder;
+use App\Events\CreateNewResult;
+use App\Listeners\DispatchConfirmRetakenExam;
 use App\Listeners\DispatchNewOrder;
+use App\Listeners\DispatchNewResult;
+use App\Mail\ConfirmRetakenMail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +27,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         CreateNewOrder::class => [
             DispatchNewOrder::class,
+        ],
+        CreateNewResult::class => [
+            DispatchNewResult::class,
+        ],
+        ConfirmRetakenExam::class => [
+            DispatchConfirmRetakenExam::class,
         ]
     ];
 
