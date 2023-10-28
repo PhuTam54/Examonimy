@@ -205,7 +205,7 @@ class MyExamController extends Controller
             $enrollment->save();
 
             // Send mail
-            event(new CreateNewResult($enrollment_result));
+//            event(new CreateNewResult($enrollment_result));
 
             return view("pages.exam.exam-result", compact("examination","enrollment_result",
                 "correct_counter","incorrect_counter", "total_score"))

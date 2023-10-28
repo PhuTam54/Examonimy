@@ -14,7 +14,8 @@ class Enrollment extends Model
         'student_id',
         'exam_id',
         'status',
-        'attempt'
+        'attempt',
+        'is_paid'
     ];
 
     const PENDING = 0;

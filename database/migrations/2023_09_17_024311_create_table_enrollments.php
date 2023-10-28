@@ -17,13 +17,9 @@ return new class extends Migration
             $table->foreign("student_id")->references("id")->on("users");
             $table->unsignedBigInteger("exam_id");
             $table->foreign("exam_id")->references("id")->on("exams");
+            $table->boolean("is_paid")->default(true);
             $table->unsignedSmallInteger("status")->default(0);
-            //    const PENDING = 0;
-            //    const CONFIRMED = 1;
-            //    const COMPLETED = 2;
-            //    const NOT_TAKEN = 3;
-            //    const CANCELED = 4;
-            //    const RETAKEN = 5;
+            //PENDING = 0 CONFIRMED = 1 COMPLETED = 2 NOT_TAKEN = 3 CANCELED = 4 RETAKEN = 5;
             $table->smallInteger("attempt")->default(1); // The Time taking the exam
             $table->timestamps();
         });

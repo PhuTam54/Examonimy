@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string("exam_thumbnail")->nullable();
             $table->dateTime("start_date")->nullable();
             $table->dateTime("end_date")->nullable();
-            $table->smallInteger("type_of_exam")->default(1); // 1. Trac Nghiem 2. Tu Luan
+            $table->unsignedFloat("retaken_fee")->default(0);
+            $table->smallInteger("type_of_exam")->default(1);
+            // 1. MultipleChoice 2. Essay 3. Listening - English - Toeic
             $table->unsignedBigInteger("created_by")->nullable();
             $table->unsignedBigInteger("subject_id")->nullable();
             $table->unsignedBigInteger("exam_question_id")->nullable();

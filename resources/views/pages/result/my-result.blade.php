@@ -95,9 +95,22 @@
                                     <td>{{ $enrollment->attempt }} {{ $enrollment->attempt > 1 ? 'times' : 'time' }}</td>
                                     <td>{{ $enrollment->updated_at }}</td>
                                     <td>
+                                        @if ($enrollment->attempt > 2)
+                                            <span class="d-none">
+                                                {{ $can_checkout = false }}
+                                            </span>
+                                        @else
+                                            <span class="d-none">
+                                                {{ $can_checkout = true }}
+                                            </span>
+                                        @endif
                                         <a class="btn" href="exam-retaken/{{ $enrollment->Exam->id }}">
                                             <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="get">
-                                                <button onclick="return confirm('Are you sure to retaken {{ $enrollment->Exam->exam_name }}???')" class="btn btn-danger btn-sm" type="submit">
+                                                <button
+                                                    onclick="return confirm('Are you sure to retaken {{ $enrollment->Exam->exam_name }}???')"
+                                                    class="btn btn-danger btn-sm {{ $can_checkout ? "" : "disabled" }}"
+                                                    type="submit"
+                                                >
                                                     <i class="fas fa-history"></i>
                                                     Retaken
                                                 </button>

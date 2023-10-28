@@ -16,6 +16,7 @@ class Exam extends Model
         "start_date",
         "end_date",
         "exam_thumbnail",
+        "retaken_fee",
         "status",
         "type_of_exam",
         "created_by",
