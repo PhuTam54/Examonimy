@@ -95,15 +95,17 @@
                                     <td>{{ $enrollment->attempt }} {{ $enrollment->attempt > 1 ? 'times' : 'time' }}</td>
                                     <td>{{ $enrollment->updated_at }}</td>
                                     <td>
-                                        @if ($enrollment->attempt > 2)
-                                            <span class="d-none">
-                                                {{ $can_checkout = false }}
-                                            </span>
-                                        @else
-                                            <span class="d-none">
-                                                {{ $can_checkout = true }}
-                                            </span>
-                                        @endif
+                                        <a class="btn btn-outline-info btn-sm" href="exam-result/{{ $enrollment->id }}">
+                                            <i class="fa fa-pen">
+                                            </i>
+                                            Details
+                                        </a>
+                                        @php
+                                            $can_checkout = true;
+                                            if  ($enrollment->attempt > 2) {
+                                                $can_checkout = false;
+                                            }
+                                        @endphp
                                         <a class="btn" href="exam-retaken/{{ $enrollment->Exam->id }}">
                                             <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="get">
                                                 <button

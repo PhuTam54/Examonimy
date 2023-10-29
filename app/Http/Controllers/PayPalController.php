@@ -47,7 +47,7 @@ class PayPalController extends Controller
             }
         }
         $exam = $retakenEnrollment->Exam->exam_name;
-        return redirect()->to("thank-you/$retakenEnrollment")->
+        return redirect()->to("thank-you/$retakenEnrollment->id")->
         with("success", "You have been retaken $exam. We'll send you an email when your exam get started!");
     }
     public function paypalSuccess(Enrollment $retakenEnrollment) {

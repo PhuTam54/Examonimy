@@ -36,6 +36,8 @@ Route::middleware("auth")->group(function () {
     Route::controller(\App\Http\Controllers\MyResultController::class)->group(function () {
         Route::get('my-result',  "myResult");
         Route::get('exam-retaken/{exam}',  "examRetaken");
+
+        Route::get('exam-result/{enrollment}',  "examResult");
     });
 
     // Paypal

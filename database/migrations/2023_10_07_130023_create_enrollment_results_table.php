@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger("enrollment_id"); //->unique()
             $table->foreign("enrollment_id")->references("id")->on("enrollments");
             $table->float("score", 14, 2);
-            $table->integer("time_taken")->nullable(); // seconds
-            $table->string("note")->nullable(); // instructor note
+            $table->smallInteger("correct");
+            $table->smallInteger("incorrect");
+            $table->integer("time_taken"); // seconds
+            $table->string("note"); // instructor note
             $table->smallInteger("status")->default(0);
             $table->timestamps();
         });

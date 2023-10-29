@@ -48,7 +48,7 @@ class MyExamController extends Controller
     }
 
     public function examTaking(Exam $exam) {
-        $questions = Question::where("exam_question_id", $exam->id)
+        $questions = Question::where("exam_question_id", $exam->ExamQuestion->id)
             ->orderBy("question_no")
             ->get();
         $examination = Exam::find($exam->id);
@@ -58,7 +58,7 @@ class MyExamController extends Controller
 
     public function examSubmit(Request $request, Exam $exam) {
         // Get the questions
-        $questions = Question::where("exam_question_id", $exam->id)
+        $questions = Question::where("exam_question_id", $exam->ExamQuestion->id)
             ->orderBy("question_no")
             ->get();
 
@@ -77,7 +77,7 @@ class MyExamController extends Controller
             $score_counter = 0;
             $total_score = 0;
             $result_status = EnrollmentResult::FAIL;
-            $note = "Sorry bro, you're failed. You have to learn hard more !!!";
+            $note = "Sorry bro, you're failed. You have to learn and keep learning!!!";
             // Question 1
             $answerString = null;
             $isCorrect_total = 0;
@@ -106,7 +106,7 @@ class MyExamController extends Controller
                                 }
 
                                 // convert answers to string
-                                $answerString .= implode(",", $answers).',';
+                                $answerString .= implode(",", $answers) . ',';
                             }
                         }
                     }
@@ -141,7 +141,7 @@ class MyExamController extends Controller
                 // Set answer status
                 if ($isCorrect) {
                     $answer_status = 1;
-                } else{
+                } else {
                     $answer_status = 2;
                 }
 
@@ -177,24 +177,26 @@ class MyExamController extends Controller
             $time_counter = $examination->ExamQuestion->duration - $duration;
 
             // Get the result status
-            if($score_counter >= ($total_score / 1.25)) {
+            if ($score_counter >= ($total_score / 1.25)) {
                 $result_status = EnrollmentResult::EXCELLENT;
                 $note = "How did you do that, bro ???";
-            } elseif($score_counter >= ($total_score / 1.5)) {
+            } elseif ($score_counter >= ($total_score / 1.5)) {
                 $result_status = EnrollmentResult::VERYGOOD;
                 $note = "You're genius, bro :))";
-            } elseif($score_counter >= ($total_score / 2)) {
+            } elseif ($score_counter >= ($total_score / 2)) {
                 $result_status = EnrollmentResult::GOOD;
                 $note = "Congratulation, bro !!!";
-            } elseif($score_counter >= ($total_score / 3)) {
+            } elseif ($score_counter >= ($total_score / 3)) {
                 $result_status = EnrollmentResult::ACCEPTABLE;
                 $note = "Make more effort, bro !!!";
             }
 
-            // Create new Exam Result
+            // Create new Enrollment Result
             $enrollment_result = EnrollmentResult::create([
                 "enrollment_id" => $enrollment->id,
                 "score" => $score_counter,
+                "correct" => $correct_counter,
+                "incorrect" => $incorrect_counter,
                 "time_taken" => $time_counter,
                 "status" => $result_status,
                 "note" => $note
@@ -206,11 +208,7 @@ class MyExamController extends Controller
 
             // Send mail
 //            event(new CreateNewResult($enrollment_result));
-
-            return view("pages.exam.exam-result", compact("examination","enrollment_result",
-                "correct_counter","incorrect_counter", "total_score"))
-                ->with("exam-submit-success" , "Submit exam successfully!!!");
-
+            return redirect()->to("exam-result/$enrollment->id");
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }

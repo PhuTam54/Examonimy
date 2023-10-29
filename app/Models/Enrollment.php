@@ -39,6 +39,10 @@ class Enrollment extends Model
         return $this->hasOne(EnrollmentResult::class, "enrollment_id");
     }
 
+    public function EnrollmentAnswers() {
+        return $this->hasMany(EnrollmentAnswer::class, "enrollment_id");
+    }
+
     public function getStatus() {
         switch($this->status) {
             case self::PENDING: return "<span class='text-secondary'>Pending</span>";

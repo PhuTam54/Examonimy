@@ -63,10 +63,34 @@ class MyResultController extends Controller
                 'created_at' => Carbon::now()
             ]);
 
-            $retakenEnrollment = Enrollment::find($retakenEnrollmentId);
 //            return redirect()->back()->with("retaken", "You have been retaken $exam->exam_name. We'll send you an email when your exam get started!");
 //            // Go to Paypal
-            return redirect()->to("paypal-process/$retakenEnrollment->id");
+            return redirect()->to("paypal-process/$retakenEnrollmentId");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function examResult(Enrollment $enrollment) {
+        try{
+            $enrollment = Enrollment::find($enrollment->id);
+            $examination = $enrollment->Exam;
+            $enrollment_result = $enrollment->EnrollmentResult;
+            $questions = $enrollment->Exam->ExamQuestion->Questions;
+
+            // Get total score
+            $total_score = 0;
+            foreach ($questions as $question) {
+                $total_score += $question->question_mark;
+            }
+
+            return view("pages.result.exam-result", [
+                "examination" => $examination,
+                "enrollment_result" => $enrollment_result,
+                "enrollment" => $enrollment,
+                "questions" => $questions,
+                "total_score" => $total_score,
+            ]);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }

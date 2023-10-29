@@ -12,6 +12,8 @@ class EnrollmentResult extends Model
     protected $fillable = [
         "enrollment_id",
         "score",
+        "correct",
+        "incorrect",
         "time_taken",
         "status",
         "note"
