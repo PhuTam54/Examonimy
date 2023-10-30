@@ -80,9 +80,24 @@
                     <div class="card-header">
                         <h4 class="card-title">{{ $examination->exam_name }} - {{ $examination->Subject->subject_name }}</h4>
                     </div>
+                    @php
+                        $part_counter = 1;
+                    @endphp
                     @foreach($questions as $question)
                         <div class="card-body">
+                            @if($question->question_paragraph != null && $question->question_paragraph !=' ')
+                                <div class="text text-secondary">Part {{ $part_counter ++ }}: {{ $question->question_paragraph }}</div><br>
+                            @endif
                             <h6>Question {{ $question->question_no }}: {{ $question->question_text }}</h6>
+                            @if($question->question_image != null)
+                                <img src="{{ asset("storage/file/images/exam/1.".$question->question_image.".jpg") }}" width="250" alt="img">
+                            @endif
+                            @if($question->question_audio != null)
+                                <audio controls>
+                                    <source src="{{ asset('storage/file/audio/exam/1.'.$question->question_audio.'.mp3') }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            @endif
                             <div class="d-flex">
                                 <p>Mark: {{ $question->question_mark }} -</p>
                                 <span>- Difficulty: {!! $question->getDifficulty() !!}</span>

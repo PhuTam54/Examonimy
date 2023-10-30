@@ -19,8 +19,8 @@ class ExamFactory extends Factory
     {
         return [
             "created_by"=>random_int(1, 20),
-            "subject_id"=>random_int(1, 20),
-            "exam_question_id"=>random_int(1, 3),
+            "subject_id"=>random_int(1, 5),
+            "exam_question_id"=>random_int(1, 4),
             "exam_name"=> $this->faker->colorName,
             "exam_description"=> $this->faker->text(500),
             "start_date" => Carbon::now(),
@@ -28,7 +28,6 @@ class ExamFactory extends Factory
             "retaken_fee" => random_int(1, 100),
             "status"=> 2,
             "exam_thumbnail"=>"storage/img/main-img/course-".random_int(1, 3).".jpg",
-
         ];
     }
 }

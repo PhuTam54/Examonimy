@@ -12,8 +12,8 @@
                 <h4 class="text-center text-danger">{{ session('errors') }}</h4>
                 <div class="container-fluid">
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h6 class="section-title bg-white text-center text-primary px-3">Exams</h6>
-                        <h2 class="mb-1">Exam Taking</h2>
+                        <h6 class="section-title bg-white text-center text-primary px-3">Exam Taking</h6>
+{{--                        <h2 class="mb-1">Exam Taking</h2>--}}
                     </div> <br><br>
                     <div class="row justify-content-center">
                         {{-- Questions--}}
@@ -22,13 +22,28 @@
                                 <div class="card-header">
                                     <h4 class="card-title">{{ $examination->exam_name }} - {{ $examination->Subject->subject_name }}</h4>
                                 </div>
+                                @php
+                                    $part_counter = 1;
+                                @endphp
                                 @foreach($questions as $question)
                                 <div class="card-body">
+                                    @if($question->question_paragraph != null && $question->question_paragraph !=' ')
+                                        <div class="text text-secondary">Part {{ $part_counter ++ }}: {{ $question->question_paragraph }}</div><br>
+                                    @endif
                                     <h6>Question {{ $question->question_no }}: {{ $question->question_text }}</h6>
-                                    <div class="d-flex">
-                                        <p>Mark: {{ $question->question_mark }} -</p>
-                                        <span>- Difficulty: {!! $question->getDifficulty() !!}</span>
-                                    </div>
+                                    @if($question->question_image != null)
+                                        <img src="{{ asset("storage/file/images/exam/1.".$question->question_image.".jpg") }}" width="250" alt="img">
+                                    @endif
+                                    @if($question->question_audio != null)
+                                        <audio controls>
+                                            <source src="{{ asset('storage/file/audio/exam/1.'.$question->question_audio.'.mp3') }}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    @endif
+{{--                                    <div class="d-flex">--}}
+{{--                                        <p>Mark: {{ $question->question_mark }} -</p>--}}
+{{--                                        <span>- Difficulty: {!! $question->getDifficulty() !!}</span>--}}
+{{--                                    </div>--}}
                                     <!-- Options -->
                                     <div class="form-group clearfix">
                                         @foreach($question->QuestionOptions as $option)
@@ -44,7 +59,8 @@
                                                         class="w-100"
                                                     >
                                                     <label for="multipleChoice-{{ $option->id }}">
-                                                        {{ $option->option_text }} - {!! $option->getIsCorrect() !!}
+                                                        {{ $option->option_text }}
+{{--                                                        - {!! $option->getIsCorrect() !!}--}}
                                                     </label>
                                                 </div>
                                             @elseif($question->type_of_question == 2)
@@ -58,7 +74,8 @@
                                                         value="{{ $option->id }}"
                                                     >
                                                     <label for="oneChoice-{{ $option->id }}">
-                                                        {{ $option->option_text }} - {!! $option->getIsCorrect() !!}
+                                                        {{ $option->option_text }}
+{{--                                                        - {!! $option->getIsCorrect() !!}--}}
                                                     </label>
                                                 </div>
                                             @else
@@ -70,7 +87,7 @@
                                                         id="fillInBlank-{{ $question->id }}"
                                                         class="form-control"
                                                         name="fillInBlank-{{ $question->id }}"
-                                                        value="{{ $option->option_text }}"
+{{--                                                        value="{{ $option->option_text }}"--}}
                                                     >
                                                     @error("fillInBlank-$question->id")
                                                     <p class="text-danger"><i>{{ $message }}</i></p>
@@ -96,9 +113,19 @@
                                 <div class="card-body">
                                     <div class="card-body row g-2">
                                     @foreach($questions as $question)
+                                        @if($question->question_no < 17)
                                         <div class="col-md-3">
                                             <h6>{{ $question->question_no }}</h6>
                                         </div>
+                                        @elseif($question->question_no >= 17 && $question->question_no <= 20)
+                                        <div class="col-md-3">
+                                            <h6>...</h6>
+                                        </div>
+                                        @elseif($question->question_no > 96)
+                                        <div class="col-md-3">
+                                            <h6>{{ $question->question_no }}</h6>
+                                        </div>
+                                        @endif
                                     @endforeach
                                     </div>
                                 </div>

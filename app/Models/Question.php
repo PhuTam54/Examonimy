@@ -14,6 +14,9 @@ class Question extends Model
         "question_no", // No. STT
         "question_text",
         "exam_question_id",
+        "question_image",
+        "question_audio",
+        "question_paragraph",
         "question_mark",
         "type_of_question",
         "difficulty"

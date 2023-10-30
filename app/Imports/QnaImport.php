@@ -18,6 +18,9 @@ class QnaImport implements ToModel
     {
         Log::info($row);
         if ($row[0] != 'no.') {
+            $image = $row[11] ?? null;
+            $audio = $row[12] ?? null;
+            $paragraph = $row[13] ?? null;
 
             $questionId = Question::insertGetId([
                 "question_no" => $row[0], // No. STT
@@ -25,7 +28,10 @@ class QnaImport implements ToModel
                 "exam_question_id" => $row[7],
                 "question_mark" => $row[8],
                 "difficulty" => $row[9],
-                "type_of_question" => $row[10]
+                "type_of_question" => $row[10],
+                "question_image" => $image,
+                "question_audio" => $audio,
+                "question_paragraph" => $paragraph,
             ]);
 
             $question = Question::find($questionId);
@@ -34,12 +40,14 @@ class QnaImport implements ToModel
                 $answers = explode(',', $row[6]);
                 $options = array_slice($row, 2, 4); // Lấy mảng các đáp án sai từ $row[2] đến $row[5]
                 foreach ($options as $index => $option) {
-                    $is_correct = in_array(chr($index + ord('A')), $answers); // Kiểm tra xem đáp án có nằm trong mảng $answers không
-                    QuestionOption::insert([
-                        "question_id" => $questionId,
-                        "option_text" => chr($index + ord('A')).'. '.$option,
-                        "is_correct" => $is_correct,
-                    ]);
+                    if ($option != null && $option != ' ') {
+                        $is_correct = in_array(chr($index + ord('A')), $answers); // Kiểm tra xem đáp án có nằm trong mảng $answers không
+                        QuestionOption::insert([
+                            "question_id" => $questionId,
+                            "option_text" => chr($index + ord('A')).'. '.$option,
+                            "is_correct" => $is_correct,
+                        ]);
+                    }
                 }
             } else {
                 if ($row[2] != null) {

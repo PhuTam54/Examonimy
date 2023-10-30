@@ -102,7 +102,7 @@
                                         </a>
                                         @php
                                             $can_checkout = true;
-                                            if  ($enrollment->attempt > 2) {
+                                            if  ($enrollment->attempt > 1) {
                                                 $can_checkout = false;
                                             }
                                         @endphp

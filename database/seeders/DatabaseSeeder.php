@@ -9,6 +9,7 @@ use App\Models\EnrollmentAnswer;
 use App\Models\ExamQuestion;
 use App\Models\Question;
 use App\Models\Subject;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use function Webmozart\Assert\Tests\StaticAnalysis\integer;
@@ -41,22 +42,47 @@ class DatabaseSeeder extends Seeder
 //            "course_year"=> 2,
 //            ]);
 
-        \App\Models\Subject::factory(20)->create();
+        \App\Models\Subject::factory(5)->create();
         $subjects = Subject::all();
-        foreach ($subjects as $subject) {
-            DB::table("exam_questions")
-                ->insert([
-                    "exam_question_name"=>$subject->subject_name.' ExamQuestion',
-                    "exam_question_description"=>$subject->subject_description.' ExamQuestion',
-                    "duration"=> 40 * 60, // seconds
-                    "number_of_questions"=> 16,
-                    "total_marks"=> 20,
-                    "passing_marks"=> 6.7,
-                    "status"=>1
-                ]);
+        foreach ($subjects as $index => $subject) {
+            if ($index < 3) {
+                DB::table("exam_questions")
+                    ->insert([
+                        "exam_question_name"=>$subject->subject_name.' ExamQuestion',
+                        "exam_question_description"=>$subject->subject_description.' ExamQuestion',
+                        "duration"=> 40 * 60, // seconds
+                        "number_of_questions"=> 16,
+                        "total_marks"=> 20,
+                        "passing_marks"=> 6.7,
+                        "status"=>1
+                    ]);
+            } else {
+                DB::table("exam_questions")
+                    ->insert([
+                        "exam_question_name"=>$subject->subject_name.' ExamQuestion',
+                        "exam_question_description"=>$subject->subject_description.' ExamQuestion',
+                        "duration"=> 75 * 60, // seconds
+                        "number_of_questions"=> 100,
+                        "total_marks"=> 100,
+                        "passing_marks"=> 30,
+                        "status"=>1
+                    ]);
+            }
         }
 
         \App\Models\Exam::factory(5)->create();
+        Exam::create([
+            "created_by"=>random_int(1, 20),
+            "subject_id"=>random_int(1, 5),
+            "exam_question_id"=> 4,
+            "exam_name"=> "Toeic",
+            "exam_description"=> "This is a Toeic testing",
+            "start_date" => Carbon::now(),
+            "end_date" => Carbon::now()->addDay(),
+            "retaken_fee" => random_int(1, 100),
+            "status"=> 2,
+            "exam_thumbnail"=>"storage/file/images/exam/".random_int(1, 1).".mini-test.png",
+        ]);
 
         $exams = Exam::all();
         foreach ($exams as $exam) {
@@ -75,7 +101,7 @@ class DatabaseSeeder extends Seeder
             DB::table("attendances")
                 ->insert([
                     "student_id"=> random_int(1, 20),
-                    "subject_id"=> random_int(1, 20),
+                    "subject_id"=> random_int(1, 5),
                     "class_id"=> $class->id,
                     "lesson_attendance"=> random_int(1, 20),
                 ]);
