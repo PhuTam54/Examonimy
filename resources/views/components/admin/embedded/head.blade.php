@@ -10,11 +10,13 @@
 <link rel="stylesheet" href="css/admin-css/plugins/icheck-bootstrap.min.css">
 <!-- JQVMap -->
 <link rel="stylesheet" href="css/admin-css/plugins/jqvmap.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" href="css/admin-css/dist/adminlte.min.css">
 <!-- overlayScrollbars -->
 <link rel="stylesheet" href="css/admin-css/plugins/OverlayScrollbars.min.css">
 <!-- Daterange picker -->
 <link rel="stylesheet" href="css/admin-css/plugins/daterangepicker.css">
 <!-- summernote -->
 <link rel="stylesheet" href="css/admin-css/plugins/summernote-bs4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="css/admin-css/plugins/select2.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="css/admin-css/dist/adminlte.min.css">

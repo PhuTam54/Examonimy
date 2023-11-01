@@ -8,12 +8,18 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/exam-details/{exam}', "examDetails");
 
     Route::get('/exam-add', "examAdd");
-    Route::post('/exam-add', "examSubmit");
+    Route::post('/exam-add', "examStore");
 
     Route::get('/exam-edit/{exam}', "examEdit");
     Route::put('/exam-edit/{exam}', "examUpdate");
 
     Route::delete('/exam-delete/{exam}', "examDelete");
+
+    Route::get('/exam-confirm/{exam}', "examConfirm");
+    Route::get('/exam-cancel/{exam}', "examCancel");
+
+    Route::get('/exam-trash', "examTrash");
+    Route::get('/exam-recover/{exam}', "examRecover");
 
     // Results
     Route::get('/admin-result', "result");

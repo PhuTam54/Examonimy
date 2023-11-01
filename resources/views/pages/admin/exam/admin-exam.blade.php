@@ -21,6 +21,18 @@
             <div class="alert alert-danger" role="alert">
                 {{ session("delete-success") }}
             </div>
+        @elseif(session()->has("recover-success"))
+            <div class="alert alert-success" role="alert">
+                {{ session("recover-success") }}
+            </div>
+        @elseif($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+                </ul>
+            </div>
         @endif
         <!-- Main content -->
         <section class="content">
@@ -30,11 +42,15 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">
+                                <h3 class="d-flex justify-content-between" style="margin-bottom: -2px">
                                     <a class="btn btn-success btn-md" href="admin/exam-add">
                                         <i class="fas fa-plus">
                                         </i>
                                         Add new exam
+                                    </a>
+                                    <a class="btn btn-danger btn-md" href="admin/exam-trash">
+                                        <i class="fas fa-trash-alt">
+                                        </i>
                                     </a>
                                 </h3>
                             </div>
@@ -44,55 +60,90 @@
                                     <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Image</th>
-                                        <th>Exam_Name</th>
-{{--                                        <th>Start_date</th>--}}
-{{--                                        <th>End_date</th>--}}
-                                        <th>Duration(min)</th>
-                                        <th>Questions</th>
-                                        <th>Course</th>
+                                        <th>ExamName</th>
+                                        <th>StartEnd_date</th>
+                                        <th>ExamQuestion</th>
+                                        <th>Subject</th>
+                                        <th>Participants</th>
                                         <th>Status</th>
-                                        <th>Created_by</th>
+                                        <th>CreatedBy</th>
                                         <th>Action</th>
+                                        <th>#</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($exams as $exam)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td class="">
-                                                <img src=" {{ $exam->exam_thumbnail }}" width="100" alt="img">
-                                            </td>
+{{--                                            <td class="">--}}
+{{--                                                <img src=" {{ $exam->exam_thumbnail ?? asset("storage/img/main-img/course-1.jpg") }}" width="80" alt="img">--}}
+{{--                                            </td>--}}
                                             <td>{{ $exam->exam_name }}</td>
-{{--                                            <td>{{ $exam->start_date ?? "Never start" }}</td>--}}
-{{--                                            <td>{{ $exam->end_date ?? "Never end" }}</td>--}}
-                                            <td>{{ $exam->ExamQuestion->duration }}</td>
-                                            <td>{{ $exam->ExamQuestion->number_of_questions }}</td>
-                                            <td>{{ $exam->subject->Course->course_name }}</td>
+                                            <td>{{ $exam->start_date ?? "Never start" }} => {{ $exam->end_date ?? "Never end" }}</td>
+                                            <td>
+                                                <a class="text-info" href="admin/exam-question-details/{{ $exam->ExamQuestion->id }}">{{ $exam->ExamQuestion->exam_question_name }}</a>
+                                            </td>
+                                            <td>{{ $exam->subject->subject_name }}</td>
+                                            <td></td>
+{{--                                            <td>{{ $exam->User->class_name }}</td>--}}
                                             <td>{!! $exam->getStatus() !!}</td>
                                             <td>{{ $exam->Instructor->name }}</td>
                                             <td class="project-actions text-center">
-{{--                                                <a class="btn btn-primary btn-sm" href="admin/exam-details/{{ $exam->id }}">--}}
-{{--                                                    <i class="fas fa-folder">--}}
-{{--                                                    </i>--}}
-{{--                                                    View--}}
-{{--                                                </a>--}}
-                                                <a class="btn btn-info btn-sm" href="admin/exam-edit/{{ $exam->id }}">
+                                                @if($exam->deleted_at != null)
+                                                    <a class="btn btn-info btn-sm mb-2" href="admin/exam-recover/{{ $exam->id }}">
+                                                        <i class="fas fa-redo-alt">
+                                                        </i>
+                                                        Recover
+                                                    </a>
+                                                @else
+                                                @switch($exam->status)
+                                                    @case(\App\Models\Exam::PENDING)
+                                                        <a href="admin/exam-confirm/{{ $exam->id }}" class="btn btn-success btn-sm mb-2">
+                                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                                            Confirm
+                                                        </a>
+                                                        <a href="admin/exam-cancel/{{ $exam->id }}" class="btn btn-danger btn-sm"
+                                                           style="margin-right: 5px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i> Cancel
+                                                        </a>
+                                                        @break
+
+                                                    @case(\App\Models\Exam::CONFIRMED)
+                                                        <a href="admin/exam-cancel/{{ $exam->id }}" class="btn btn-danger btn-sm"
+                                                           style="margin-right: 5px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i> Cancel
+                                                        </a>
+                                                        @break
+                                                    @case(\App\Models\Exam::PROCESSING)
+                                                        <a href="admin/exam-cancel/{{ $exam->id }}" class="btn btn-danger btn-sm"
+                                                           style="margin-right: 5px;">
+                                                            <i class="fa fa-times" aria-hidden="true"></i> Cancel
+                                                        </a>
+                                                        @break
+                                                    @case(\App\Models\Exam::COMPLETE)
+                                                    @case(\App\Models\Exam::CANCEL)
+                                                        <div class="text text-success">Done!</div>
+                                                        @break
+                                                @endswitch
+                                                @endif
+                                            </td>
+                                            <td class="project-actions text-center">
+                                                @unless($exam->deleted_at != null)
+                                                <a class="btn btn-info btn-sm mb-2" href="admin/exam-edit/{{ $exam->id }}">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
                                                     Edit
                                                 </a>
-                                                <a class="btn">
-                                                    <form action="admin/exam-delete/{{ $exam->id }}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                        <button onclick="return confirm('Are you sure to delete this exam???')" class="btn btn-danger btn-sm" style="margin-left: -12px" type="submit">
-                                                            <i class="fas fa-trash">
-                                                            </i>
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </a>
+                                                <form action="admin/exam-delete/{{ $exam->id }}" method="post">
+                                                    @csrf
+                                                    @method("DELETE")
+                                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete {{ $exam->exam_name }}???')" style="min-width: 80px;" type="submit">
+                                                        <i class="fas fa-trash-alt">
+                                                        </i>
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                @endunless
                                             </td>
                                         </tr>
                                     @endforeach
@@ -100,16 +151,15 @@
                                     <tfoot>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Image</th>
-                                        <th>Exam_Name</th>
-{{--                                        <th>Start_date</th>--}}
-{{--                                        <th>End_date</th>--}}
-                                        <th>Duration(min)</th>
-                                        <th>Questions</th>
-                                        <th>Course</th>
+                                        <th>ExamName</th>
+                                        <th>StartEnd_date</th>
+                                        <th>ExamQuestion</th>
+                                        <th>Subject</th>
+                                        <th>Participants</th>
                                         <th>Status</th>
-                                        <th>Created_by</th>
+                                        <th>CreatedBy</th>
                                         <th>Action</th>
+                                        <th>#</th>
                                     </tr>
                                     </tfoot>
                                 </table>

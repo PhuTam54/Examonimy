@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Events\ConfirmRetakenExam;
 use App\Http\Controllers\Controller;
 use App\Imports\QnaImport;
+use App\Models\Attendance;
 use App\Models\Classes;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\EnrollmentAnswer;
+use App\Models\ExamQuestion;
 use App\Models\Question;
 use App\Models\EnrollmentResult;
 use App\Models\Subject;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,6 +39,209 @@ class AdminController extends Controller
 
     public function examDetails(Exam $exam) {
         return view("pages.admin.exam.exam-details")->with('exam', $exam);
+    }
+
+    public function examAdd() {
+        $subjects = Subject::all();
+        $classes = Classes::all();
+        $exam_questions = ExamQuestion::all();
+        return view("pages.admin.exam.exam-add",
+            compact("subjects", "classes", "exam_questions"));
+    }
+
+    public function examStore(Request $request) {
+        $request->validate([
+            "exam_name"=> "required | min:3",
+            "description"=> "required",
+            "datetime"=> "required",
+            "thumbnail"=> "nullable | mimes:png, jpg, jpeg, gif | mimeTypes:image/*",
+            "retaken_fee"=> "required | numeric | min: 0",
+            "type_of_exam"=> "required",
+            "subject"=> "required",
+            "classes" => "required",
+            "exam_question"=> "required",
+        ],[
+//            "required"=>"Vui lòng nhập thông tin"
+        ]);
+        try {
+            $thumbnail = null;
+            // Xử lí upload file
+            if ($request->hasFile("thumbnail")) {
+                $path = public_path("uploads");
+                $file = $request->file("thumbnail");
+                $file_name = Str::random(5).time().Str::random(5).".".$file->getClientOriginalExtension();
+                $file->move($path, $file_name);
+                $thumbnail = "/uploads/".$file_name;
+            }
+
+            // get instructor
+            $instructor = auth()->user()->id;
+
+            // get start date + end date
+
+            // Lấy giá trị datetime từ request
+            $dateTime = explode(" - ", $request->get("datetime"));
+
+            // Tách lấy startdate + enddate
+            $startDate = $dateTime[0];
+            $endDate = $dateTime[1];
+
+            // Tạo đối tượng DateTime với định dạng ban đầu
+            $startDateObj = \DateTime::createFromFormat('m/d/Y h:i A', $startDate);
+            $endDateObj = \DateTime::createFromFormat('m/d/Y h:i A', $endDate);
+
+            // Chuyển đổi sang định dạng mới
+            $newStartDate = $startDateObj->format('Y/m/d H:i:s');
+            $newEndDate = $endDateObj->format('Y/m/d H:i:s');
+
+            // get status
+            $status = Exam::PENDING;
+
+            // create new exam
+            Exam::create([
+                "exam_name" => $request->get("exam_name"),
+                "exam_description"=>$request->get("description"),
+                "exam_thumbnail"=>$thumbnail,
+                "retaken_fee"=>$request->get("retaken_fee"),
+                "type_of_exam"=>$request->get("type_of_exam"),
+                "created_by" => $instructor,
+                "subject_id"=>$request->get("subject"),
+                "exam_question_id"=>$request->get("exam_question"),
+                "status"=>$status,
+                "start_date"=>$newStartDate,
+                "end_date"=>$newEndDate,
+            ]);
+
+            return redirect()->to("admin/admin-exam")->with("add-success", "Add new exam successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function examEdit(Exam $exam) {
+        $subjects = Subject::all();
+        $classes = Classes::all();
+        $exam_questions = ExamQuestion::all();
+
+        return view("pages.admin.exam.exam-edit",
+            compact("exam", "subjects", "classes", "exam_questions"));
+    }
+
+    public function examUpdate(Request $request, Exam $exam) {
+        $request->validate([
+            "exam_name"=> "required | min:3",
+            "description"=> "required",
+            "datetime"=> "required",
+            "thumbnail"=> "nullable | mimes:png, jpg, jpeg, gif | mimeTypes:image/*",
+            "retaken_fee"=> "required | numeric | min: 0",
+            "type_of_exam"=> "required",
+            "subject"=> "required",
+            "classes" => "required",
+            "exam_question"=> "required",
+        ],[
+//            "required"=>"Vui lòng nhập thông tin"
+        ]);
+        try {
+            $thumbnail = null;
+            // Xử lí upload file
+            if ($request->hasFile("thumbnail")) {
+                $path = public_path("uploads");
+                $file = $request->file("thumbnail");
+                $file_name = Str::random(5).time().Str::random(5).".".$file->getClientOriginalExtension();
+                $file->move($path, $file_name);
+                $thumbnail = "/uploads/".$file_name;
+            }
+
+            // get instructor
+            $instructor = auth()->user()->id;
+
+            // get start date + end date
+
+            // Lấy giá trị datetime từ request
+            $dateTime = explode(" - ", $request->get("datetime"));
+
+            // Tách lấy startdate + enddate
+            $startDate = $dateTime[0];
+            $endDate = $dateTime[1];
+
+            // Tạo đối tượng DateTime với định dạng ban đầu
+            $startDateObj = \DateTime::createFromFormat('m/d/Y h:i A', $startDate);
+            $endDateObj = \DateTime::createFromFormat('m/d/Y h:i A', $endDate);
+
+            // Chuyển đổi sang định dạng mới
+            $newStartDate = $startDateObj->format('Y/m/d H:i:s');
+            $newEndDate = $endDateObj->format('Y/m/d H:i:s');
+
+            // edit exam
+            $exam = Exam::find($exam->id);
+            $exam->update([
+                "exam_name" => $request->get("exam_name"),
+                "exam_description"=>$request->get("description"),
+//                "exam_thumbnail"=>$thumbnail,
+                "retaken_fee"=>$request->get("retaken_fee"),
+                "type_of_exam"=>$request->get("type_of_exam"),
+                "created_by" => $instructor,
+                "subject_id"=>$request->get("subject"),
+                "exam_question_id"=>$request->get("exam_question"),
+//                "start_date"=>$newStartDate,
+//                "end_date"=>$newEndDate,
+            ]);
+            return redirect()->to("admin/admin-exam")->with("edit-success", "Edit exam successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function examDelete(Exam $exam) {
+        try {
+            // delete exam
+            $to_delete_exam = Exam::find($exam->id);
+            $to_delete_exam->delete();
+            return redirect()->to("admin/admin-exam")->with("delete-success", "Delete exam successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function examConfirm(Exam $exam) {
+        try {
+            // confirm exam
+            $exam->update([
+                "status"=> Exam::CONFIRMED,
+            ]);
+            return redirect()->to("admin/admin-exam")->with("edit-success", "Edit exam successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function examCancel(Exam $exam) {
+        try {
+            // cancel exam
+            $exam->update([
+                "status"=> Exam::CANCEL,
+            ]);
+            return redirect()->to("admin/admin-exam")->with("edit-success", "Edit exam successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function examTrash() {
+        $exams = Exam::onlyTrashed()->orderBy("id","desc")->get();
+        return view("pages.admin.exam.admin-exam", compact("exams"))->with("examTrash");
+    }
+
+    public function examRecover(Exam $exam) {
+        try {
+            // recover exam
+            $exam->update([
+                "deleted_at"=> null,
+            ]);
+            return redirect()->to("admin/admin-exam")->with("recover-success", "Recover exam $exam->exam_name successfully!!!");
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
     }
 
     // Exam Result
@@ -100,8 +306,8 @@ class AdminController extends Controller
 
     // Answers
     public function answer() {
-        $answer = EnrollmentAnswer::orderBy("id","desc")->get();
-        return view("pages.admin.answer.admin-answer", compact("answer"));
+        $answers = EnrollmentAnswer::orderBy("id","desc")->get();
+        return view("pages.admin.answer.admin-answer", compact("answers"));
     }
 
     // Subjects
@@ -196,8 +402,8 @@ class AdminController extends Controller
 
     // Attendances
     public function attendance() {
-        $attendance = Enrollment::orderBy("id","desc")->get();
-        return view("pages.admin.attendance.admin-attendance", compact("attendance"));
+        $attendances = Attendance::orderBy("id","desc")->get();
+        return view("pages.admin.attendance.admin-attendance", compact("attendances"));
     }
 
     // Courses
@@ -209,6 +415,6 @@ class AdminController extends Controller
     // Classroom
     public function classroom() {
         $classes = Classes::orderBy("id","desc")->get();
-        return view("pages.admin.classroom.admin-classroom", compact("classes"));
+        return view("pages.admin.class.admin-classroom", compact("classes"));
     }
 }

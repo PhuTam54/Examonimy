@@ -26,5 +26,7 @@
 <script src="js/admin-js/plugins/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="js/admin-js/plugins/jquery.overlayScrollbars.min.js"></script>
+<!-- Select2 -->
+<script src="js/admin-js/plugins/select2.full.min.js"></script>
 <!-- AdminLTE App -->
 <script src="js/admin-js/dist/js/adminlte.min.js"></script>
