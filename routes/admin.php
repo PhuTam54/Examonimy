@@ -21,6 +21,24 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/exam-trash', "examTrash");
     Route::get('/exam-recover/{exam}', "examRecover");
 
+    // ExamQuestions
+    Route::get('/admin-examquestion', "examquestion");
+    Route::get('/examquestion-details/{examquestion}', "examquestionDetails");
+
+    Route::get('/examquestion-add', "examquestionAdd");
+    Route::post('/examquestion-add', "examquestionStore");
+
+    Route::get('/examquestion-edit/{examquestion}', "examquestionEdit");
+    Route::put('/examquestion-edit/{examquestion}', "examquestionUpdate");
+
+    Route::delete('/examquestion-delete/{examquestion}', "examquestionDelete");
+
+    Route::get('/examquestion-confirm/{examquestion}', "examquestionConfirm");
+    Route::get('/examquestion-cancel/{examquestion}', "examquestionCancel");
+
+    Route::get('/examquestion-trash', "examquestionTrash");
+    Route::get('/examquestion-recover/{examquestion}', "examquestionRecover");
+
     // Results
     Route::get('/admin-result', "result");
 

@@ -81,7 +81,33 @@
                                             <td>{{ $exam->exam_name }}</td>
                                             <td>{{ $exam->start_date ?? "Never start" }} => {{ $exam->end_date ?? "Never end" }}</td>
                                             <td>
-                                                <a class="text-info" href="admin/exam-question-details/{{ $exam->ExamQuestion->id }}">{{ $exam->ExamQuestion->exam_question_name }}</a>
+                                                <!-- Trigger the modal with a button -->
+                                                <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showExamQuestionModal{{ $exam->ExamQuestion->id }}">
+                                                    <i class="fa fa-eye"></i>
+                                                    {{ $exam->ExamQuestion->exam_question_name }}
+                                                </a>
+
+                                                <!-- Modal -->
+                                                <div id="showExamQuestionModal{{ $exam->ExamQuestion->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Showing ExamQuestion</h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                {{ $exam->ExamQuestion->exam_question_name }}
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <a class="btn btn-info" href="admin/exam-question-details/{{ $exam->ExamQuestion->id }}">Details</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>{{ $exam->subject->subject_name }}</td>
                                             <td></td>

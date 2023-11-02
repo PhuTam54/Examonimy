@@ -76,11 +76,11 @@
                                 <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Question_text</th>
-                                    <th>Option_A</th>
-                                    <th>Option_B</th>
-                                    <th>Option_C</th>
-                                    <th>Option_D</th>
+                                    <th>QuestionText</th>
+                                    <th>QuestionMark</th>
+                                    <th>Difficulty</th>
+                                    <th>TypeOfQuestion</th>
+                                    <th>QuestionOptions</th>
                                     <th>ExamQuestion</th>
                                     <th>Action</th>
                                 </tr>
@@ -90,33 +90,51 @@
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $question->question_text }}</td>
-                                    @foreach($question->QuestionOptions as $option)
-                                        @if($option->is_correct)
-                                        <td class="text-success text-bold">
-                                            {{ $option->option_text }}
-                                            <span class="text-success">
-                                                <i class="fa fa-check"></i>
-                                            </span>
-                                        </td>
-                                        @else
-                                        <td>{{ $option->option_text }}</td>
-                                        @endif
-                                    @endforeach
-                                    @if($question->QuestionOptions->count() < 2)
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    @elseif($question->QuestionOptions->count() < 3)
-                                        <td></td>
-                                        <td></td>
-                                    @elseif($question->QuestionOptions->count() < 4)
-                                        <td></td>
-                                    @elseif($question->QuestionOptions->count() < 1)
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    @endif
+                                    <td>{{ $question->question_mark }}</td>
+                                    <td>{!! $question->getDifficulty() !!}</td>
+                                    <td>{{ $question->type_of_question }}</td>
+                                    <td>
+                                        <!-- Trigger the modal with a button -->
+                                        <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showAnswerModal{{ $question->id }}">
+                                            <i class="fa fa-eye"></i>
+                                            {{ $question->QuestionOptions->count() }} to show
+                                        </a>
+
+                                        <!-- Modal -->
+                                        <div id="showAnswerModal{{ $question->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Showing Answer</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p class="text fs-6">Question {{ $question->question_no }}: {{ $question->question_text }}</p>
+                                                        <ul>
+                                                            @foreach($question->QuestionOptions as $option)
+                                                                @if($option->is_correct)
+                                                                    <li class="text-success text-bold">
+                                                                        {{ $option->option_text }}
+                                                                        <span class="text-success">
+                                                                            <i class="fa fa-check"></i>
+                                                                        </span>
+                                                                    </li>
+                                                                @else
+                                                                    <li>{{ $option->option_text }}</li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>{{ $question->ExamQuestion->exam_question_name }}</td>
                                     <td class="project-actions text-center">
                                         <a class="btn btn-info btn-sm" href="admin/question-edit/{{ $question->id }}">
@@ -142,11 +160,11 @@
                                 <tfoot>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Question_text</th>
-                                    <th>Option_A</th>
-                                    <th>Option_B</th>
-                                    <th>Option_C</th>
-                                    <th>Option_D</th>
+                                    <th>QuestionText</th>
+                                    <th>QuestionMark</th>
+                                    <th>Difficulty</th>
+                                    <th>TypeOfQuestion</th>
+                                    <th>QuestionOptions</th>
                                     <th>ExamQuestion</th>
                                     <th>Action</th>
                                 </tr>

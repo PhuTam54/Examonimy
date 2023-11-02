@@ -23,3 +23,6 @@
 
 <!-- Template Stylesheet -->
 <link href="css/main_style.css" rel="stylesheet">
+
+{{--Custom style--}}
+<link rel="stylesheet" href="css/custom.css">

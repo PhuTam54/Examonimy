@@ -73,20 +73,22 @@
                 <li
                     class="nav-item
                     {{request()->is('admin/admin-exam') ||
-                        request()->is('admin/admin-subject') ||
-                        request()->is('admin/admin-courses') ||
-                        request()->is('admin/admin-question') ||
-                        request()->is('admin/admin-classroom') ||
-                        request()->is('admin/admin-result') ||
-                        request()->is('admin/admin-answer') ||
-                        request()->is('admin/admin-enrollment') ||
-                        request()->is('admin/admin-attendance') ||
-                        request()->is('admin/admin-user') ? 'menu-open' : '' }}"
+                    request()->is('admin/admin-examquestion') ||
+                    request()->is('admin/admin-subject') ||
+                    request()->is('admin/admin-courses') ||
+                    request()->is('admin/admin-question') ||
+                    request()->is('admin/admin-classroom') ||
+                    request()->is('admin/admin-result') ||
+                    request()->is('admin/admin-answer') ||
+                    request()->is('admin/admin-enrollment') ||
+                    request()->is('admin/admin-attendance') ||
+                    request()->is('admin/admin-user') ? 'menu-open' : '' }}"
                 >
                     <a
                         href="admin/admin-dashboard"
                         class="nav-link
                         {{request()->is('admin/admin-exam') ||
+                        request()->is('admin/admin-examquestion') ||
                         request()->is('admin/admin-subject') ||
                         request()->is('admin/admin-courses') ||
                         request()->is('admin/admin-question') ||
@@ -129,6 +131,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="admin/admin-examquestion" class="nav-link {{request()->is('admin/admin-examquestion') ? 'active' : '' }}">
+                                <i class="fa fa-folder nav-icon"></i>
+                                <p>Exam Questions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="admin/admin-question" class="nav-link {{request()->is('admin/admin-question') ? 'active' : '' }}">
                                 <i class="fa fa-question-circle nav-icon"></i>
                                 <p>Q&A</p>
@@ -142,7 +150,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="admin/admin-subject" class="nav-link {{request()->is('admin/admin-subject') ? 'active' : '' }}">
-                                <i class="fa fa-book-open nav-icon"></i>
+                                <i class="fa fa-book nav-icon"></i>
                                 <p>Subjects</p>
                             </a>
                         </li>

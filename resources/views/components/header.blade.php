@@ -30,11 +30,42 @@
                     <a href="/my-result"
                        class="dropdown-item {{request()->is('my-result')? 'active' : '' }}"
                     >My Result</a>
-                    <a href="/404"
-                       class="dropdown-item {{request()->is('404')? 'active' : '' }}"
-                    >404 Page</a>
+                    <a
+                        href="#"
+                        class="dropdown-item"
+{{--                        data-bs-toggle="dropdown"--}}
+                    >Mock tests</a>
+                    <div class="dropdown-menu dropdown-submenu">
+                            <a href="#"
+                               class="dropdown-item"
+                            >Toeic</a>
+                            <a href="#"
+                               class="dropdown-item"
+                            >Listening</a>
+                            <a href="#"
+                               class="dropdown-item"
+                            >Reading</a>
+                    </div>
                 </div>
             </div>
+{{--            <div class="nav-item dropdown">--}}
+{{--                <a--}}
+{{--                    href="#"--}}
+{{--                    class="nav-link dropdown-toggle"--}}
+{{--                    data-bs-toggle="dropdown"--}}
+{{--                >Mock tests</a>--}}
+{{--                <div class="dropdown-menu fade-down m-0">--}}
+{{--                    <a href="/my-exam"--}}
+{{--                       class="dropdown-item"--}}
+{{--                    >Toeic</a>--}}
+{{--                    <a href="/my-result"--}}
+{{--                       class="dropdown-item"--}}
+{{--                    >Listening</a>--}}
+{{--                    <a href="/404"--}}
+{{--                       class="dropdown-item"--}}
+{{--                    >Reading</a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <a href="/contact"
                class="nav-item nav-link {{request()->is('contact')? 'active' : '' }}"
             >Contact</a>
