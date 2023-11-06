@@ -29,7 +29,7 @@ Route::middleware("auth")->group(function () {
         Route::put('exam-info/{exam}',  "examCancel");
 
         Route::get('exam-taking/{exam}',  "examTaking");
-        Route::post('exam-taking/{exam}',  "examSubmit");
+        Route::post('exam-taking',  "examSubmit")->name("examSubmit");
     });
 
     // my result

@@ -56,15 +56,18 @@ class MyExamController extends Controller
             compact("examination", "questions"));
     }
 
-    public function examSubmit(Request $request, Exam $exam) {
+    public function examSubmit(Request $request) {
+        // Nhận dữ liệu từ request
+        $exam = $request->get('examId');
+
+        $examination = Exam::find($exam);
         // Get the questions
-        $questions = Question::where("exam_question_id", $exam->ExamQuestion->id)
+        $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
             ->orderBy("question_no")
             ->get();
 
         // Get the enrollments
         $student = auth()->user();
-        $examination = Exam::find($exam->id);
 
         $enrollment = Enrollment::where('student_id', '=', $student->id)
             ->where('exam_id', '=', $examination->id)
@@ -96,7 +99,7 @@ class MyExamController extends Controller
                         $answers = explode(",", $request->get("multipleChoice-$option->id"));
 
                         // check options is correct
-                        foreach ($answers as $key => $answer) {
+                        foreach ($answers as $answer) {
                             if ($answer != null) {
                                 $isMultipleCorrect = $question->checkChoiceExact($answer);
                                 if ($isMultipleCorrect) {
@@ -140,9 +143,11 @@ class MyExamController extends Controller
 
                 // Set answer status
                 if ($isCorrect) {
-                    $answer_status = 1;
-                } else {
-                    $answer_status = 2;
+                    $answer_status = EnrollmentAnswer::CORRECT;
+                } elseif($answers == null || $answers == "") {
+                    $answer_status = EnrollmentAnswer::UNANSWERED;
+                } else{
+                    $answer_status = EnrollmentAnswer::INCORRECT;
                 }
 
                 // create new exam answer
@@ -171,7 +176,6 @@ class MyExamController extends Controller
                     }
                 }
             }
-
             // Get the time taken
             $duration = $request->get("duration");
             $time_counter = $examination->ExamQuestion->duration - $duration;
@@ -192,7 +196,7 @@ class MyExamController extends Controller
             }
 
             // Create new Enrollment Result
-            $enrollment_result = EnrollmentResult::create([
+            EnrollmentResult::create([
                 "enrollment_id" => $enrollment->id,
                 "score" => $score_counter,
                 "correct" => $correct_counter,

@@ -84,11 +84,25 @@
                         $part_counter = 1;
                     @endphp
                     @foreach($questions as $question)
+                        @php
+                            $isCorrect = false;
+                            $isUnanswered = false;
+                            $answers = '';
+                            foreach ($enrollment->EnrollmentAnswers as $enrollment_answer) {
+                                if ($enrollment_answer->question_id == $question->id) {
+                                    $isCorrect = ($enrollment_answer->status == \App\Models\EnrollmentAnswer::CORRECT);
+                                    $isUnanswered = ($enrollment_answer->status == \App\Models\EnrollmentAnswer::UNANSWERED);
+                                    $answers = $enrollment_answer->answers;
+                                    break;
+                                }
+                            }
+                        @endphp
                         <div class="card-body">
                             @if($question->question_paragraph != null && $question->question_paragraph !=' ')
                                 <div class="text text-secondary">Part {{ $part_counter ++ }}: {{ $question->question_paragraph }}</div><br>
                             @endif
-                            <h6>Question {{ $question->question_no }}: {{ $question->question_text }}</h6>
+                            <h6>Question {{ $question->question_no }}: {{ $question->question_text }} <span class="text-info">Point: {{ $question->question_mark }}</span></h6>
+
                             @if($question->question_image != null)
                                 <img src="{{ asset("storage/file/images/exam/1.".$question->question_image.".jpg") }}" width="250" alt="img">
                             @endif
@@ -98,24 +112,16 @@
                                     Your browser does not support the audio element.
                                 </audio>
                             @endif
-                            <div class="d-flex">
-                                <p>Mark: {{ $question->question_mark }} -</p>
-                                <span>- Difficulty: {!! $question->getDifficulty() !!}</span>
-                            </div>
+{{--                            <div class="d-flex">--}}
+
+{{--                                <span>{!! $question->getDifficulty() !!}</span>--}}
+{{--                            </div>--}}
                             <!-- Options -->
                             <div class="form-group clearfix">
                                 @foreach($question->QuestionOptions as $option)
                                     @if($question->type_of_question == 1)
-                                        @php
-                                            $isValid = false;
-                                            foreach ($enrollment->EnrollmentAnswers as $enrollment_answer) {
-                                                if (str_contains($enrollment_answer->answers, $option->id) !== false) {
-                                                    $isValid = true;
-                                                }
-                                            }
-                                        @endphp
                                         <!-- checkbox -->
-                                        <div class="icheck-primary d-block mx-auto w-100 {{ $isValid ? 'text-success' : '' }}">
+                                        <div class="icheck-primary d-block mx-auto w-100">
                                             <input
                                                 name="multipleChoice-{{ $option->id }}"
                                                 value="{{ $option->id }}"
@@ -127,20 +133,12 @@
                                                 @endforeach
                                             >
                                             <label for="multipleChoice-{{ $option->id }}">
-                                                {{ $option->option_text }} - {!! $option->getIsCorrect() !!}
+                                                {{ $option->option_text }}
                                             </label>
                                         </div>
                                     @elseif($question->type_of_question == 2)
-                                        @php
-                                            $isValid = false;
-                                            foreach ($enrollment->EnrollmentAnswers as $enrollment_answer) {
-                                                if ($enrollment_answer->answers == $option->id) {
-                                                    $isValid = true;
-                                                }
-                                            }
-                                        @endphp
                                         <!-- radio -->
-                                        <div class="icheck-primary d-block mx-auto w-100 {{ $isValid ? 'text-success' : '' }}">
+                                        <div class="icheck-primary d-block mx-auto w-100">
                                             <input
                                                 type="radio"
                                                 id="oneChoice-{{ $option->id }}"
@@ -151,29 +149,19 @@
                                                 @endforeach
                                             >
                                             <label for="oneChoice-{{ $option->id }}">
-                                                {{ $option->option_text }} - {!! $option->getIsCorrect() !!}
+                                                {{ $option->option_text }}
                                             </label>
                                         </div>
                                     @else
-                                        @php
-                                            $isValid = false;
-                                            $answer = '';
-                                            foreach ($enrollment->EnrollmentAnswers as $enrollment_answer) {
-                                                if ($enrollment_answer->answers == $option->option_text) {
-                                                    $isValid = true;
-                                                    $answer = $enrollment_answer->answers;
-                                                }
-                                            }
-                                        @endphp
                                         <!-- textarea -->
-                                        <div class="icheck-primary d-block mx-auto {{ $isValid ? 'text-success' : 'text-danger' }}">
+                                        <div class="icheck-primary d-block mx-auto {{ $isCorrect ? 'text-success' : 'text-danger' }}">
                                             <label for="fillInBlank-{{ $question->id }}">Fill in the blank</label>
                                             <input
                                                 type="text"
                                                 id="fillInBlank-{{ $question->id }}"
                                                 name="fillInBlank-{{ $question->id }}"
-                                                class="form-control text-white {{ $isValid ? 'is-valid bg-success' : 'is-invalid bg-danger fst-italic' }}"
-                                                value="{{ $answer }} {{ $isValid ? '' : '==> '.$option->option_text }}"
+                                                class="form-control {{ $isCorrect ? 'is-valid ' : 'is-invalid fst-italic' }}"
+                                                value="{{ $answers }}"
                                             >
                                             @error("fillInBlank-$question->id")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
@@ -181,6 +169,15 @@
                                         </div>
                                     @endif
                                 @endforeach
+                                @if($isUnanswered)
+                                    <div class="d-block text bg-warning" style="padding: 10px">
+                                        Unanswered
+                                    </div>
+                                @else
+                                    <div class="d-block text text-white {{ $isCorrect ? 'bg-success' : 'bg-danger' }}" style="padding: 10px">
+                                        {{ $isCorrect ? 'Correct' : 'Incorrect' }}
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     @endforeach

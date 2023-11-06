@@ -16,6 +16,10 @@ class EnrollmentAnswer extends Model
         "status",
     ];
 
+    const UNANSWERED = 0;
+    const CORRECT = 1;
+    const INCORRECT = 2;
+
     public function Enrollment()
     {
         return $this->belongsTo(Enrollment::class, 'enrollment_id');
