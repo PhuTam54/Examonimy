@@ -12,7 +12,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="admin/exam-edit/{{ $exam->id }}" method="post">
+            <form action="admin/exam-edit/{{ $exam->id }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="container-fluid">
@@ -120,6 +120,7 @@
                                                 name="retaken_fee"
                                                 value="{{ $exam->retaken_fee }}"
                                                 type="number"
+                                                min="0"
                                                 class="form-control"
                                                 placeholder="$0.00"
                                             >
@@ -133,7 +134,8 @@
                                                 name="thumbnail"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                accept="image/*,.jpg"
+                                                multiple
                                             >
                                             @if ($exam->exam_thumbnail)
                                                 <p class="text-info">Old thumbnail: {{ old("thumbnail") || $exam->exam_thumbnail }}</p>

@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         "role",
+        "class_id",
         'password',
         'full_name',
         'avatar',
@@ -53,6 +54,14 @@ class User extends Authenticatable
     const STUDENT = 1;
     const INSTRUCTOR = 2;
     const ADMIN = 3;
+
+    public function Classes() {
+        return $this->belongsTo(Classes::class, "class_id");
+    }
+
+    public function Attendances() {
+        return $this->hasMany(Attendance::class, "student_id");
+    }
 
     public function getRole() {
         switch($this->role) {

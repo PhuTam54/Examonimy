@@ -9,10 +9,18 @@
         <!-- Content Header (Page header) -->
         @include("components.admin.tables.exam.content_header")
         <!-- /.content-header -->
-
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Main content -->
         <section class="content">
-            <form action="admin/exam-add" method="post">
+            <form action="admin/exam-add" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluid">
                     <div class="row">
@@ -63,7 +71,7 @@
                                         <div class="form-group">
                                             <label for="inputClassEnrollment">Class enrollment</label>
                                             <select name="classes" class="select2" id="inputClassEnrollment" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                                                @php $array = old("classes") ?? [] @endphp
+{{--                                                @php $array = old("classes") ?? [] @endphp--}}
                                                 @foreach($classes as $class)
 {{--                                                    <option @if(in_array("$class->id", $array)) selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>--}}
                                                     <option @if(old("classes") == "$class->id") selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>
@@ -119,6 +127,7 @@
                                                 name="retaken_fee"
                                                 value="{{ old("retaken_fee") }}"
                                                 type="number"
+                                                min="0"
                                                 class="form-control"
                                                 placeholder="$0.0"
                                             >
@@ -132,7 +141,8 @@
                                                 name="thumbnail"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                accept="image/*,.jpg"
+                                                multiple
                                             >
                                             @if (old('thumbnail'))
                                                 <p class="text-info">Old thumb nail: {{ old("thumbnail") }}</p>

@@ -18,6 +18,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -54,7 +55,7 @@ class AdminController extends Controller
             "exam_name"=> "required | min:3",
             "description"=> "required",
             "datetime"=> "required",
-            "thumbnail"=> "nullable | mimes:png, jpg, jpeg, gif | mimeTypes:image/*",
+            "thumbnail" => "nullable|mimeTypes:image/*|mimes:jpeg,png,jpg,gif|max:2048", // max:2048 là dung lượng tối đa (đơn vị KB)
             "retaken_fee"=> "required | numeric | min: 0",
             "type_of_exam"=> "required",
             "subject"=> "required",
@@ -77,8 +78,7 @@ class AdminController extends Controller
             // get instructor
             $instructor = auth()->user()->id;
 
-            // get start date + end date
-
+//             get start date + end date
             // Lấy giá trị datetime từ request
             $dateTime = explode(" - ", $request->get("datetime"));
 
@@ -98,7 +98,7 @@ class AdminController extends Controller
             $status = Exam::PENDING;
 
             // create new exam
-            Exam::create([
+            $examId = Exam::insertGetId([
                 "exam_name" => $request->get("exam_name"),
                 "exam_description"=>$request->get("description"),
                 "exam_thumbnail"=>$thumbnail,
@@ -111,6 +111,19 @@ class AdminController extends Controller
                 "start_date"=>$newStartDate,
                 "end_date"=>$newEndDate,
             ]);
+
+            // get participants
+            $participant = $request->get("classes");
+            $classes = Classes::find($participant);
+            // Create new Enrollment
+            foreach ($classes->Students as $student) {
+                DB::table("enrollments")
+                    ->insert([
+                        "student_id" => $student->id,
+                        "exam_id" => $examId,
+                        "status" => 1
+                    ]);
+            }
 
             return redirect()->to("admin/admin-exam")->with("add-success", "Add new exam successfully!!!");
         } catch (\Exception $e) {
@@ -132,7 +145,7 @@ class AdminController extends Controller
             "exam_name"=> "required | min:3",
             "description"=> "required",
             "datetime"=> "required",
-            "thumbnail"=> "nullable | mimes:png, jpg, jpeg, gif | mimeTypes:image/*",
+            "thumbnail" => "nullable|mimeTypes:image/*|mimes:jpeg,png,jpg,gif|max:2048", // max:2048 là dung lượng tối đa (đơn vị KB)
             "retaken_fee"=> "required | numeric | min: 0",
             "type_of_exam"=> "required",
             "subject"=> "required",
@@ -177,7 +190,7 @@ class AdminController extends Controller
             $exam->update([
                 "exam_name" => $request->get("exam_name"),
                 "exam_description"=>$request->get("description"),
-//                "exam_thumbnail"=>$thumbnail,
+                "exam_thumbnail"=>$thumbnail,
                 "retaken_fee"=>$request->get("retaken_fee"),
                 "type_of_exam"=>$request->get("type_of_exam"),
                 "created_by" => $instructor,
@@ -345,7 +358,7 @@ class AdminController extends Controller
             "examquestion_name"=> "required | min:3",
             "description"=> "required",
             "datetime"=> "required",
-            "thumbnail"=> "nullable | mimes:png, jpg, jpeg, gif | mimeTypes:image/*",
+            "thumbnail" => "nullable|mimeTypes:image/*|mimes:jpeg,png,jpg,gif|max:2048", // max:2048 là dung lượng tối đa (đơn vị KB)
             "retaken_fee"=> "required | numeric | min: 0",
             "type_of_examquestion"=> "required",
             "subject"=> "required",
@@ -390,7 +403,7 @@ class AdminController extends Controller
             $examquestion->update([
                 "examquestion_name" => $request->get("examquestion_name"),
                 "examquestion_description"=>$request->get("description"),
-//                "examquestion_thumbnail"=>$thumbnail,
+                "examquestion_thumbnail"=>$thumbnail,
                 "retaken_fee"=>$request->get("retaken_fee"),
                 "type_of_examquestion"=>$request->get("type_of_examquestion"),
                 "created_by" => $instructor,

@@ -18,4 +18,12 @@ class Classes extends Model
     public function Instructor() {
         return $this->belongsTo(User::class, "instructor_id");
     }
+
+    public function Students() {
+        return $this->hasMany(User::class, "class_id");
+    }
+
+    public function Attendances() {
+        return $this->hasMany(User::class, "class_id");
+    }
 }

@@ -43,6 +43,10 @@ class Exam extends Model
         return $this->belongsTo(ExamQuestion::class, "exam_question_id");
     }
 
+    public function Enrollments() {
+        return $this->hasMany(Enrollment::class, "exam_id");
+    }
+
     public function getStatus() {
         switch($this->status) {
             case self::PENDING: return "<span class='text-secondary'>Pending</span>";

@@ -78,8 +78,11 @@
 {{--                                            <td class="">--}}
 {{--                                                <img src=" {{ $exam->exam_thumbnail ?? asset("storage/img/main-img/course-1.jpg") }}" width="80" alt="img">--}}
 {{--                                            </td>--}}
-                                            <td>{{ $exam->exam_name }}</td>
-                                            <td>{{ $exam->start_date ?? "Never start" }} => {{ $exam->end_date ?? "Never end" }}</td>
+                                            <td>
+                                                <p>{{ $exam->exam_name }}</p>
+                                                <img src=" {{ $exam->exam_thumbnail ?? asset("storage/img/main-img/course-1.jpg") }}" width="80" alt="img">
+                                            </td>
+                                            <td>{{ $exam->start_date ?? "Never start" }} <br> => <br> {{ $exam->end_date ?? "Never end" }}</td>
                                             <td>
                                                 <!-- Trigger the modal with a button -->
                                                 <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showExamQuestionModal{{ $exam->ExamQuestion->id }}">
@@ -98,7 +101,18 @@
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                {{ $exam->ExamQuestion->exam_question_name }}
+                                                                <h5 class="text fs-6">Exam {{ $exam->exam_name }}</h5>
+                                                                <ul>
+{{--                                                                    <li>ExamQuestion: {{ $exam->ExamQuestion->exam_question_thumbnail }}</li>--}}
+                                                                    <li>ExamQuestion: {{ $exam->ExamQuestion->exam_question_name }}</li>
+                                                                    <li>Duration: {{ $exam->ExamQuestion->duration }} seconds</li>
+                                                                    <li>Questions: {{ $exam->ExamQuestion->number_of_questions }}</li>
+                                                                    <li>Total: {{ $exam->ExamQuestion->total_marks }} points</li>
+                                                                    <li>Passing: {{ $exam->ExamQuestion->passing_marks }} points</li>
+                                                                    <li>
+                                                                        Description: {{ $exam->ExamQuestion->exam_question_description }}
+                                                                    </li>
+                                                                </ul>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -110,7 +124,49 @@
                                                 </div>
                                             </td>
                                             <td>{{ $exam->subject->subject_name }}</td>
-                                            <td></td>
+                                            @php
+                                            $participants = 0;
+                                                foreach ($exam->Enrollments as $enrollment) {
+                                                    if ($enrollment->User !== null) {
+//                                                        $participants = $enrollment->User->Classes->class_name;
+                                                        $participants += 1;
+                                                    }
+                                                }
+                                            @endphp
+                                            <td>
+                                                <!-- Trigger the modal with a button -->
+                                                <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showPaticipantModal{{ $exam->ExamQuestion->id }}">
+                                                    <i class="fa fa-eye"></i>
+                                                    {{ $participants }} to show
+                                                </a>
+
+                                                <!-- Modal -->
+                                                <div id="showPaticipantModal{{ $exam->ExamQuestion->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Showing Participants</h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <h5 class="text fs-6">Exam {{ $exam->exam_name }}</h5>
+                                                                <ul>
+                                                                    @foreach ($exam->Enrollments as $index => $enrollment)
+                                                                        <li>Student {{ $index + 1 }}: {{ $enrollment->User->name }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <a class="btn btn-info" href="admin/exam-question-details/{{ $exam->ExamQuestion->id }}">Details</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
 {{--                                            <td>{{ $exam->User->class_name }}</td>--}}
                                             <td>{!! $exam->getStatus() !!}</td>
                                             <td>{{ $exam->Instructor->name }}</td>
@@ -124,25 +180,25 @@
                                                 @else
                                                 @switch($exam->status)
                                                     @case(\App\Models\Exam::PENDING)
-                                                        <a href="admin/exam-confirm/{{ $exam->id }}" class="btn btn-success btn-sm mb-2">
+                                                        <a href="admin/exam-confirm/{{ $exam->id }}" class="btn btn-success btn-sm mb-2" style="min-width: 80px;" >
                                                             <i class="fa fa-check" aria-hidden="true"></i>
                                                             Confirm
                                                         </a>
                                                         <a href="admin/exam-cancel/{{ $exam->id }}" class="btn btn-danger btn-sm"
-                                                           style="margin-right: 5px;">
+                                                           style="min-width: 80px;">
                                                             <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                                         </a>
                                                         @break
 
                                                     @case(\App\Models\Exam::CONFIRMED)
                                                         <a href="admin/exam-cancel/{{ $exam->id }}" class="btn btn-danger btn-sm"
-                                                           style="margin-right: 5px;">
+                                                           style="min-width: 80px;">
                                                             <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                                         </a>
                                                         @break
                                                     @case(\App\Models\Exam::PROCESSING)
                                                         <a href="admin/exam-cancel/{{ $exam->id }}" class="btn btn-danger btn-sm"
-                                                           style="margin-right: 5px;">
+                                                           style="min-width: 80px;">
                                                             <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                                         </a>
                                                         @break
@@ -155,7 +211,7 @@
                                             </td>
                                             <td class="project-actions text-center">
                                                 @unless($exam->deleted_at != null)
-                                                <a class="btn btn-info btn-sm mb-2" href="admin/exam-edit/{{ $exam->id }}">
+                                                <a class="btn btn-info btn-sm mb-2" href="admin/exam-edit/{{ $exam->id }}" style="min-width: 80px;">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
                                                     Edit
