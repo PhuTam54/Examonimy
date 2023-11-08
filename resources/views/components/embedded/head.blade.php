@@ -1,6 +1,6 @@
 
 <!-- Favicon -->
-<link href="img/favicon.ico" rel="icon">
+<link href="storage/img/main-img/examonimy-favicon.png" rel="icon">
 
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

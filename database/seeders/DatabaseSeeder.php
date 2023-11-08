@@ -31,7 +31,10 @@ class DatabaseSeeder extends Seeder
              "address"=> "TS - BN",
          ]);
 
-        \App\Models\User::factory(19)->create();
+        for ($i = 0; $i < 19; $i ++) {
+            \App\Models\User::factory(1)->create();
+        }
+
         \App\Models\Course::factory(4)->create();
 //        DB::table("courses")
 //            ->insert([
@@ -59,7 +62,7 @@ class DatabaseSeeder extends Seeder
             } else {
                 DB::table("exam_questions")
                     ->insert([
-                        "exam_question_name"=>$subject->subject_name.' ExamQuestion',
+                        "exam_question_name"=> 'Toeic ExamQuestion',
                         "exam_question_description"=>$subject->subject_description.' ExamQuestion',
                         "duration"=> 75 * 60, // seconds
                         "number_of_questions"=> 100,
@@ -88,19 +91,18 @@ class DatabaseSeeder extends Seeder
         foreach ($exams as $exam) {
             DB::table("enrollments")
                 ->insert([
-                    "student_id"=> random_int(1, 1),
+                    "student_id"=> random_int(1, 2),
                     "exam_id"=>$exam->id,
                     "status"=>random_int(1, 1)
                 ]);
         }
 
-        \App\Models\Classes::factory(10)->create();
-
+        \App\Models\Classes::factory(3)->create();
         $classes = Classes::all();
         foreach ($classes as $class) {
             DB::table("attendances")
                 ->insert([
-                    "student_id"=> random_int(1, 20),
+                    "student_id"=> random_int(1, 2),
                     "subject_id"=> random_int(1, 5),
                     "class_id"=> $class->id,
                     "lesson_attendance"=> random_int(1, 20),

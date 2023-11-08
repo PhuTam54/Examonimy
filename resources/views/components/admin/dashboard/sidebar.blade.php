@@ -2,9 +2,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="admin/admin-dashboard" class="brand-link navbar-brand d-flex align-items-center px-4 px-lg-5" style="margin-right: -8px">
-{{--        <img src="storage/img/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
-{{--        <span class="brand-text font-weight-light">Examonimy</span>--}}
-{{--        <h3 class="m-0" style="color: #c2c7d0"><i class="fa fa-book me-3" style="margin: 0 10px 0 -16px"></i>Examonimy</h3>--}}
         <h3 class="" style="color: #c2c7d0; margin: 0 0 0 -30px">
             <img class="rounded-3" style="width: 55px;" src="{{ asset('storage/img/main-img/logo-examonimy.png') }}" alt=""/>
             </i>Examonimy</h3>
@@ -39,17 +36,11 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li
-                    class="nav-item
-                    {{ request()->is('admin/admin-dashboard') ||
-                      request()->is('admin/admin-dashboard2') ||
-                      request()->is('admin/admin-dashboard3')
-                      ? 'menu-open' : '' }}"
-                >
+                <li class="nav-item {{ request()->is('admin/admin-dashboard') ? 'menu-open' : '' }}">
                     <a
                         href="admin/admin-dashboard"
                         class="nav-link
-                        {{request()->is('admin/admin-dashboard') || request()->is('admin/admin-dashboard2') || request()->is('admin/admin-dashboard') ? 'active' : '' }}"
+                        {{request()->is('admin/admin-dashboard') ? 'active' : '' }}"
                     >
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -62,7 +53,7 @@
                             <a
                                 href="admin/admin-dashboard"
                                 class="nav-link
-                                {{request()->is('admin/admin-dashboard') || request()->is('admin/admin-dashboard2') || request()->is('admin/admin-dashboard3') ? 'active' : '' }}"
+                                {{request()->is('admin/admin-dashboard') ? 'active' : '' }}"
                             >
                                 <i class="fa fa-chart-bar nav-icon"></i>
                                 <p>My Dashboard</p>
@@ -72,42 +63,22 @@
                 </li>
                 <li
                     class="nav-item
-                    {{request()->is('admin/admin-exam') ||
-                    request()->is('admin/admin-examquestion') ||
-                    request()->is('admin/admin-subject') ||
-                    request()->is('admin/admin-courses') ||
-                    request()->is('admin/admin-question') ||
-                    request()->is('admin/admin-classroom') ||
-                    request()->is('admin/admin-result') ||
-                    request()->is('admin/admin-answer') ||
-                    request()->is('admin/admin-enrollment') ||
-                    request()->is('admin/admin-attendance') ||
-                    request()->is('admin/admin-user') ? 'menu-open' : '' }}"
+                    {{request()->path() !=('admin/admin-dashboard') ? 'menu-open' : '' }}"
                 >
                     <a
                         href="admin/admin-dashboard"
                         class="nav-link
-                        {{request()->is('admin/admin-exam') ||
-                        request()->is('admin/admin-examquestion') ||
-                        request()->is('admin/admin-subject') ||
-                        request()->is('admin/admin-courses') ||
-                        request()->is('admin/admin-question') ||
-                        request()->is('admin/admin-classroom') ||
-                        request()->is('admin/admin-result') ||
-                        request()->is('admin/admin-answer') ||
-                        request()->is('admin/admin-enrollment') ||
-                        request()->is('admin/admin-attendance') ||
-                        request()->is('admin/admin-user') ? 'active' : '' }}"
+                        {{request()->path() !=('admin/admin-dashboard') ? 'active' : '' }}"
                     >
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            Tables
+                            Table
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="admin/admin-exam" class="nav-link {{request()->is('admin/admin-exam') ? 'active' : '' }}">
+                            <a href="admin/admin-exam" class="nav-link {{request()->is('admin/admin-exam') || request()->is('admin/exam-add') ? 'active' : '' }}">
                                 <i class="fa fa-graduation-cap nav-icon"></i>
                                 <p>Exams</p>
                             </a>
@@ -125,19 +96,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-user" class="nav-link {{request()->is('admin/admin-user') ? 'active' : '' }}">
+                            <a href="admin/admin-user" class="nav-link {{request()->is('admin/admin-user') || request()->is('admin/user-add') ? 'active' : '' }}">
                                 <i class="fa fa-user-astronaut nav-icon"></i>
                                 <p>Users</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-examquestion" class="nav-link {{request()->is('admin/admin-examquestion') ? 'active' : '' }}">
+                            <a href="admin/admin-examquestion" class="nav-link {{request()->is('admin/admin-examquestion') || request()->is('admin/examquestion-add') ? 'active' : '' }}">
                                 <i class="fa fa-folder nav-icon"></i>
                                 <p>Exam Questions</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-question" class="nav-link {{request()->is('admin/admin-question') ? 'active' : '' }}">
+                            <a href="admin/admin-question" class="nav-link {{request()->is('admin/admin-question') || request()->is('admin/question-add') ? 'active' : '' }}">
                                 <i class="fa fa-question-circle nav-icon"></i>
                                 <p>Q&A</p>
                             </a>
@@ -149,7 +120,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-subject" class="nav-link {{request()->is('admin/admin-subject') ? 'active' : '' }}">
+                            <a href="admin/admin-subject" class="nav-link {{request()->is('admin/admin-subject') || request()->is('admin/subject-add') ? 'active' : '' }}">
                                 <i class="fa fa-book nav-icon"></i>
                                 <p>Subjects</p>
                             </a>
@@ -161,13 +132,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-courses" class="nav-link {{request()->is('admin/admin-courses') ? 'active' : '' }}">
+                            <a href="admin/admin-courses" class="nav-link {{request()->is('admin/admin-courses') || request()->is('admin/course-add') ? 'active' : '' }}">
                                 <i class="fa fa-bookmark nav-icon"></i>
                                 <p>Courses</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-classroom" class="nav-link {{request()->is('admin/admin-classroom') ? 'active' : '' }}">
+                            <a href="admin/admin-classroom" class="nav-link {{request()->is('admin/admin-classroom') || request()->is('admin/classroom-add') ? 'active' : '' }}">
                                 <i class="fa fa-house-user nav-icon"></i>
                                 <p>Classes</p>
                             </a>

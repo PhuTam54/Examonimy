@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("title", "Admin | Exams Tables")
+@section("title", "Admin | Exams Table")
 @section("before_css")
     @include("components.admin.embedded.table_head")
 @endsection
