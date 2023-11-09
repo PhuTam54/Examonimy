@@ -50,6 +50,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/result-delete/{result}', "resultDelete");
 
+    Route::get('/result-trash', "resultTrash");
+    Route::get('/result-recover/{result}', "resultRecover");
+
     // Enrollments
     Route::get('/admin-enrollment', "enrollment");
 
@@ -58,6 +61,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/enrollment-cancel/{enrollment}', "enrollmentCancel");
 
     Route::delete('/enrollment-delete/{enrollment}', "enrollmentDelete");
+
+    Route::get('/enrollment-trash', "enrollmentTrash");
+    Route::get('/enrollment-recover/{enrollment}', "enrollmentRecover");
 
     // Users
     Route::get('/admin-user', "user");
@@ -69,6 +75,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::put('/user-edit/{user}', "userUpdate");
 
     Route::delete('/user-delete/{user}', "userDelete");
+
+    Route::get('/user-trash', "userTrash");
+    Route::get('/user-recover/{user}', "userRecover");
 
     // Questions
     Route::get('/admin-question', "question");
@@ -83,6 +92,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/question-delete/{question}', "questionDelete");
 
+    Route::get('/question-trash', "questionTrash");
+    Route::get('/question-recover/{question}', "questionRecover");
+
     // Answers
     Route::get('/admin-answer', "answer");
 
@@ -93,6 +105,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::put('/answer-edit/{answer}', "answerUpdate");
 
     Route::delete('/answer-delete/{answer}', "answerDelete");
+
+    Route::get('/answer-trash', "answerTrash");
+    Route::get('/answer-recover/{answer}', "answerRecover");
 
     // Subjects
     Route::get('/admin-subject', "subject");
@@ -106,6 +121,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/subject-delete/{subject}', "subjectDelete");
 
+    Route::get('/subject-trash', "subjectTrash");
+    Route::get('/subject-recover/{subject}', "subjectRecover");
+
     // Attendances
     Route::get('/admin-attendance', "attendance");
 
@@ -116,6 +134,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::put('/attendance-edit/{attendance}', "attendanceUpdate");
 
     Route::delete('/attendance-delete/{attendance}', "attendanceDelete");
+
+    Route::get('/attendance-trash', "attendanceTrash");
+    Route::get('/attendance-recover/{attendance}', "attendanceRecover");
 
     // Courses
     Route::get('/admin-courses', "courses");
@@ -128,6 +149,9 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::delete('/course-delete/{course}', "courseDelete");
 
+    Route::get('/course-trash', "courseTrash");
+    Route::get('/course-recover/{course}', "courseRecover");
+
     // classes
     Route::get('/admin-classroom', "classroom");
 
@@ -138,5 +162,8 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::put('/classroom-edit/{classroom}', "classroomUpdate");
 
     Route::delete('/classroom-delete/{classroom}', "classroomDelete");
+
+    Route::get('/classroom-trash', "classroomTrash");
+    Route::get('/classroom-recover/{classroom}', "classroomRecover");
 
 });

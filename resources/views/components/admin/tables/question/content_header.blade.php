@@ -3,12 +3,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Questions Tables</h1>
+                <h1>Q&A Table</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item active">Questions Tables</li>
+                    <li class="breadcrumb-item active">Q&A Table</li>
                 </ol>
             </div>
         </div>

@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
 class Question extends Model
 {
     use HasFactory;
+    use SoftDeletes;// trait
+
     protected $table = "questions";
     protected $fillable = [
         "question_no", // No. STT
@@ -31,30 +34,6 @@ class Question extends Model
     const EASY = 1;
     const MEDIUM = 2;
     const DIFFICULT = 3;
-//    public function __construct($id, $content, $answers)
-//    {
-//        parent::__construct('multiple_choice', $id, $content, $answers);
-//    }
-
-//    public function render($index)
-//    {
-//        $answersHTML = '';
-//        foreach ($this->answers as $item) {
-//            $answersHTML .= '<div>
-//                <input value="' . $item['id'] . '" class="answer-' . $this->id . '" type="radio" name="answer-' . $this->id . '"/>
-//                <label class="lead">' . $item['content'] . '</label>
-//            </div>';
-//        }
-//
-//        return '
-//            <div>
-//                <p class="lead font-italic" style="font-size: 30px;">
-//                    Câu ' . $index . ': ' . $this->content . '
-//                </p>
-//                ' . $answersHTML . '
-//            </div>
-//        ';
-//    }
 
     public function checkChoiceExact($answer)
     {
@@ -69,25 +48,6 @@ class Question extends Model
         }
 
         return false;
-    }
-
-    public function checkMultipleChoiceExact($answer_array)
-    {
-        if (!$answer_array) {
-            return false;
-        }
-
-        $isCorrect = true;
-
-        foreach ($answer_array as $answer) {
-            $result = $this->checkChoiceExact($answer);
-            if (!$result) {
-                $isCorrect = false;
-                break;
-            }
-        }
-
-        return $isCorrect;
     }
 
     public function checkFillInBlankExact($answer_text)
