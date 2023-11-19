@@ -40,7 +40,8 @@ class MyResultController extends Controller
         }
     }
 
-    public function examRetaken(Exam $exam) {
+    public function examRetaken($entrance_id) {
+        $exam = Exam::where("entrance_id", "=", $entrance_id)->first();
         try{
             $student = auth()->user();
             $enrollment = Enrollment::where('student_id', $student->id)

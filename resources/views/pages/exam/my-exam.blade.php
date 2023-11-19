@@ -37,20 +37,40 @@
                     @endif
                     <div class="course-item bg-light">
                         <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="{{ $enrollment->Exam->exam_thumbnail }}" alt="">
+                            <img class="img-fluid" src="{{ $enrollment->Exam->exam_thumbnail ?? asset('storage/img/main-img/course-1.png') }}" alt="">
                             <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="exam-info/{{ $enrollment->Exam->id }}" class="flex-shrink-0 btn btn-md btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="exam-taking/{{ $enrollment->Exam->id }}" class="flex-shrink-0 btn btn-md btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
+                                <a href="exam-info/{{ $enrollment->Exam->entrance_id }}" class="flex-shrink-0 btn btn-md btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="exam-taking/{{ $enrollment->Exam->entrance_id }}" class="flex-shrink-0 btn btn-md btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
                             </div>
                         </div>
                         <div class="text-center p-4 pb-0">
-                            <h3 class="mb-3">{{ $enrollment->Exam->exam_name ?? "Web Design & Development Course for Beginners"}}</h3>
-                            <h5 class="mb-4">{{ $enrollment->Exam->Course->course_name ?? "Web Design & Development Course for Beginners"}}</h5>
+                            <h3 class="mb-3">{{ $enrollment->Exam->exam_name }}</h3>
+                            @if(strlen($enrollment->Exam->exam_description) > 60)
+                                <h5 class="mb-4">{{ substr($enrollment->Exam->exam_description, 0, 60) ?? "Web Design & Development Course for Beginners"}}...</h5>
+                            @else
+                                <h5 class="mb-4">{{ $enrollment->Exam->exam_description }}</h5>
+                            @endif
                         </div>
                         <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>{{ $enrollment->Exam->Instructor->name }}</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>{{ $enrollment->Exam->ExamQuestion->duration / 60 }} minutes</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-question text-primary me-2"></i>{{ $enrollment->Exam->ExamQuestion->Questions->count() }} Questions</small>
+                            <small class="flex-fill text-center border-end py-2">
+                                <i class="fa fa-user-tie text-primary me-2"></i>
+                                {{ $enrollment->Exam->Instructor->name }}
+                            </small>
+                            <small class="flex-fill text-center border-end py-2">
+                                <i class="fa fa-clock text-primary me-2"></i>
+                                @if($enrollment->Exam->ExamQuestion->duration / 3600 > 1)
+                                    {{ floor($enrollment->Exam->ExamQuestion->duration / 3600) }} hours
+                                    {{ floor($enrollment->Exam->ExamQuestion->duration % 3600 / 60) }} minutes
+                                @elseif(($enrollment->Exam->ExamQuestion->duration % 3600) / 60 > 1)
+                                    {{ floor($enrollment->Exam->ExamQuestion->duration % 3600 / 60) }} minutes
+                                @elseif($enrollment->Exam->ExamQuestion->duration % 60 > 1)
+                                    {{ $enrollment->Exam->ExamQuestion->duration % 60 }} seconds
+                                @endif
+                            </small>
+                            <small class="flex-fill text-center py-2">
+                                <i class="fa fa-question text-primary me-2"></i>
+                                {{ $enrollment->Exam->ExamQuestion->Questions->count() }} Questions
+                            </small>
                         </div>
                     </div>
                 </div>

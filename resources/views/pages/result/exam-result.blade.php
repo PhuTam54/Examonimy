@@ -25,7 +25,7 @@
     <div class="container-fluid">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
             <h6 class="section-title bg-white text-center text-primary px-3">Exams</h6>
-            <h2 class="mb-1">{{ session('exam-submit-success') ?? "Exam Result" }} </h2>
+            <h2 class="mb-1">{{ session('exam-submit-success') ?? "$enrollment_result->note" }} </h2>
         </div>
         <div class="row g-0 justify-content-center">
             <div class="card-body">
@@ -36,20 +36,22 @@
                         <th>Result</th>
                         <th>Correct</th>
                         <th>Incorrect</th>
+                        <th>Unanswered</th>
                         <th>Duration</th>
                         <th>Score</th>
-                        <th>Rank</th>
+                        <th>Grade</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>
                             <p class="text-center mb-1">{{ $examination->exam_name }}</p>
-                            <img class="image mt-2" src=" {{ $examination->exam_thumbnail }}" width="200" alt="img">
+                            <img class="image mt-2" src="{{ $examination->exam_thumbnail }}" width="100" alt="img">
                         </td>
                         <td class="text-secondary">{{ $enrollment_result->correct }} / {{ $examination->ExamQuestion->Questions->count() }}</td>
                         <td class="text-success">{{ $enrollment_result->correct }}</td>
                         <td class="text-danger">{{ $enrollment_result->incorrect }}</td>
+                        <td class="text-warning">{{ $enrollment_result->unanswered }}</td>
                         @if($enrollment_result->time_taken / 3600 > 1)
                             <td>
                                 {{ floor($enrollment_result->time_taken / 3600) }} hours
@@ -68,11 +70,30 @@
                         @endif
                         <td class="text-primary">{{ number_format($enrollment_result->score, 2) }} / {{  number_format($total_score, 2) }}</td>
                         <td>
-                            {!! $enrollment_result->getStatus() !!}
+                            {!! $enrollment_result->getGrade() !!}
                         </td>
                     </tr>
                     </tbody>
                 </table>
+
+                @php
+                    $resultPercent = round(($enrollment_result->correct / $examination->ExamQuestion->Questions->count()) * 100, 2);
+                    $resultBg = '';
+                    if ($resultPercent <= 33.33) {
+                        $resultBg = 'danger';
+                    } elseif ($resultPercent <= 66.66) {
+                        $resultBg = 'warning';
+                    } else {
+                        $resultBg = 'success';
+                    }
+                @endphp
+
+                <div class="progress" style="height: 40px;">
+                    <div
+                        class="fs-6 progress-bar progress-bar-striped progress-bar-animated bg-{{ $resultBg }}" role="progressbar" style="width: {{ $resultPercent }}%"
+                        aria-valuenow="{{ $resultPercent }}" aria-valuemin="0" aria-valuemax="100"
+                    >{{ $resultPercent }}%</div>
+                </div>
             </div>
             {{-- Questions--}}
             <div class="col-md-12 g-0">
@@ -82,6 +103,7 @@
                     </div>
                     @php
                         $part_counter = 1;
+                        $question_counter = 1;
                     @endphp
                     @foreach($questions as $question)
                         @php
@@ -101,21 +123,18 @@
                             @if($question->question_paragraph != null && $question->question_paragraph !=' ')
                                 <div class="text text-secondary">Part {{ $part_counter ++ }}: {{ $question->question_paragraph }}</div><br>
                             @endif
-                            <h6>Question {{ $question->question_no }}: {{ $question->question_text }} <span class="text-info">Point: {{ $question->question_mark }}</span></h6>
-
+                            <h6>Question {{ $question_counter ++ }}: {{ $question->question_text }} <br>
+                                <span class="text-info">Point: {{ $question->question_mark }}</span>
+                            </h6>
                             @if($question->question_image != null)
-                                <img src="{{ asset("storage/file/images/exam/1.".$question->question_image.".jpg") }}" width="250" alt="img">
+                                <img src="{{ Illuminate\Support\Str::contains($question->question_image, '/uploads/') ? $question->question_image : asset("storage/file/images/exam/1.".$question->question_image.".jpg") }}" width="250" alt="img">
                             @endif
                             @if($question->question_audio != null)
                                 <audio controls>
-                                    <source src="{{ asset('storage/file/audio/exam/1.'.$question->question_audio.'.mp3') }}" type="audio/mpeg">
+                                    <source src="{{ Illuminate\Support\Str::contains($question->question_audio, '/uploads/') ? $question->question_audio : asset('storage/file/audio/exam/1.'.$question->question_audio.'.mp3') }}" type="audio/mpeg">
                                     Your browser does not support the audio element.
                                 </audio>
                             @endif
-{{--                            <div class="d-flex">--}}
-
-{{--                                <span>{!! $question->getDifficulty() !!}</span>--}}
-{{--                            </div>--}}
                             <!-- Options -->
                             <div class="form-group clearfix">
                                 @foreach($question->QuestionOptions as $option)
@@ -123,6 +142,7 @@
                                         <!-- checkbox -->
                                         <div class="icheck-primary d-block mx-auto w-100">
                                             <input
+                                                disabled
                                                 name="multipleChoice-{{ $option->id }}"
                                                 value="{{ $option->id }}"
                                                 type="checkbox"
@@ -140,6 +160,7 @@
                                         <!-- radio -->
                                         <div class="icheck-primary d-block mx-auto w-100">
                                             <input
+                                                disabled
                                                 type="radio"
                                                 id="oneChoice-{{ $option->id }}"
                                                 name="oneChoice-{{ $question->id }}"
@@ -154,9 +175,10 @@
                                         </div>
                                     @else
                                         <!-- textarea -->
-                                        <div class="icheck-primary d-block mx-auto {{ $isCorrect ? 'text-success' : 'text-danger' }}">
+                                        <div class="icheck-primary d-block mx-auto">
                                             <label for="fillInBlank-{{ $question->id }}">Fill in the blank</label>
                                             <input
+                                                disabled
                                                 type="text"
                                                 id="fillInBlank-{{ $question->id }}"
                                                 name="fillInBlank-{{ $question->id }}"
@@ -170,12 +192,19 @@
                                     @endif
                                 @endforeach
                                 @if($isUnanswered)
-                                    <div class="d-block text bg-warning" style="padding: 10px">
+                                    <div class="d-block text text-warning">
+                                        <i class="fa fa-question"></i>
                                         Unanswered
                                     </div>
                                 @else
-                                    <div class="d-block text text-white {{ $isCorrect ? 'bg-success' : 'bg-danger' }}" style="padding: 10px">
-                                        {{ $isCorrect ? 'Correct' : 'Incorrect' }}
+                                    <div class="d-block text {{ $isCorrect ? 'text-success' : 'text-danger' }}"">
+                                        @if($isCorrect)
+                                            <i class="fa fa-check"></i>
+                                            Correct
+                                        @else
+                                            <i class="fa fa-times"></i>
+                                            Incorrect
+                                        @endif
                                     </div>
                                 @endif
                             </div>

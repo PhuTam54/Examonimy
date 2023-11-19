@@ -28,15 +28,16 @@ class MyExamController extends Controller
         return view("pages.exam.my-exam", compact("enrollments", "data_wow_delay"));
     }
 
-    public function examInfo(Exam $exam) {
-        $examination = Exam::find($exam->id);
+    public function examInfo($entrance_id) {
+        $examination = Exam::where("entrance_id", "=", $entrance_id)->first();
         return view("pages.exam.exam-info", compact("examination"));
     }
 
-    public function examCancel(Exam $exam) {
+    public function examCancel($entrance_id) {
+        $examination = Exam::where("entrance_id", "=", $entrance_id)->first();
         $student = auth()->user();
         $enrollment = Enrollment::where('student_id', '=', $student->id)
-            ->where('exam_id', $exam->id)
+            ->where('exam_id', $examination->id)
             ->orderBy("id", 'desc')
             ->first();
 
@@ -44,23 +45,33 @@ class MyExamController extends Controller
         $enrollment->update([
             "status" => Enrollment::CANCELED
         ]);
-        return redirect()->back()->with("canceled", "You have been canceled $exam->exam_name.");
+        return redirect()->back()->with("canceled", "You have been canceled $examination->exam_name.");
     }
 
-    public function examTaking(Exam $exam) {
-        $questions = Question::where("exam_question_id", $exam->ExamQuestion->id)
-            ->orderBy("question_no")
+    public function examTaking($entrance_id) {
+        $examination = Exam::where("entrance_id", "=", $entrance_id)->first();
+        $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
+//            ->orderBy("question_no")
+            ->inRandomOrder()
             ->get();
-        $examination = Exam::find($exam->id);
+        return view("pages.exam.exam-taking", // "questionsEasy","questionsMedium", "questionsDifficult",
+            compact("examination", "questions"));
+    }
+
+    public function mockExamTaking($entrance_id) {
+        $examination = Exam::where("entrance_id", "=", $entrance_id)->first();
+        $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
+            ->orderBy("id")
+            ->get();
         return view("pages.exam.exam-taking", // "questionsEasy","questionsMedium", "questionsDifficult",
             compact("examination", "questions"));
     }
 
     public function examSubmit(Request $request) {
         // Nhận dữ liệu từ request
-        $exam = $request->get('examId');
+        $entrance_id = $request->get('entrance_id');
 
-        $examination = Exam::find($exam);
+        $examination = Exam::where("entrance_id", "=", $entrance_id)->first();
         // Get the questions
         $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
             ->orderBy("question_no")
@@ -77,9 +88,10 @@ class MyExamController extends Controller
         try {
             $correct_counter = 0;
             $incorrect_counter = 0;
+            $unanswered_counter = 0;
             $score_counter = 0;
             $total_score = 0;
-            $result_status = EnrollmentResult::FAIL;
+            $grade = EnrollmentResult::FAIL;
             $note = "Sorry bro, you're failed. You have to learn and keep learning!!!";
             // Question 1
             $answerString = null;
@@ -170,9 +182,11 @@ class MyExamController extends Controller
                 foreach ($enrollment_answers as $exam_answer) {
                     if ($exam_answer->status === 1) {
                         $score_counter += $exam_answer->Question->question_mark;
-                        $correct_counter += 1;
+                        $correct_counter ++;
+                    } elseif ($exam_answer->status === 2) {
+                        $incorrect_counter ++;
                     } else {
-                        $incorrect_counter += 1;
+                        $unanswered_counter ++;
                     }
                 }
             }
@@ -182,17 +196,17 @@ class MyExamController extends Controller
 
             // Get the result status
             if ($score_counter >= ($total_score / 1.25)) {
-                $result_status = EnrollmentResult::EXCELLENT;
-                $note = "How did you do that, bro ???";
+                $grade = EnrollmentResult::EXCELLENT;
+                $note = "How did you do that ???";
             } elseif ($score_counter >= ($total_score / 1.5)) {
-                $result_status = EnrollmentResult::VERYGOOD;
-                $note = "You're genius, bro :))";
+                $grade = EnrollmentResult::VERYGOOD;
+                $note = "You're genius !!!";
             } elseif ($score_counter >= ($total_score / 2)) {
-                $result_status = EnrollmentResult::GOOD;
-                $note = "Congratulation, bro !!!";
+                $grade = EnrollmentResult::GOOD;
+                $note = "Congratulation !!!";
             } elseif ($score_counter >= ($total_score / 3)) {
-                $result_status = EnrollmentResult::ACCEPTABLE;
-                $note = "Make more effort, bro !!!";
+                $grade = EnrollmentResult::ACCEPTABLE;
+                $note = "Make more effort !!!";
             }
 
             // Create new Enrollment Result
@@ -201,8 +215,10 @@ class MyExamController extends Controller
                 "score" => $score_counter,
                 "correct" => $correct_counter,
                 "incorrect" => $incorrect_counter,
+                "unanswered" => $unanswered_counter,
                 "time_taken" => $time_counter,
-                "status" => $result_status,
+                "grade" => $grade,
+                "status" => 0,
                 "note" => $note
             ]);
 
@@ -210,8 +226,6 @@ class MyExamController extends Controller
             $enrollment->status = Enrollment::COMPLETED;
             $enrollment->save();
 
-            // Send mail
-//            event(new CreateNewResult($enrollment_result));
             return redirect()->to("exam-result/$enrollment->id");
         } catch (\Exception $e) {
             return redirect()->back()->withErrors($e->getMessage());

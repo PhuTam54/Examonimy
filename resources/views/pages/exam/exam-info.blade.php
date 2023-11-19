@@ -90,7 +90,7 @@
                                 <td>{{ $examination->Subject->subject_name }}</td>
                                 <td>{{ $examination->Instructor->name }}</td>
                                 <td class="project-actions text-center">
-                                    <a class="btn" href="exam-taking/{{ $examination->id }}">
+                                    <a class="btn" href="exam-taking/{{ $examination->entrance_id }}">
                                         <button class="btn btn-success btn-sm" style="margin-left: -12px" type="submit">
                                             <i class="fas fa-pencil-alt">
                                             </i>
@@ -98,7 +98,7 @@
                                         </button>
                                     </a>
                                     <a class="btn">
-                                        <form action="exam-info/{{ $examination->id }}" method="post">
+                                        <form action="exam-info/{{ $examination->entrance_id }}" method="post">
                                             @csrf
                                             @method("PUT")
                                             <button onclick="return confirm('Are you sure to cancel {{$examination->exam_name}}???')" class="btn btn-danger btn-sm" style="margin-left: -12px" type="submit">

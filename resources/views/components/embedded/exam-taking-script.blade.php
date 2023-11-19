@@ -14,107 +14,190 @@
 {{--</script>--}}
 
 <script>
-    {{-- Count down--}}
-    // Khởi tạo thời gian từ Local Storage hoặc mặc định nếu không có
-    let time = localStorage.getItem('examTime') || {{ $examination->ExamQuestion->duration }};
-
-    const countdownEl = document.getElementById('countdown');
-    const durationEl = document.getElementById('duration');
-    const examForm = document.getElementById('exam-form');
-
-    // Cập nhật thời gian từ Local Storage
-    updateCountdown();
-
-    const intervalId = setInterval(updateCountdown, 1000);
-
-    function updateCountdown() {
-        let hours = Math.floor(time / 3600);
-        let minutes = Math.floor((time % 3600) / 60);
-        let seconds = time % 60;
-
-        hours = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-
-        countdownEl.innerHTML = hours < 1 ? `${minutes}:${seconds} time left` : `${hours}:${minutes}:${seconds} time left`;
-        durationEl.value = time;
-
-        // Lưu thời gian vào Local Storage
-        localStorage.setItem('examTime', time);
-
-        if (time === 300) {
-            alert("You only have 5 minutes left.");
-        }
-
-        if (time === 0) {
-            alert("Your exam has been auto submitted.");
-            clearInterval(intervalId);
-            examForm.submit();
-        }
-
-        // Giảm thời gian
-        time--;
-    }
-
-    // // Xử lý sự kiện trước khi người dùng rời khỏi trang
-    // window.addEventListener('beforeunload', function() {
-    //     // Xóa thời gian từ Local Storage khi người dùng rời khỏi trang
-    //     localStorage.removeItem('examTime');
-    // });
-
     $(document).ready(function() {
+        {{-- Count down--}}
+        // Khởi tạo thời gian từ Local Storage hoặc mặc định nếu không có
+        const examIdInput = $('input[type=hidden][name="examId"]').val()
+        let time = localStorage.getItem(`examTime${examIdInput}`) || {{ $examination->ExamQuestion->duration }};
+
+        const countdownEl = document.getElementById('countdown');
+        const durationEl = document.getElementById('duration');
+        const examForm = document.getElementById('exam-form');
+
+        // Cập nhật thời gian từ Local Storage
+        updateCountdown();
+
+        const intervalId = setInterval(updateCountdown, 1000);
+
+        function updateCountdown() {
+            let hours = Math.floor(time / 3600);
+            let minutes = Math.floor((time % 3600) / 60);
+            let seconds = time % 60;
+
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            countdownEl.innerHTML = hours < 1 ? `${minutes}:${seconds} time left` : `${hours}:${minutes}:${seconds} time left`;
+            durationEl.value = time;
+
+            // Lưu thời gian vào Local Storage
+            // localStorage.setItem(`examTime${examIdInput}`, time);
+
+            if (time === 300) {
+                alert("You only have 5 minutes left.");
+            }
+
+            if (time === 0) {
+                alert("Your exam has been auto submitted.");
+                clearInterval(intervalId);
+                examForm.submit();
+            }
+
+            // Giảm thời gian
+            time--;
+        }
+
+        // // Xử lý sự kiện trước khi người dùng rời khỏi trang
+        // window.addEventListener('beforeunload', function() {
+        //     // Xóa thời gian từ Local Storage khi người dùng rời khỏi trang
+        //     localStorage.removeItem('examTime');
+        // });
+
+        function showSubmitBtn(selectedQuestion) {
+            if (selectedQuestion == $('.question').length - 1) {
+                // Hiển thị btn submit
+                $(`.submit-btn`).removeClass('d-none').addClass('d-block');
+                // Ẩn btn next
+                $(`.next-btn`).removeClass('d-block').addClass('d-none');
+                // Hiện btn prev
+                $(`.prev-btn`).removeClass('d-none').addClass('d-block');
+            } else if (selectedQuestion == 0) {
+                // Ẩn btn submit
+                $(`.submit-btn`).removeClass('d-block').addClass('d-none');
+                // Hiện btn next
+                $(`.next-btn`).removeClass('d-none').addClass('d-block');
+                // Ẩn btn prev
+                $(`.prev-btn`).removeClass('d-block').addClass('d-none');
+            } else if (selectedQuestion < $('.question').length - 1) {
+                // Ẩn btn submit
+                $(`.submit-btn`).removeClass('d-block').addClass('d-none');
+                // Hiện btn next
+                $(`.next-btn`).removeClass('d-none').addClass('d-block');
+                // Hiện btn prev
+                $(`.prev-btn`).removeClass('d-none').addClass('d-block');
+            }
+        }
+
         // Xử lý sự kiện khi click vào radio button câu hỏi
-        $('input[type=checkbox].question-checkbox').change(function () {
+        $('input[type=radio].question-checkbox').click(function () {
             // Lấy giá trị của câu hỏi đã chọn
             const questionInput = $(this).attr('name');
             const selectedQuestion = $(this).val();
 
+            showSubmitBtn(selectedQuestion)
+
             // Kiểm tra xem đã có câu hỏi này hay chưa
             const existingQuestion = localStorage.getItem(questionInput);
-
             // Nếu chưa có câu hỏi hoặc câu hỏi khác với câu hỏi trước đó, thì lưu mới
             if (!existingQuestion || existingQuestion !== selectedQuestion) {
-                localStorage.setItem(questionInput, selectedQuestion);
+                // localStorage.setItem(questionInput, selectedQuestion);
             }
 
-            // // Chọn tất cả các input bên trong câu hỏi tương ứng
-            // const allInputs = $(`.question[data-question="${selectedQuestion}"] :input`);
-            //
-            // // Kiểm tra kiểu của input và thực hiện check nếu là checkbox hoặc radio
-            // allInputs.each(function() {
-            //     if ($(this).is(':checkbox') || $(this).is(':radio')) {
-            //         $(this).prop('checked', true);
-            //     }
-            // });
+            // xóa thuộc tính checked từ tất cả các ô input radio
+            $('input[type=radio].question-checkbox').prop('checked', false);
 
-            // // Chọn thẻ <p> tương ứng
-            // const questionParagraph = $(`.question[data-question="${selectedQuestion}"] p`);
-            //
-            // // Nếu checkbox được checked, ẩn thẻ <p>, ngược lại hiển thị
-            // if ($(this).prop('checked')) {
-            //     questionParagraph.addClass('d-none');
-            // } else {
-            //     questionParagraph.removeClass('d-none');
-            // }
-
-            // Chọn input câu hỏi tương ứng
-            // const optionRadio = $(`.question[data-question="${selectedQuestion}"] input[type=radio].option-radio`);
-            // const optionCheckbox = $(`.question[data-question="${selectedQuestion}"] input[type=checkbox].option-checkbox`);
-            // const optionText = $(`.question[data-question="${selectedQuestion}"] input[type=text].option-text`);
-            // Chọn hoặc bỏ chọn input câu hỏi
-            // $(this).prop('checked', optionRadio.prop('checked'));
-            // $(this).prop('checked', optionCheckbox.prop('checked'));
-            // $(this).prop('checked', optionText.val() !== '');
-            // Chọn hoặc bỏ chọn input câu hỏi
-            // optionRadio.prop('checked', $(this).prop('checked'));
-            // optionCheckbox.prop('checked', $(this).prop('checked'));
-            // optionText.prop('checked', $(this).prop('checked') && optionText.val() > 0);
+            // Hiển thị thuộc tính checked cho ô input cụ thể được chọn
+            $(this).prop("checked", true);
 
             // Ẩn tất cả các câu hỏi
             $('.question').addClass('d-none');
 
             // Hiển thị câu hỏi đã chọn
             $(`.question[data-question="${selectedQuestion}"]`).removeClass('d-none').addClass('d-flex');
+        });
+
+        // Xử lý sự kiện khi click vào next câu hỏi
+        $('.next-btn').click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Lấy giá trị của radio button đã chọn
+            const selectedQuestion = $('input[type=radio].question-checkbox:checked').val();
+
+            // Nếu có radio button được chọn
+            if (selectedQuestion !== undefined) {
+                // Tăng giá trị lên 1 để lấy câu hỏi tiếp theo
+                const nextQuestion = parseInt(selectedQuestion) + 1;
+
+                // Kiểm tra không vượt quá số lượng câu hỏi
+                if (nextQuestion <= $('.question').length - 1) {
+                    // Ẩn tất cả các câu hỏi và xóa thuộc tính checked
+                    $('.question').addClass('d-none');
+                    $('input[type=radio].question-checkbox').prop('checked', false);
+
+                    // Hiển thị câu hỏi tiếp theo
+                    $(`.question[data-question="${nextQuestion}"]`).removeClass('d-none').addClass('d-flex');
+                    $(`input[type=radio].question-checkbox[data-question="${nextQuestion}"]`).prop("checked", true);
+
+                    showSubmitBtn(nextQuestion)
+                } else {
+                    console.log("You are already at the last question.");
+                }
+            } else {
+                // Hiển thị thông báo hoặc xử lý khi không có radio button được chọn
+                console.log("Please select a question before proceeding to the next one.");
+            }
+        });
+
+        // Xử lý sự kiện khi click vào prev câu hỏi
+        $('.prev-btn').click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Lấy giá trị của radio button đã chọn
+            const selectedQuestion = $('input[type=radio].question-checkbox:checked').val();
+
+            // Nếu có radio button được chọn
+            if (selectedQuestion !== undefined) {
+                // Giảm giá trị đi 1 để lấy câu hỏi trước đó
+                const prevQuestion = parseInt(selectedQuestion) - 1;
+
+                // Kiểm tra không lùi quá câu hỏi đầu tiên
+                if (prevQuestion >= 0) {
+                    // Ẩn tất cả các câu hỏi và xóa thuộc tính checked
+                    $('.question').addClass('d-none');
+                    $('input[type=radio].question-checkbox').prop('checked', false);
+
+                    // Hiển thị câu hỏi trước đó
+                    $(`.question[data-question="${prevQuestion}"]`).removeClass('d-none').addClass('d-flex');
+                    $(`input[type=radio].question-checkbox[data-question="${prevQuestion}"]`).prop("checked", true);
+
+                    showSubmitBtn(prevQuestion)
+                } else {
+                    console.log("You are already at the first question.");
+                }
+            } else {
+                // Hiển thị thông báo hoặc xử lý khi không có radio button được chọn
+                console.log("Please select a question before proceeding to the prev one.");
+            }
+        });
+
+        // Sự kiện change cho option checkbox và radio
+        $('.option-checkbox, .option-radio').change(function() {
+            // Lấy giá trị của ô input
+            const selectedOption = $(this).data('option');
+            // Chọn thẻ <p> tương ứng
+            const questionNumber = $(`.question-container[data-index="${selectedOption}"] p.number`);
+            questionNumber.css('color', 'green');
+        });
+        // Sự kiện change cho option text
+        $('.option-text').on('input', function() {
+            // Lấy giá trị của ô input
+            const selectedOption = $(this).data('option');
+            // Chọn thẻ <p> tương ứng
+            const questionNumber = $(`.question-container[data-index="${selectedOption}"] p.number`);
+            questionNumber.css('color', 'green');
         });
 
         // Hiển câu hỏi từ Local Storage sau khi load lại trang --}}
@@ -184,8 +267,6 @@
             }
         });
 
-
-
         // Xử lý khi nhấn nút submit
         $(examForm).submit(function(event) {
             // event.preventDefault();
@@ -195,7 +276,7 @@
             //
             // Xóa thời gian từ Local Storage khi bài thi đã kết thúc
             clearInterval(intervalId);
-            localStorage.removeItem('examTime');
+            localStorage.removeItem(`examTime${examIdInput}`);
 
             // Xóa câu hỏi từ Local Storage sau khi submit --}}
             $('input[type=checkbox].question-checkbox').each(function() {

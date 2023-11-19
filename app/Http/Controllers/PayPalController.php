@@ -46,9 +46,7 @@ class PayPalController extends Controller
                     ->with('error', $response['message'] ?? 'Something went wrong.');
             }
         }
-        $exam = $retakenEnrollment->Exam->exam_name;
-        return redirect()->to("thank-you/$retakenEnrollment->id")->
-        with("success", "You have been retaken $exam. We'll send you an email when your exam get started!");
+        return redirect()->to("paypal-success/".$retakenEnrollment->id);
     }
     public function paypalSuccess(Enrollment $retakenEnrollment) {
         $retakenEnrollment->update([
@@ -56,15 +54,16 @@ class PayPalController extends Controller
         ]); // Cập nhật trạng thái đã trả tiền
         return redirect()->to("thank-you/$retakenEnrollment->id")
             ->with('success', 'Transaction complete.');
-//        with("success", "You have been retaken $exam->exam_name. We'll send you an email when your exam get started!");
     }
 
     public function paypalCancel() {
         return redirect()->back()
-            ->with('error', $response['message'] ?? 'You have canceled the transaction.');;
+            ->with('error', $response['message'] ?? 'You have canceled the transaction.');
     }
 
     public function thankYou(Enrollment $retakenEnrollment) {
-        return view("pages.result.thank-you")->with("retakenEnrollment", $retakenEnrollment);
+        $exam = $retakenEnrollment->Exam->exam_name;
+        return view("pages.result.thank-you", compact("retakenEnrollment"))
+            ->with("success", "You have been retaken $exam. We'll send you an email when your exam get started!");
     }
 }

@@ -44,9 +44,9 @@
                                 <th>No.</th>
                                 <th>Exam</th>
                                 <th>Subject</th>
-                                <th>Time_taken</th>
+                                <th>Time taken</th>
                                 <th>Score</th>
-                                <th>Rank</th>
+                                <th>Grade</th>
                                 <th>Attempt</th>
                                 <th>Submitted</th>
                                 <th>Action</th>
@@ -68,7 +68,6 @@
                                         <td>
                                             {{ floor($enrollment->EnrollmentResult->time_taken / 3600) }} hours
                                             {{ floor($enrollment->EnrollmentResult->time_taken % 3600 / 60) }} minutes
-                                            {{ $enrollment->EnrollmentResult->time_taken % 60 }} seconds
                                         </td>
                                     @elseif(($enrollment->EnrollmentResult->time_taken % 3600) / 60 > 1)
                                         <td>
@@ -85,12 +84,12 @@
                                             {{ $total_score += $question->question_mark }}
                                         @endforeach
                                     </span>
-                                    <td class="text-primary">{{ number_format($enrollment->EnrollmentResult->score, 2) }} / {{  number_format($total_score, 2) }}</td>
+                                    <td><div class="text-primary d-inline">{{ number_format($enrollment->EnrollmentResult->score, 2) }}</div> / {{  number_format($total_score, 2) }}</td>
                                     <span class="d-none">
                                         {{ $total_score = 0 }}
                                     </span>
                                     <td>
-                                        {!! $enrollment->EnrollmentResult->getStatus() !!}
+                                        {!! $enrollment->EnrollmentResult->getGrade() !!}
                                     </td>
                                     <td>{{ $enrollment->attempt }} {{ $enrollment->attempt > 1 ? 'times' : 'time' }}</td>
                                     <td>{{ $enrollment->updated_at }}</td>
@@ -106,10 +105,14 @@
                                                 $can_checkout = false;
                                             }
                                         @endphp
-                                        <a class="btn" href="exam-retaken/{{ $enrollment->Exam->id }}">
-                                            <form action="exam-retaken/{{ $enrollment->Exam->id }}" method="get">
+                                        <a class="btn {{ $can_checkout ? "" : "disabled" }}">
+                                            <form action="exam-retaken/{{ $enrollment->Exam->entrance_id }}" method="get">
                                                 <button
-                                                    onclick="return confirm('Are you sure to retaken {{ $enrollment->Exam->exam_name }}???')"
+                                                    @if($can_checkout)
+                                                        onclick="return confirm('Are you sure to retaken {{ $enrollment->Exam->exam_name }}???')"
+                                                    @else
+                                                        onclick="event.preventDefault()"
+                                                    @endif
                                                     class="btn btn-danger btn-sm {{ $can_checkout ? "" : "disabled" }}"
                                                     type="submit"
                                                 >
@@ -125,9 +128,10 @@
                             <tfoot>
                                 <th>No.</th>
                                 <th>Exam</th>
-                                <th>Subject</th><th>Duration</th>
+                                <th>Subject</th>
+                                <th>Time taken</th>
                                 <th>Score</th>
-                                <th>Rank</th>
+                                <th>Grade</th>
                                 <th>Attempt</th>
                                 <th>Submitted</th>
                                 <th>Action</th>
@@ -147,7 +151,7 @@
                     <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
                     <h1 class="display-1">404</h1>
                     <p class="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
-                    <a class="btn btn-primary rounded-pill py-3 px-5" href="">Go Back To Home</a>
+                    <a class="btn btn-primary rounded-pill py-3 px-5" href="/">Go Back To Home</a>
                 </div>
             </div>
         </div>

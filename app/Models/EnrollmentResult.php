@@ -8,13 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class EnrollmentResult extends Model
 {
     use HasFactory;
+
     protected $table = "enrollment_results";
     protected $fillable = [
         "enrollment_id",
         "score",
         "correct",
         "incorrect",
+        "unanswered",
         "time_taken",
+        "grade",
         "status",
         "note"
     ];
@@ -24,14 +27,18 @@ class EnrollmentResult extends Model
         return $this->belongsTo(Enrollment::class, "enrollment_id");
     }
 
+    const PENDING = 0;
+    const APPROVED = 1;
+    const DECLINED = 2;
+
     const FAIL = 1;
     const ACCEPTABLE = 2;
     const GOOD = 3;
     const VERYGOOD = 4;
     const EXCELLENT = 5;
 
-    public function getStatus() {
-        switch($this->status) {
+    public function getGrade() {
+        switch($this->grade) {
             case self::EXCELLENT: return "<span class='text-primary'>Excellent</span>";
             case self::VERYGOOD: return "<span class='text-success'>Very good</span>";
             case self::GOOD: return "<span class='text-info'>Good</span>";
@@ -40,20 +47,4 @@ class EnrollmentResult extends Model
             default: return "<span class='text-warning'>Not found 404</span>";
         }
     }
-
-//    public function getEnrollmentKeyAttribute()
-//    {
-//        return $this->user_id . '-' . $this->exam_id;
-//    }
-//
-//    public function Enrollment()
-//    {
-//        return $this->belongsTo(Enrollment::class, 'enrollment_key', ['user_id', 'exam_id']);
-//    }
-
-
-//    public function Enrollment()
-//    {
-//        return $this->belongsTo(Enrollment::class, ['user_id', 'exam_id']);
-//    }
 }
