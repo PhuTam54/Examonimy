@@ -1,8 +1,5 @@
 @extends("layouts.admin")
 @section("title", "Admin | Subject Edit")
-@section("before_css")
-{{--    @include("components.admin.embedded.table_head")--}}
-@endsection
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -12,7 +9,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="admin/subject-edit/{{ $subject->id }}" method="post">
+            <form action="admin/subject-edit/{{ $subject->id }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="container-fluid">
@@ -36,24 +33,13 @@
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
-{{--                                        <div class="form-group">--}}
-{{--                                            <label for="inputName">Price</label>--}}
-{{--                                            <input--}}
-{{--                                                name="price"--}}
-{{--                                                value="{{ old("price")??$subject->price }}"--}}
-{{--                                                type="number"--}}
-{{--                                                class="form-control"--}}
-{{--                                            >--}}
-{{--                                            @error("price")--}}
-{{--                                            <p class="text-danger"><i>{{ $message }}</i></p>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
                                         <div class="form-group">
                                             <label for="lesson">Lesson</label>
                                             <input
                                                 name="lesson"
                                                 value="{{ old("lesson")??$subject->lesson }}"
                                                 type="number"
+                                                min="0"
                                                 class="form-control"
                                             >
                                             @error("lesson")
@@ -99,9 +85,8 @@
                                                 class="form-control"
                                                 accept="image/*,.pdf"
                                             >
-                                            @if (old('thumbnail'))
+                                            @if ($subject->thumbnail)
                                                 <p class="text-info">Old thumb nail: {{ old("thumbnail")??$subject->thumbnail }}</p>
-                                                <p class="text-danger">Please choose again.</p>
                                             @endif
                                             @error("thumbnail")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
@@ -119,7 +104,7 @@
                     <div class="row">
                         <div class="col-12">
                             <a href="admin/admin-subject" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Edit Product" class="btn btn-info float-right">
+                            <input type="submit" value="Save change" class="btn btn-info float-right">
                         </div>
                     </div>
                 </div>
@@ -128,7 +113,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
-@section("after_js")
-{{--    @include("components.admin.embedded.table_script")--}}
 @endsection

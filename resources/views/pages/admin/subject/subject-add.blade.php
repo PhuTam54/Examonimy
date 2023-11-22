@@ -1,8 +1,5 @@
 @extends("layouts.admin")
 @section("title", "Admin | Subject Add")
-@section("before_css")
-{{--    @include("components.admin.embedded.table_head")--}}
-@endsection
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -12,7 +9,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="admin/subject-add" method="post">
+            <form action="admin/subject-add" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
                 <div class="container-fluid">
@@ -36,24 +33,13 @@
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
-{{--                                        <div class="form-group">--}}
-{{--                                            <label for="inputName">Price</label>--}}
-{{--                                            <input--}}
-{{--                                                name="price"--}}
-{{--                                                value="{{ old("price") }}"--}}
-{{--                                                type="number"--}}
-{{--                                                class="form-control"--}}
-{{--                                            >--}}
-{{--                                            @error("price")--}}
-{{--                                            <p class="text-danger"><i>{{ $message }}</i></p>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
                                         <div class="form-group">
                                             <label for="lesson">Lesson</label>
                                             <input
                                                 name="lesson"
                                                 value="{{ old("lesson") }}"
                                                 type="number"
+                                                min="0"
                                                 class="form-control"
                                             >
                                             @error("lesson")
@@ -120,7 +106,7 @@
                     <div class="row">
                         <div class="col-12">
                             <a href="admin/admin-subject" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Create new Product" class="btn btn-success float-right">
+                            <input type="submit" value="Create new Subject" class="btn btn-success float-right">
                         </div>
                     </div>
                 </div>
@@ -129,7 +115,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
-@section("after_js")
-{{--    @include("components.admin.embedded.table_script")--}}
 @endsection
