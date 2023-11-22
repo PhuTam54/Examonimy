@@ -156,7 +156,7 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/admin-classroom', "classroom");
 
     Route::get('/classroom-add', "classroomAdd");
-    Route::post('/classroom-add', "classestore");
+    Route::post('/classroom-add', "classroomStore");
 
     Route::get('/classroom-edit/{classroom}', "classroomEdit");
     Route::put('/classroom-edit/{classroom}', "classroomUpdate");
@@ -164,6 +164,8 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::delete('/classroom-delete/{classroom}', "classroomDelete");
 
     Route::get('/classroom-trash', "classroomTrash");
-    Route::get('/classroom-recover/{classroom}', "classroomRecover");
+    Route::put('/classroom-recover/{classroom}', "classroomRecover");
 
+    Route::post('/classroom-add-student', "classAddStudent");
+    Route::post('/classroom-delete-student/{student}', "classDeleteStudent");
 });
