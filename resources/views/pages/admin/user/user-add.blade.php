@@ -1,117 +1,178 @@
 @extends("layouts.admin")
-@section("title", "Admin | Subject Add")
-@section("before_css")
-{{--    @include("components.admin.embedded.table_head")--}}
-@endsection
+@section("title", "Admin | User Add")
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include("components.admin.tables.subject.content_header")
+        @include("components.admin.tables.user.content_header")
         <!-- /.content-header -->
-
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Main content -->
         <section class="content">
-            <form action="admin/subject-add" method="post">
+            <form action="admin/user-add" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('POST')
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-success">
                                 <div class="card-header">
-                                    <h3 class="card-title">Add new subject</h3>
+                                    <h3 class="card-title">Add new user</h3>
                                 </div>
                                 <div class="card-body d-flex">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputName">Name</label>
+                                            <label for="inputName">User Name</label>
                                             <input
+                                                required
                                                 name="name"
                                                 value="{{ old("name") }}"
                                                 type="text"
                                                 class="form-control"
+                                                placeholder="Enter user name"
                                             >
                                             @error("name")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
-{{--                                        <div class="form-group">--}}
-{{--                                            <label for="inputName">Price</label>--}}
-{{--                                            <input--}}
-{{--                                                name="price"--}}
-{{--                                                value="{{ old("price") }}"--}}
-{{--                                                type="number"--}}
-{{--                                                class="form-control"--}}
-{{--                                            >--}}
-{{--                                            @error("price")--}}
-{{--                                            <p class="text-danger"><i>{{ $message }}</i></p>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
                                         <div class="form-group">
-                                            <label for="lesson">Lesson</label>
+                                            <label for="inputName">Email</label>
                                             <input
-                                                name="lesson"
-                                                value="{{ old("lesson") }}"
-                                                type="number"
+                                                required
+                                                name="email"
+                                                value="{{ old("email") }}"
+                                                type="email"
                                                 class="form-control"
+                                                placeholder="Enter user email"
                                             >
-                                            @error("lesson")
+                                            @error("email")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputCourse">Course</label>
-                                            <select name="course" id="inputCourse" class="form-control custom-select">
+                                            <label for="inputName">Password</label>
+                                            <input
+                                                required
+                                                name="password"
+                                                value="{{ old("password") }}"
+                                                type="password"
+                                                class="form-control"
+                                                placeholder="Enter user password"
+                                            >
+                                            @error("password")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputStatus">Role</label>
+                                            <select name="role" id="inputStatus" class="form-control custom-select">
                                                 <option selected disabled>Select one</option>
-                                                @foreach($courses as $course)
-                                                    <option @if(old("course") == "$course->id") selected @endif value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                                <option @if(old("role") == "1") selected @endif value="1">Student</option>
+                                                <option @if(old("role") == "2") selected @endif value="2">Instructor</option>
+                                                <option @if(old("role") == "3") selected @endif value="3">Admin</option>
+                                            </select>
+                                            @error("role")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputClass">Class ( not required )</label>
+                                            <select name="class_id" id="inputClass" class="form-control custom-select">
+                                                <option selected disabled>Select one</option>
+                                                @foreach($classes as $class)
+                                                    <option @if(old("class_id") == "$class->id") selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error("course")
+                                            @error("class_id")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
+                                        <!-- /.form-group -->
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputDescription">Description</label>
-                                            <textarea id="inputDescription" class="form-control" name="description" rows="1">{{ old('description') }}</textarea>
-                                            @error("description")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputStatus">Status</label>
-                                            <select name="status" id="inputStatus" class="form-control custom-select">
-                                                <option  disabled>Select one</option>
-                                                <option @if(old("status") == "1") selected @endif value="1" selected>In stock</option>
-                                                <option @if(old("status") == "2") selected @endif value="2">Out of stock</option>
-                                            </select>
-                                            @error("status")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName">Image</label>
+                                            <label for="inputName">Full Name ( not required )</label>
                                             <input
-                                                name="thumbnail"
+                                                name="full_name"
+                                                value="{{ old("full_name") }}"
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Enter user full_name"
+                                            >
+                                            @error("full_name")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Date of birth ( not required )</label>
+                                            <input
+                                                name="date_of_birth"
+                                                value="{{ old("date_of_birth") }}"
+                                                type="date"
+                                                class="form-control"
+                                                placeholder="Enter user date_of_birth"
+                                            >
+                                            @error("date_of_birth")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Address ( not required )</label>
+                                            <input
+                                                name="address"
+                                                value="{{ old("address") }}"
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Enter user address"
+                                            >
+                                            @error("address")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Phone number ( not required )</label>
+                                            <input
+                                                name="phone_number"
+                                                value="{{ old("phone_number") }}"
+                                                type="number"
+                                                class="form-control"
+                                                placeholder="Enter user phone_number"
+                                            >
+                                            @error("phone_number")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Avatar ( not required )</label>
+                                            <input
+                                                name="avatar"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                accept="image/*,.jpg"
                                             >
-                                            @if (old('thumbnail'))
-                                                <p class="text-info">Old thumb nail: {{ old("thumbnail") }}</p>
-                                                <p class="text-danger">Please choose again.</p>
+                                            @if (old('avatar'))
+                                                <p class="text-info">Old avatar: {{ old("avatar") }}</p>
                                             @endif
-                                            @error("thumbnail")
+                                            @error("avatar")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                     </div>
-                                <!-- /.card-body -->
+                                    <!-- /.card-body -->
                                 </div>
-                            <!-- /.card -->
+                                <!-- /.card -->
                             </div>
                         </div>
                     </div>
@@ -119,8 +180,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="admin/admin-subject" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Create new Product" class="btn btn-success float-right">
+                            <a href="admin/admin-user" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" value="Create new User" class="btn btn-success float-right">
                         </div>
                     </div>
                 </div>
@@ -129,7 +190,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
-@section("after_js")
-{{--    @include("components.admin.embedded.table_script")--}}
 @endsection

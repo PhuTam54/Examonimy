@@ -1,116 +1,179 @@
 @extends("layouts.admin")
-@section("title", "Admin | Subject Edit")
-@section("before_css")
-{{--    @include("components.admin.embedded.table_head")--}}
-@endsection
+@section("title", "Admin | User Edit")
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include("components.admin.tables.subject.content_header")
+        @include("components.admin.tables.user.content_header")
         <!-- /.content-header -->
-
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Main content -->
         <section class="content">
-            <form action="admin/subject-edit/{{ $subject->id }}" method="post">
+            <form action="admin/user-edit/{{ $user->id }}" method="post" enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
+                @method("PUT")
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-info">
                                 <div class="card-header">
-                                    <h3 class="card-title">Edit subject</h3>
+                                    <h3 class="card-title">Edit user</h3>
                                 </div>
                                 <div class="card-body d-flex">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputName">Name</label>
+                                            <label for="inputName">User Name</label>
                                             <input
+                                                required
                                                 name="name"
-                                                value="{{ old("name")??$subject->subject_name }}"
+                                                value="{{ $user->name }}"
                                                 type="text"
                                                 class="form-control"
+                                                placeholder="Enter user name"
                                             >
                                             @error("name")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
-{{--                                        <div class="form-group">--}}
-{{--                                            <label for="inputName">Price</label>--}}
-{{--                                            <input--}}
-{{--                                                name="price"--}}
-{{--                                                value="{{ old("price")??$subject->price }}"--}}
-{{--                                                type="number"--}}
-{{--                                                class="form-control"--}}
-{{--                                            >--}}
-{{--                                            @error("price")--}}
-{{--                                            <p class="text-danger"><i>{{ $message }}</i></p>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
                                         <div class="form-group">
-                                            <label for="lesson">Lesson</label>
+                                            <label for="inputName">Email</label>
                                             <input
-                                                name="lesson"
-                                                value="{{ old("lesson")??$subject->lesson }}"
-                                                type="number"
+                                                required
+                                                name="email"
+                                                value="{{ $user->email }}"
+                                                type="email"
                                                 class="form-control"
+                                                placeholder="Enter user email"
                                             >
-                                            @error("lesson")
+                                            @error("email")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputCourse">Course</label>
-                                            <select name="course" id="inputCourse" class="form-control custom-select">
-                                                @foreach($courses as $course)
-                                                    <option @if(old("course") || $subject->course_id == "$course->id") selected @endif value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                            <label for="inputName">Password</label>
+                                            <input
+                                                disabled
+                                                name="password"
+                                                value="{{ $user->password }}"
+                                                type="password"
+                                                class="form-control"
+                                                placeholder="Enter user password"
+                                            >
+                                            @error("password")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputStatus">Role</label>
+                                            <select name="role" id="inputStatus" class="form-control custom-select">
+                                                <option selected disabled>Select one</option>
+                                                <option @if($user->role == "1") selected @endif value="1">Student</option>
+                                                <option @if($user->role == "2") selected @endif value="2">Instructor</option>
+                                                <option @if($user->role == "3") selected @endif value="3">Admin</option>
+                                            </select>
+                                            @error("role")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputClass">Class ( not required )</label>
+                                            <select name="class_id" id="inputClass" class="form-control custom-select">
+                                                <option selected disabled>Select one</option>
+                                                @foreach($classes as $class)
+                                                    <option @if($user->class_id == "$class->id") selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error("course")
+                                            @error("class_id")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
+                                        <!-- /.form-group -->
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputDescription">Description</label>
-                                            <textarea id="inputDescription" class="form-control" name="description" rows="2">{{ old('description')??$subject->subject_description }}</textarea>
-                                            @error("description")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputStatus">Status</label>
-                                            <select name="status" id="inputStatus" class="form-control custom-select">
-                                                <option  disabled>Select one</option>
-                                                <option @if(old("status") == "1") selected @endif value="1" selected>In stock</option>
-                                                <option @if(old("status") == "2") selected @endif value="2">Out of stock</option>
-                                            </select>
-                                            @error("status")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName">Image</label>
+                                            <label for="inputName">Full Name ( not required )</label>
                                             <input
-                                                name="thumbnail"
+                                                name="full_name"
+                                                value="{{ $user->full_name }}"
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Enter user full_name"
+                                            >
+                                            @error("full_name")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Date of birth ( not required )</label>
+                                            <input
+                                                name="date_of_birth"
+                                                value="{{ $user->date_of_birth }}"
+                                                type="date"
+                                                class="form-control"
+                                                placeholder="Enter user date_of_birth"
+                                            >
+                                            @error("date_of_birth")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Address ( not required )</label>
+                                            <input
+                                                name="address"
+                                                value="{{ $user->address }}"
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Enter user address"
+                                            >
+                                            @error("address")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Phone number ( not required )</label>
+                                            <input
+                                                name="phone_number"
+                                                value="{{ $user->phone_number }}"
+                                                type="number"
+                                                class="form-control"
+                                                placeholder="Enter user phone_number"
+                                            >
+                                            @error("phone_number")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label for="inputName">Avatar ( not required )</label>
+                                            <input
+                                                name="avatar"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                accept="image/*,.jpg"
                                             >
-                                            @if (old('thumbnail'))
-                                                <p class="text-info">Old thumb nail: {{ old("thumbnail")??$subject->thumbnail }}</p>
-                                                <p class="text-danger">Please choose again.</p>
+                                            @if ( $user->avatar )
+                                                <p class="text-info">Old avatar: {{ $user->avatar }}</p>
                                             @endif
-                                            @error("thumbnail")
+                                            @error("avatar")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                     </div>
-                                <!-- /.card-body -->
+                                    <!-- /.card-body -->
                                 </div>
-                            <!-- /.card -->
+                                <!-- /.card -->
                             </div>
                         </div>
                     </div>
@@ -118,8 +181,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="admin/admin-subject" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Edit Product" class="btn btn-info float-right">
+                            <a href="admin/admin-user" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" value="Save change" class="btn btn-info float-right">
                         </div>
                     </div>
                 </div>
@@ -128,7 +191,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
-@section("after_js")
-{{--    @include("components.admin.embedded.table_script")--}}
 @endsection

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;// trait
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +31,8 @@ class User extends Authenticatable
         'address',
         'phone_number',
         'status',
+        'email_verified_at',
+        'remember_token'
     ];
 
     /**
@@ -59,6 +63,10 @@ class User extends Authenticatable
         return $this->belongsTo(Classes::class, "class_id");
     }
 
+    public function ClassesOfInstructor() {
+        return $this->hasMany(Classes::class, "instructor_id");
+    }
+
     public function Attendances() {
         return $this->hasMany(Attendance::class, "student_id");
     }
@@ -67,7 +75,6 @@ class User extends Authenticatable
         switch($this->role) {
             case self::STUDENT: return "<span class='text-secondary'>STUDENT</span>";
             case self::INSTRUCTOR: return "<span class='text-info'>INSTRUCTOR</span>";
-//            case self::COMPLETE: return "<span class='text-success'>Completed</span>";
             case self::ADMIN: return "<span class='text-danger'>ADMIN</span>";
             default: return "<span class='text-warning'>Not found 404</span>";
         }
