@@ -45,9 +45,9 @@
                                                 <option @if( $question->type_of_question == "2") selected @endif value="2">One Choice</option>
                                                 <option @if( $question->type_of_question == "3") selected @endif value="3">Fill in blank</option>
                                             </select>
-                                            {{--                                            @error("type_of_question")--}}
+                                        @error("type_of_question")
                                             <p class="text-danger"><i></i></p>
-                                            {{--                                            @enderror--}}
+                                        @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="inputDifficulty">Difficulty</label>
@@ -62,9 +62,9 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputCourse">ExamQuestion</label>
-                                            <select name="exam_question_id" id="inputCourse" class="form-control custom-select" required>
-                                                <option selected disabled>Select an examquestion</option>
+                                            <label for="inputCourse">ExamQuestion (not required)</label>
+                                            <select name="exam_question_id" id="inputCourse" class="form-control custom-select">
+                                                <option selected disabled>Select an exam question</option>
                                                 @foreach($exam_questions as $exam_question)
                                                     <option
                                                         @if( $question->exam_question_id == "$exam_question->id") selected @endif
@@ -96,7 +96,6 @@
                                             >
                                             @if ($question->question_image)
                                                 <p class="text-info">Old thumb nail: {{ $question->question_image }}</p>
-{{--                                                <p class="text-danger">Please choose again.</p>--}}
                                             @endif
                                             @error("question_image")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
@@ -108,11 +107,10 @@
                                                 name="question_audio"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                accept="audio/*"
                                             >
                                             @if ($question->question_audio)
                                                 <p class="text-info">Old audio: {{ $question->question_audio }}</p>
-{{--                                                <p class="text-danger">Please choose again.</p>--}}
                                             @endif
                                             @error("question_audio")
                                             <p class="text-danger"><i>{{ $message }}</i></p>

@@ -53,7 +53,7 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
 
                                         <!-- Modal content-->
-                                        <div class="modal-content">
+                                        <div class="modal-content" style="min-width: 700px">
                                             <div class="modal-header">
                                                 <h4 class="modal-title">Import Q&A</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -116,7 +116,7 @@
                                             <div class="modal-dialog modal-dialog-centered" role="document">
 
                                                 <!-- Modal content-->
-                                                <div class="modal-content">
+                                                <div class="modal-content" style="min-width: 700px">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Showing Answer</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -146,45 +146,61 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
-                                        <!-- Trigger the modal with a button -->
-                                        <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showExamQuestionModal{{ $question->ExamQuestion->id }}">
-                                            <i class="fa fa-eye"></i>
-                                            {{ $question->ExamQuestion->exam_question_name }}
-                                        </a>
+                                    @if($question->ExamQuestion != null)
+                                        <td>
+                                            <!-- Trigger the modal with a button -->
+                                            <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showExamQuestionModal{{ $question->ExamQuestion->id }}">
+                                                <i class="fa fa-eye"></i>
+                                                {{ $question->ExamQuestion->exam_question_name }}
+                                            </a>
 
-                                        <!-- Modal -->
-                                        <div id="showExamQuestionModal{{ $question->ExamQuestion->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <!-- Modal -->
+                                            <div id="showExamQuestionModal{{ $question->ExamQuestion->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
 
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Showing ExamQuestion</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content" style="min-width: 700px">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Showing ExamQuestion</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <ul>
+                                                                <li>ExamQuestion: {{ $question->ExamQuestion->exam_question_name }}</li>
+                                                                @if($question->ExamQuestion->duration / 3600 > 1)
+                                                                    <li>Duration:
+                                                                        {{ floor($question->ExamQuestion->duration / 3600) }} hours
+                                                                        {{ floor($question->ExamQuestion->duration % 3600 / 60) }} minutes
+                                                                    </li>
+                                                                @elseif(($question->ExamQuestion->duration % 3600) / 60 > 1)
+                                                                    <li>Duration:
+                                                                        {{ floor($question->ExamQuestion->duration % 3600 / 60) }} minutes
+                                                                    </li>
+                                                                @elseif($question->ExamQuestion->duration % 60 > 1)
+                                                                    <li>Duration:
+                                                                        {{ $question->ExamQuestion->duration % 60 }} seconds
+                                                                    </li>
+                                                                @endif
+                                                                <li>Questions: {{ $question->ExamQuestion->number_of_questions }}</li>
+                                                                <li>Total: {{ $question->ExamQuestion->total_marks }} points</li>
+                                                                <li>Passing: {{ $question->ExamQuestion->passing_marks }} points</li>
+                                                                <li>
+                                                                    Description: {{ $question->ExamQuestion->exam_question_description }}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            <a class="btn btn-info" href="admin/exam-question-details/{{ $question->ExamQuestion->id }}">Details</a>
+                                                        </div>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <h5 class="text fs-6">Exam {{ $question->exam_name }}</h5>
-                                                        <ul>
-                                                            <li>ExamQuestion: {{ $question->ExamQuestion->exam_question_name }}</li>
-                                                            <li>Duration: {{ $question->ExamQuestion->duration }} seconds</li>
-                                                            <li>Questions: {{ $question->ExamQuestion->number_of_questions }}</li>
-                                                            <li>Total: {{ $question->ExamQuestion->total_marks }} points</li>
-                                                            <li>Passing: {{ $question->ExamQuestion->passing_marks }} points</li>
-                                                            <li>
-                                                                Description: {{ $question->ExamQuestion->exam_question_description }}
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        <a class="btn btn-info" href="admin/exam-question-details/{{ $question->ExamQuestion->id }}">Details</a>
-                                                    </div>
+
                                                 </div>
-
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @else
+                                        <td></td>
+                                    @endif
                                     <td class="project-actions text-center">
                                         @if($question->deleted_at != null)
                                             <a class="btn btn-info btn-sm mb-2" href="admin/question-recover/{{ $question->id }}">

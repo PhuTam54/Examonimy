@@ -9,7 +9,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form method="post" enctype="multipart/form-data" id="addQnAForm">
+            <form method="post" id="addQnAForm" enctype="multipart/form-data">
                 @csrf
                 <div class="container-fluid">
                     <div class="row">
@@ -42,9 +42,9 @@
                                                 <option @if(old("type_of_question") == "2") selected @endif value="2">One Choice</option>
                                                 <option @if(old("type_of_question") == "3") selected @endif value="3">Fill in blank</option>
                                             </select>
-{{--                                            @error("type_of_question")--}}
+                                        @error("type_of_question")
                                             <p class="text-danger"><i></i></p>
-{{--                                            @enderror--}}
+                                        @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="inputDifficulty">Difficulty</label>
@@ -59,9 +59,9 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputCourse">ExamQuestion</label>
-                                            <select name="exam_question_id" id="inputCourse" class="form-control custom-select" required>
-                                                <option selected disabled>Select an examquestion</option>
+                                            <label for="inputCourse">ExamQuestion (not required)</label>
+                                            <select name="exam_question_id" id="inputCourse" class="form-control custom-select">
+                                                <option selected disabled>Select an exam question</option>
                                                 @foreach($exam_questions as $exam_question)
                                                     <option
                                                         @if(old("exam_question_id") == "$exam_question->id") selected @endif
@@ -105,7 +105,7 @@
                                                 name="question_audio"
                                                 type="file"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                accept="audio/*"
                                             >
                                             @if (old('question_audio'))
                                                 <p class="text-info">Old audio: {{ old("question_audio") }}</p>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedSmallInteger("question_no");
             $table->text("question_text");
-            $table->unsignedBigInteger("exam_question_id");
+            $table->unsignedBigInteger("exam_question_id")->nullable();
             $table->foreign("exam_question_id")->references("id")->on("exam_questions");
             $table->string("question_image")->nullable();
             $table->string("question_audio", 100)->nullable();
