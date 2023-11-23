@@ -1,5 +1,5 @@
 @extends("layouts.admin")
-@section("title", "Admin | Exam Edit")
+@section("title", "Admin | Exam Question Edit")
 @section("before_css")
     {{--    @include("components.admin.embedded.table_head")--}}
 @endsection
@@ -7,142 +7,133 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        @include("components.admin.tables.exam.content_header")
+        @include("components.admin.tables.examquestion.content_header")
         <!-- /.content-header -->
-
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <!-- Main content -->
         <section class="content">
-            <form action="admin/exam-edit/{{ $exam->id }}" method="post">
+            <form action="admin/examquestion-edit/{{ $examquestion->id }}" method="post">
                 @csrf
-                @method('PUT')
+                @method("PUT")
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-info">
                                 <div class="card-header">
-                                    <h3 class="card-title">Edit exam</h3>
+                                    <h3 class="card-title">Edit examquestion</h3>
                                 </div>
                                 <div class="card-body d-flex">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputName">Name</label>
                                             <input
-                                                name="exam_name"
-                                                value="{{ old("exam_name") ?? $exam->exam_name }}"
+                                                required
+                                                name="examquestion_name"
+                                                value="{{ $examquestion->exam_question_name }}"
                                                 type="text"
                                                 class="form-control"
-                                                placeholder="Enter exam name"
+                                                placeholder="Enter examquestion name"
                                             >
-                                            @error("exam_name")
+                                            @error("examquestion_name")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputStatus">Type of exam</label>
-                                            <select name="type_of_exam" id="inputStatus" class="form-control custom-select">
-                                                <option selected disabled>Select one</option>
-                                                <option @if(old("type_of_exam") == "1" || $exam->type_of_exam == 1) selected @endif value="1">MultipleChoice</option>
-                                                <option @if(old("type_of_exam") == "2" || $exam->type_of_exam == 2) selected @endif value="2">Essay</option>
-                                                <option @if(old("type_of_exam") == "3" || $exam->type_of_exam == 3) selected @endif value="3">Listening</option>
-                                            </select>
-                                            @error("type_of_exam")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSubject">Subject</label>
-                                            <select name="subject" id="inputSubject" class="form-control custom-select">
-                                                <option selected disabled>Select one</option>
-                                                @foreach($subjects as $subject)
-                                                    <option @if(old("subject") == "$subject->id" || $exam->Subject->id == "$subject->id") selected @endif value="{{ $subject->id }}">{{ $subject->subject_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error("subject")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputClassEnrollment">Class enrollment</label>
-                                            <select name="classes" class="select2" id="inputClassEnrollment" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                                                @php $array = old("classes") ?? [] @endphp
-                                                @foreach($classes as $class)
-                                                    {{--                                                    <option @if(in_array("$class->id", $array)) selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>--}}
-                                                    <option @if(old("classes") == "$class->id") selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error("classes")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
-                                        <!-- /.form-group -->
-                                        <div class="form-group">
-                                            <label for="inputExamQuestion">Exam question</label>
-                                            <select name="exam_question" id="inputExamQuestion" class="form-control custom-select">
-                                                <option selected disabled>Select one</option>
-                                                @foreach($exam_questions as $exam_question)
-                                                    <option @if(old("exam_question") == "$exam_question->id" || $exam->ExamQuestion->id == "$exam_question->id") selected @endif value="{{ $exam_question->id }}">{{ $exam_question->exam_question_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error("exam_question")
-                                            <p class="text-danger"><i>{{ $message }}</i></p>
-                                            @enderror
-                                        </div>
+                                            <label>Duration</label>
 
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <!-- Date and time range -->
-                                        <div class="form-group">
-                                            <label>Date and time range:</label>
-
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                            <div class="input-group row">
+                                                <div class="col-3">
+                                                    <div>Hour</div>
+                                                    <input name="durationHour" type="number" id="durationHour" class="form-control float-right" min="0" value="{{ $hour }}">
+                                                    @error("durationHour")
+                                                    <p class="text-danger"><i>{{ $message }}</i></p>
+                                                    @enderror
                                                 </div>
-                                                <input name="datetime" type="text" class="form-control float-right" id="reservationtime">
-                                                @error("datetime")
-                                                <p class="text-danger"><i>{{ $message }}</i></p>
-                                                @enderror
+                                                <div class="col-6">
+                                                    <div>Minute</div>
+                                                    <input name="durationMinute" type="number" id="durationMinute" class="form-control float-right" min="0" required value="{{ $minute }}">
+                                                    @error("durationMinute")
+                                                    <p class="text-danger"><i>{{ $message }}</i></p>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-3">
+                                                    <div>Second</div>
+                                                    <input name="durationSecond" type="number" id="durationSecond" class="form-control float-right" min="0" value="{{ $second }}">
+                                                    @error("durationSecond")
+                                                    <p class="text-danger"><i>{{ $message }}</i></p>
+                                                    @enderror
+                                                </div>
                                             </div>
                                             <!-- /.input group -->
                                         </div>
                                         <!-- /.form group -->
                                         <div class="form-group">
+                                            <label for="inputName">Number of questions</label>
+                                            <input
+                                                required
+                                                name="number_of_question"
+                                                value="{{ $examquestion->number_of_questions }}"
+                                                type="number"
+                                                min="1"
+                                                class="form-control"
+                                                placeholder="Enter the number of questions"
+                                            >
+                                            @error("number_of_question")
+                                            <p class="text-danger"><i>{{ $message }}</i></p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <label for="inputDescription">Description</label>
-                                            <textarea id="inputDescription" class="form-control" name="description" rows="3">{{ $exam->exam_description }}</textarea>
+                                            <textarea id="inputDescription" class="form-control" name="description" rows="2" required>{{ $examquestion->exam_question_description }}</textarea>
                                             @error("description")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputName">Retaken fee</label>
+                                            <label for="inputName">Total mark</label>
                                             <input
-                                                name="retaken_fee"
-                                                value="{{ $exam->retaken_fee }}"
+                                                required
+                                                name="total_mark"
+                                                id="totalMarkInput"
+                                                value="{{ $examquestion->total_marks }}"
                                                 type="number"
+                                                min="1"
                                                 class="form-control"
-                                                placeholder="$0.00"
+                                                placeholder="100 point"
+                                                onchange="updatePassingMark()"
                                             >
-                                            @error("retaken_fee")
+                                            @error("total_mark")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputName">Image</label>
+                                            <label for="inputName">Passing mark</label>
                                             <input
-                                                name="thumbnail"
-                                                type="file"
+                                                required
+                                                name="passing_mark"
+                                                id="passingMarkInput"
+                                                value="{{ $examquestion->passing_marks }}"
+                                                type="text"
+                                                min="1"
                                                 class="form-control"
-                                                accept="image/*,.pdf"
+                                                placeholder="100/3 point"
                                             >
-                                            @if ($exam->exam_thumbnail)
-                                                <p class="text-info">Old thumbnail: {{ old("thumbnail") || $exam->exam_thumbnail }}</p>
-{{--                                                <p class="text-danger">Please choose again.</p>--}}
-                                            @endif
-                                            @error("thumbnail")
+                                            @error("passing_mark")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
                                             @enderror
                                         </div>
+                                        <!-- /.form-group -->
                                     </div>
                                     <!-- /.card-body -->
                                 </div>
@@ -154,8 +145,8 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="admin/admin-exam" class="btn btn-secondary">Cancel</a>
-                            <input type="submit" value="Save changes" class="btn btn-info float-right">
+                            <a href="admin/admin-examquestion" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" value="Save change" class="btn btn-info float-right">
                         </div>
                     </div>
                 </div>
@@ -167,18 +158,18 @@
 @endsection
 @section("after_js")
     <script>
-        $(function () {
-            //Initialize Select2 Elements
-            $('.select2').select2()
+        function updatePassingMark() {
+            const totalMarkInput = document.getElementById('totalMarkInput');
+            const passingMarkInput = document.getElementById('passingMarkInput');
 
-            //Date range picker with time picker
-            $('#reservationtime').daterangepicker({
-                timePicker: true,
-                timePickerIncrement: 30,
-                locale: {
-                    format: 'MM/DD/YYYY hh:mm A'
-                }
-            })
-        })
+            // Lấy giá trị từ ô input "total_mark"
+            const totalMarkValue = parseFloat(totalMarkInput.value);
+
+            // Kiểm tra nếu giá trị hợp lệ
+            if (!isNaN(totalMarkValue)) {
+                // Cập nhật giá trị của ô input "passing_mark"
+                passingMarkInput.value = (totalMarkValue / 3).toFixed(2);
+            }
+        }
     </script>
 @endsection
