@@ -75,9 +75,6 @@
                                     @foreach($exams as $exam)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
-{{--                                            <td class="">--}}
-{{--                                                <img src=" {{ $exam->exam_thumbnail ?? asset("storage/img/main-img/course-1.jpg") }}" width="80" alt="img">--}}
-{{--                                            </td>--}}
                                             <td>
                                                 <p>{{ $exam->exam_name }}</p>
                                                 <img src=" {{ $exam->exam_thumbnail ?? asset("storage/img/main-img/course-1.jpg") }}" width="80" alt="img">
@@ -95,7 +92,7 @@
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
 
                                                         <!-- Modal content-->
-                                                        <div class="modal-content">
+                                                        <div class="modal-content" style="min-width: 700px">
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title">Showing ExamQuestion</h4>
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -103,9 +100,21 @@
                                                             <div class="modal-body">
                                                                 <h5 class="text fs-6">Exam {{ $exam->exam_name }}</h5>
                                                                 <ul>
-{{--                                                                    <li>ExamQuestion: {{ $exam->ExamQuestion->exam_question_thumbnail }}</li>--}}
                                                                     <li>ExamQuestion: {{ $exam->ExamQuestion->exam_question_name }}</li>
-                                                                    <li>Duration: {{ $exam->ExamQuestion->duration }} seconds</li>
+                                                                    @if($exam->ExamQuestion->duration / 3600 > 1)
+                                                                        <li>Duration:
+                                                                            {{ floor($exam->ExamQuestion->duration / 3600) }} hours
+                                                                            {{ floor($exam->ExamQuestion->duration % 3600 / 60) }} minutes
+                                                                        </li>
+                                                                    @elseif(($exam->ExamQuestion->duration % 3600) / 60 > 1)
+                                                                        <li>Duration:
+                                                                            {{ floor($exam->ExamQuestion->duration % 3600 / 60) }} minutes
+                                                                        </li>
+                                                                    @elseif($exam->ExamQuestion->duration % 60 > 1)
+                                                                        <li>Duration:
+                                                                            {{ $exam->ExamQuestion->duration % 60 }} seconds
+                                                                        </li>
+                                                                    @endif
                                                                     <li>Questions: {{ $exam->ExamQuestion->number_of_questions }}</li>
                                                                     <li>Total: {{ $exam->ExamQuestion->total_marks }} points</li>
                                                                     <li>Passing: {{ $exam->ExamQuestion->passing_marks }} points</li>
@@ -116,7 +125,6 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                <a class="btn btn-info" href="admin/exam-question-details/{{ $exam->ExamQuestion->id }}">Details</a>
                                                             </div>
                                                         </div>
 
@@ -124,50 +132,69 @@
                                                 </div>
                                             </td>
                                             <td>{{ $exam->subject->subject_name }}</td>
-                                            @php
-                                            $participants = 0;
-                                                foreach ($exam->Enrollments as $enrollment) {
-                                                    if ($enrollment->User !== null) {
-//                                                        $participants = $enrollment->User->Classes->class_name;
-                                                        $participants += 1;
-                                                    }
-                                                }
-                                            @endphp
                                             <td>
                                                 <!-- Trigger the modal with a button -->
-                                                <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showPaticipantModal{{ $exam->ExamQuestion->id }}">
+                                                <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showPaticipantModal{{ $exam->id }}">
                                                     <i class="fa fa-eye"></i>
-                                                    {{ $participants }} to show
+                                                    {{ $exam->Enrollments->count() }} to show
                                                 </a>
 
                                                 <!-- Modal -->
-                                                <div id="showPaticipantModal{{ $exam->ExamQuestion->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div id="showPaticipantModal{{ $exam->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
 
                                                         <!-- Modal content-->
-                                                        <div class="modal-content">
+                                                        <div class="modal-content" style="min-width: 700px; max-height: 600px">
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title">Showing Participants</h4>
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <h5 class="text fs-6">Exam {{ $exam->exam_name }}</h5>
-                                                                <ul>
-                                                                    @foreach ($exam->Enrollments as $index => $enrollment)
-                                                                        <li>Student {{ $index + 1 }}: {{ $enrollment->User->name }}</li>
+                                                            <div class="modal-body overflow-auto">
+                                                                <h5 class="text fs-6">Exam: {{ $exam->exam_name }}</h5>
+                                                                <table class="table table-bordered table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>No.</th>
+                                                                        <th>Student's Name</th>
+                                                                        <th>Class</th>
+                                                                        <th>Attempt</th>
+                                                                        <th>Status</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    @foreach($exam->Enrollments as $index => $enrollment)
+                                                                        <tr>
+                                                                            <td>{{ $loop->index + 1 }}</td>
+                                                                            <td>{{ $enrollment->User->name }}</td>
+                                                                            @if($enrollment->User->Classes != null)
+                                                                                <td>{{ $enrollment->User->Classes->class_name }}</td>
+                                                                            @else
+                                                                                <td></td>
+                                                                            @endif
+                                                                            <td>{{ $enrollment->attempt > 1 ? $enrollment->attempt . " times" : $enrollment->attempt . " time"}}</td>
+                                                                            <td>{!! $enrollment->getStatus() !!}</td>
+                                                                        </tr>
                                                                     @endforeach
-                                                                </ul>
+                                                                    </tbody>
+                                                                    <tfoot>
+                                                                    <tr>
+                                                                        <th>No.</th>
+                                                                        <th>Student's Name</th>
+                                                                        <th>Class</th>
+                                                                        <th>Attempt</th>
+                                                                        <th>Status</th>
+                                                                    </tr>
+                                                                    </tfoot>
+                                                                </table>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                <a class="btn btn-info" href="admin/exam-question-details/{{ $exam->ExamQuestion->id }}">Details</a>
                                                             </div>
                                                         </div>
 
                                                     </div>
                                                 </div>
                                             </td>
-{{--                                            <td>{{ $exam->User->class_name }}</td>--}}
                                             <td>{!! $exam->getStatus() !!}</td>
                                             <td>{{ $exam->Instructor->name }}</td>
                                             <td class="project-actions text-center">

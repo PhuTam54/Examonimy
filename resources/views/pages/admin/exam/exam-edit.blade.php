@@ -1,8 +1,5 @@
 @extends("layouts.admin")
 @section("title", "Admin | Exam Edit")
-@section("before_css")
-    {{--    @include("components.admin.embedded.table_head")--}}
-@endsection
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -93,13 +90,14 @@
                                     <div class="col-md-6">
                                         <!-- Date and time range -->
                                         <div class="form-group">
-                                            <label>Date and time range:</label>
+                                            <label>Date and time range</label>
 
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="far fa-clock"></i></span>
                                                 </div>
-                                                <input name="datetime" type="text" class="form-control float-right" id="reservationtime">
+                                                <label for="reservationtime"></label>
+                                                <input name="datetime" type="text" class="form-control float-right" id="reservationtime" value="{{ $newStartDate }} - {{ $newEndDate }}">
                                                 @error("datetime")
                                                 <p class="text-danger"><i>{{ $message }}</i></p>
                                                 @enderror

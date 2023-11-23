@@ -1,21 +1,14 @@
 @extends("layouts.admin")
 @section("title", "Admin | Exam Add")
-@section("before_css")
-{{--    @include("components.admin.embedded.table_head")--}}
-@endsection
 @section("main")
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         @include("components.admin.tables.exam.content_header")
         <!-- /.content-header -->
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        @if(session()->has("outOfDate"))
+            <div class="alert alert-danger" role="alert">
+                {{ session("outOfDate") }}
             </div>
         @endif
         <!-- Main content -->
@@ -47,10 +40,9 @@
                                         <div class="form-group">
                                             <label for="inputStatus">Type of exam</label>
                                             <select name="type_of_exam" id="inputStatus" class="form-control custom-select">
-                                                <option selected disabled>Select one</option>
-                                                <option @if(old("type_of_exam") == "1") selected @endif value="1">MultipleChoice</option>
-                                                <option @if(old("type_of_exam") == "2") selected @endif value="2">Essay</option>
-                                                <option @if(old("type_of_exam") == "3") selected @endif value="3">Listening</option>
+                                                <option disabled>Select one</option>
+                                                <option selected value="1">Default</option>
+                                                <option @if(old("type_of_exam") == "2") selected @endif value="2">Toeic</option>
                                             </select>
                                             @error("type_of_exam")
                                             <p class="text-danger"><i>{{ $message }}</i></p>
@@ -70,7 +62,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="inputClassEnrollment">Class enrollment</label>
-                                            <select name="classes" class="select2" id="inputClassEnrollment" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                                            <select name="classes[]" class="select2" id="inputClassEnrollment" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
 {{--                                                @php $array = old("classes") ?? [] @endphp--}}
                                                 @foreach($classes as $class)
 {{--                                                    <option @if(in_array("$class->id", $array)) selected @endif value="{{ $class->id }}">{{ $class->class_name }}</option>--}}
@@ -100,7 +92,7 @@
                                     <div class="col-md-6">
                                         <!-- Date and time range -->
                                         <div class="form-group">
-                                            <label>Date and time range:</label>
+                                            <label>Date and time range</label>
 
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -125,7 +117,7 @@
                                             <label for="inputName">Retaken fee</label>
                                             <input
                                                 name="retaken_fee"
-                                                value="{{ old("retaken_fee") }}"
+                                                value="0"
                                                 type="number"
                                                 min="0"
                                                 class="form-control"
