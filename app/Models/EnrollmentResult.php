@@ -47,4 +47,13 @@ class EnrollmentResult extends Model
             default: return "<span class='text-warning'>Not found 404</span>";
         }
     }
+
+    public function getStatus() {
+        switch($this->status) {
+            case self::PENDING: return "<span class='text-secondary'>PENDING</span>";
+            case self::APPROVED: return "<span class='text-success'>APPROVED</span>";
+            case self::DECLINED: return "<span class='text-danger'>DECLINED</span>";
+            default: return "<span class='text-warning'>Not found 404</span>";
+        }
+    }
 }
