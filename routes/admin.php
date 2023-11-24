@@ -2,8 +2,10 @@
 // ADMIN
 Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(function () {
     Route::get('/admin-dashboard', "dashboard");
+});
 
-    // Exams
+// Exams
+Route::controller(\App\Http\Controllers\Admin\AdminExamController::class)->group(function () {
     Route::get('/admin-exam', "exam");
     Route::get('/exam-details/{exam}', "examDetails");
 
@@ -20,8 +22,10 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/exam-trash', "examTrash");
     Route::get('/exam-recover/{exam}', "examRecover");
+});
 
-    // ExamQuestions
+// ExamQuestions
+Route::controller(\App\Http\Controllers\Admin\AdminExamQuestionController::class)->group(function () {
     Route::get('/admin-examquestion', "examquestion");
     Route::get('/examquestion-details/{examquestion}', "examquestionDetails");
 
@@ -39,7 +43,12 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/examquestion-trash', "examquestionTrash");
     Route::get('/examquestion-recover/{examquestion}', "examquestionRecover");
 
-    // Results
+    Route::post('/examquestion-add-question', "examQuestionAddQuestion");
+    Route::post('/examquestion-delete-question/{question}', "examQuestionDeleteQuestion");
+});
+
+// Results
+Route::controller(\App\Http\Controllers\Admin\AdminResultController::class)->group(function () {
     Route::get('/admin-result', "result");
 
     Route::get('/result-add', "resultAdd");
@@ -53,7 +62,12 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::get('/result-trash', "resultTrash");
     Route::get('/result-recover/{result}', "resultRecover");
 
-    // Enrollments
+    Route::get('/result-approve/{result}', "resultApprove");
+    Route::get('/result-decline/{result}', "resultDecline");
+});
+
+// Enrollments
+Route::controller(\App\Http\Controllers\Admin\AdminEnrollmentController::class)->group(function () {
     Route::get('/admin-enrollment', "enrollment");
 
     Route::get('/enrollment-confirm/{enrollment}', "enrollmentConfirm");
@@ -64,8 +78,10 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/enrollment-trash', "enrollmentTrash");
     Route::get('/enrollment-recover/{enrollment}', "enrollmentRecover");
+});
 
-    // Users
+// Users
+Route::controller(\App\Http\Controllers\Admin\AdminUserController::class)->group(function () {
     Route::get('/admin-user', "user");
 
     Route::get('/user-add', "userAdd");
@@ -78,13 +94,16 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/user-trash', "userTrash");
     Route::get('/user-recover/{user}', "userRecover");
+});
 
-    // Questions
+// Questions
+Route::controller(\App\Http\Controllers\Admin\AdminQuestionController::class)->group(function () {
     Route::get('/admin-question', "question");
 
     Route::get('/question-add', "questionAdd");
     Route::post('/question-add', "questionStore");
-        // excel
+
+    // EXCEL
     Route::post('/import-qna', "importQna")->name('importQna');
 
     Route::get('/question-edit/{question}', "questionEdit");
@@ -94,8 +113,10 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/question-trash', "questionTrash");
     Route::get('/question-recover/{question}', "questionRecover");
+});
 
-    // Answers
+// Answers
+Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(function () {
     Route::get('/admin-answer', "answer");
 
     Route::get('/answer-add', "answerAdd");
@@ -108,8 +129,10 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/answer-trash', "answerTrash");
     Route::get('/answer-recover/{answer}', "answerRecover");
+});
 
-    // Subjects
+// Subjects
+Route::controller(\App\Http\Controllers\Admin\AdminSubjectController::class)->group(function () {
     Route::get('/admin-subject', "subject");
     Route::get('/subject-details/{subject}', "subjectDetails");
 
@@ -123,8 +146,10 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/subject-trash', "subjectTrash");
     Route::get('/subject-recover/{subject}', "subjectRecover");
+});
 
-    // Attendances
+// Attendances
+Route::controller(\App\Http\Controllers\Admin\AdminAttendanceController::class)->group(function () {
     Route::get('/admin-attendance', "attendance");
 
     Route::get('/attendance-add', "attendanceAdd");
@@ -137,8 +162,10 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
 
     Route::get('/attendance-trash', "attendanceTrash");
     Route::get('/attendance-recover/{attendance}', "attendanceRecover");
+});
 
-    // Courses
+// Courses
+Route::controller(\App\Http\Controllers\Admin\AdminCourseController::class)->group(function () {
     Route::get('/admin-courses', "courses");
 
     Route::get('/course-add', "courseAdd");
@@ -150,9 +177,11 @@ Route::controller(\App\Http\Controllers\Admin\AdminController::class)->group(fun
     Route::delete('/course-delete/{course}', "courseDelete");
 
     Route::get('/course-trash', "courseTrash");
-    Route::get('/course-recover/{course}', "courseRecover");
+    Route::put('/course-recover/{course}', "courseRecover");
+});
 
-    // classes
+// Classes
+Route::controller(\App\Http\Controllers\Admin\AdminClassController::class)->group(function () {
     Route::get('/admin-classroom', "classroom");
 
     Route::get('/classroom-add', "classroomAdd");
