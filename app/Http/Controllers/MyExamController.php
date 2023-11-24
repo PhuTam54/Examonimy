@@ -19,13 +19,27 @@ use function Webmozart\Assert\Tests\StaticAnalysis\length;
 class MyExamController extends Controller
 {
     public function myExam() {
+        // Lấy thời gian hiện tại
+        $currentTime = now();
         $student = auth()->user();
         $data_wow_delay = -0.1;
         $enrollments = Enrollment::where('student_id', '=', $student->id)
             ->where("status", Enrollment::CONFIRMED)
             ->orderBy('id', 'desc')
             ->get();
-        return view("pages.exam.my-exam", compact("enrollments", "data_wow_delay"));
+
+        foreach ($enrollments as $enrollment) {
+            if ($enrollment->Exam->status == Exam::CONFIRMED && $currentTime >= $enrollment->Exam->start_date && $currentTime <= $enrollment->Exam->end_date) {
+                $enrollment->Exam->update([
+                   "status" => Exam::PROCESSING
+                ]);
+            } elseif ($enrollment->Exam->status == Exam::PROCESSING && $currentTime > $enrollment->Exam->end_date) {
+                $enrollment->Exam->update([
+                    "status" => Exam::COMPLETE
+                ]);
+            }
+        }
+        return view("pages.exam.my-exam", compact("enrollments", "currentTime", "data_wow_delay"));
     }
 
     public function examInfo($entrance_id) {

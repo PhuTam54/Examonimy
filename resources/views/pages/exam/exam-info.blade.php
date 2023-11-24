@@ -1,5 +1,8 @@
 @extends("layouts.app")
 @section("title", "Examonimy | Exam Information")
+@section("before_css")
+    @include("components.admin.embedded.table_head")
+@endsection
 @section("main")
     <!-- Header Start -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header">
@@ -45,8 +48,8 @@
             </div>
             <div class="row g-4 justify-content-center">
                 <div class="card-body">
-                    <table id="example2" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="example2" class="table table-bordered table-striped" style="border: 1px solid rgba(0,0,0,0.125)">
+                    <thead>
                         <tr>
                             <th>Exam</th>
                             <th>Description</th>
@@ -75,7 +78,6 @@
                                     <td>
                                         {{ floor($examination->ExamQuestion->duration / 3600) }} hours
                                         {{ floor($examination->ExamQuestion->duration % 3600 / 60) }} minutes
-                                        {{ $examination->ExamQuestion->duration % 60 }} seconds
                                     </td>
                                 @elseif(($examination->ExamQuestion->duration % 3600) / 60 > 1)
                                     <td>
@@ -90,7 +92,7 @@
                                 <td>{{ $examination->Subject->subject_name }}</td>
                                 <td>{{ $examination->Instructor->name }}</td>
                                 <td class="project-actions text-center">
-                                    <a class="btn" href="exam-taking/{{ $examination->entrance_id }}">
+                                    <a class="btn {{ $examination->status == \App\Models\Exam::PROCESSING ? '' : 'disabled' }}" href="exam-taking/{{ $examination->entrance_id }}">
                                         <button class="btn btn-success btn-sm" style="margin-left: -12px" type="submit">
                                             <i class="fas fa-pencil-alt">
                                             </i>
@@ -132,4 +134,23 @@
     </div>
     <!-- Exam Information End -->
     @endif
+@endsection
+@section("after_js")
+    <!-- DataTables  & Plugins -->
+    <script src="js/admin-js/plugins/jquery.dataTables.min.js"></script>
+    <script src="js/admin-js/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $('#example2').DataTable({
+                "paging": false,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection
