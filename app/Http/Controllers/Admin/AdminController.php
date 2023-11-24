@@ -29,7 +29,7 @@ class AdminController extends Controller
 {
     public function dashboard() {
         $exams = Exam::all();
-        $subjects = Subject::all();
+        $results = EnrollmentResult::all();
         $users = User::all();
         $classroom = Classes::all();
 
@@ -46,7 +46,7 @@ class AdminController extends Controller
                 ]);
             }
         }
-        return view("pages.admin.admin-dashboard", compact("exams", "subjects", "users", "classroom"));
+        return view("pages.admin.admin-dashboard", compact("exams", "results", "users", "classroom"));
     }
 
     // Answers

@@ -68,34 +68,34 @@ class DatabaseSeeder extends Seeder
                         "number_of_questions"=> 100,
                         "total_marks"=> 100,
                         "passing_marks"=> 30,
-                        "status"=>1
+                        "status"=>0
                     ]);
             }
         }
 
-        \App\Models\Exam::factory(5)->create();
-        Exam::create([
-            "created_by"=>random_int(1, 20),
-            "subject_id"=>random_int(1, 5),
-            "exam_question_id"=> 4,
-            "exam_name"=> "Toeic",
-            "exam_description"=> "This is a Toeic testing",
-            "start_date" => Carbon::now(),
-            "end_date" => Carbon::now()->addDay(),
-            "retaken_fee" => random_int(1, 100),
-            "status"=> 2,
-            "exam_thumbnail"=>"storage/file/images/exam/".random_int(1, 1).".mini-test.png",
-        ]);
-
-        $exams = Exam::all();
-        foreach ($exams as $exam) {
-            DB::table("enrollments")
-                ->insert([
-                    "student_id"=> random_int(1, 2),
-                    "exam_id"=>$exam->id,
-                    "status"=>random_int(1, 1)
-                ]);
-        }
+//        \App\Models\Exam::factory(5)->create();
+//        Exam::create([
+//            "created_by"=>random_int(1, 20),
+//            "subject_id"=>random_int(1, 5),
+//            "exam_question_id"=> 4,
+//            "exam_name"=> "Toeic",
+//            "exam_description"=> "This is a Toeic testing",
+//            "start_date" => Carbon::now(),
+//            "end_date" => Carbon::now()->addDay(),
+//            "retaken_fee" => random_int(1, 100),
+//            "status"=> 2,
+//            "exam_thumbnail"=>"storage/file/images/exam/".random_int(1, 1).".mini-test.png",
+//        ]);
+//
+//        $exams = Exam::all();
+//        foreach ($exams as $exam) {
+//            DB::table("enrollments")
+//                ->insert([
+//                    "student_id"=> random_int(1, 2),
+//                    "exam_id"=>$exam->id,
+//                    "status"=>random_int(1, 1)
+//                ]);
+//        }
 
         \App\Models\Classes::factory(3)->create();
         $classes = Classes::all();

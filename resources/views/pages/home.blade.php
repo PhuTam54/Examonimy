@@ -232,7 +232,7 @@
             <div class="owl-carousel testimonial-carousel position-relative">
                 @foreach($students as $student)
                 <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ $student->avatar }}" style="width: 80px; height: 80px;">
+                    <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ $student->avatar }}" style="width: 80px; height: 80px; object-fit: cover">
                     <h5 class="mb-0">{{ $student->name }}</h5>
                     <p>{{ $student->email }}</p>
                     <div class="testimonial-text bg-light text-center p-4">

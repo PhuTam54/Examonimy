@@ -58,25 +58,19 @@
                                     <td>{{ $attendance->Class->class_name }}</td>
                                     <td>{{ $attendance->lesson_attendance }}</td>
                                     <td class="project-actions text-center">
-                                    @if($attendance->lesson_attendance == 0)
-                                        <a href="admin/attendance-confirm/{{ $attendance->id }}" class="btn btn-primary"><i
+                                    @if($attendance->lesson_attendance >= $attendance->Subject->lesson * 75/100)
+                                        <a href="admin/attendance-confirm/{{ $attendance->id }}" class="btn btn-success"><i
                                                 class="fa fa-check" aria-hidden="true"></i>
-                                            Confirm
+                                            Present
                                         </a>
                                         <a href="admin/attendance-cancel/{{ $attendance->id }}" class="btn btn-danger"
                                                 style="margin-right: 5px;">
-                                            <i class="fa fa-times" aria-hidden="true"></i> Cancel
+                                            <i class="fa fa-times" aria-hidden="true"></i> Absent
                                         </a>
-                                        @break
-                                    @elseif($attendance->lesson_attendance < 10)
-                                        <a href="admin/attendance-cancel/{{ $attendance->id }}" class="btn btn-danger"
-                                                style="margin-right: 5px;">
-                                            <i class="fa fa-times" aria-hidden="true"></i> Cancel
-                                        </a>
-                                        @break
+                                    @elseif($attendance->lesson_attendance <= $attendance->Subject->lesson * 75/100)
+                                        <div class="text text-danger">You can't take exam!</div>
                                     @else
                                         <div class="text text-success">Done!</div>
-                                        @break
                                     @endif
                                     </td>
                                 </tr>

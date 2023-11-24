@@ -37,16 +37,6 @@
                 <div class="col-12">
 
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <a class="btn btn-success btn-md" href="admin/enrollment-add">
-                                    <i class="fas fa-plus">
-                                    </i>
-                                    Add new enrollment
-                                </a>
-                            </h3>
-                        </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example2" class="table table-bordered table-striped">
                                 <thead>
@@ -55,6 +45,7 @@
                                     <th>Student</th>
                                     <th>Exam</th>
                                     <th>Attempt</th>
+                                    <th>Is_paid</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -64,24 +55,29 @@
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $enrollment->User->name }}</td>
-                                    <td>{{ $enrollment->Exam->exam_name }}</td>
+                                    @if($enrollment->Exam != null)
+                                        <td>{{ $enrollment->Exam->exam_name }}</td>
+                                    @else
+                                        <td>...</td>
+                                    @endif
                                     <td>{{ $enrollment->attempt > 1 ? $enrollment->attempt.' times' : $enrollment->attempt.' time' }}</td>
+                                    <td>{{ $enrollment->is_paid ? 'Paid' : '...' }}</td>
                                     <td>{!! $enrollment->getStatus() !!}</td>
                                     <td class="project-actions text-center">
                                     @switch($enrollment->status)
                                         @case(\App\Models\Enrollment::PENDING)
-                                            <a href="admin/enrollment-confirm/{{ $enrollment->id }}" class="btn btn-primary"><i
+                                            <a href="admin/enrollment-confirm/{{ $enrollment->id }}" class="btn btn-success btn-sm"><i
                                                     class="fa fa-check" aria-hidden="true"></i>
                                                 Confirm
                                             </a>
-                                            <a href="admin/enrollment-cancel/{{ $enrollment->id }}" class="btn btn-danger"
+                                            <a href="admin/enrollment-cancel/{{ $enrollment->id }}" class="btn btn-danger btn-sm"
                                                     style="margin-right: 5px;">
                                                 <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                             </a>
                                             @break
 
                                         @case(\App\Models\Enrollment::CONFIRMED)
-                                            <a href="admin/enrollment-cancel/{{ $enrollment->id }}" class="btn btn-danger"
+                                            <a href="admin/enrollment-cancel/{{ $enrollment->id }}" class="btn btn-danger btn-sm"
                                                     style="margin-right: 5px;">
                                                 <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                             </a>
@@ -103,6 +99,7 @@
                                     <th>Student</th>
                                     <th>Exam</th>
                                     <th>Attempt</th>
+                                    <th>Is_paid</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>

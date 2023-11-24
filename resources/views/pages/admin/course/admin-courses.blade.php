@@ -110,6 +110,17 @@
                                             </td>
                                             <td>{{ $course->course_year }} years</td>
                                             <td class="project-actions text-center">
+                                                @if($course->deleted_at != null)
+                                                    <form action="admin/course-recover/{{ $course->id }}" method="post">
+                                                        @csrf
+                                                        @method("PUT")
+                                                        <button type="submit" class="btn btn-info btn-sm mb-2">
+                                                            <i class="fas fa-redo-alt">
+                                                            </i>
+                                                            Recover
+                                                        </button>
+                                                    </form>
+                                                @else
                                                 <a class="btn btn-info btn-sm" href="admin/course-edit/{{ $course->id }}" style="min-width: 80px">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
@@ -126,6 +137,7 @@
                                                         </button>
                                                     </form>
                                                 </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

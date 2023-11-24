@@ -40,112 +40,214 @@
                     <a
                         href="admin/admin-dashboard"
                         class="nav-link
-                        {{request()->is('admin/admin-dashboard') ? 'active' : '' }}"
-                    >
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a
-                                href="admin/admin-dashboard"
-                                class="nav-link
                                 {{request()->is('admin/admin-dashboard') ? 'active' : '' }}"
-                            >
-                                <i class="fa fa-chart-bar nav-icon"></i>
-                                <p>My Dashboard</p>
-                            </a>
-                        </li>
-                    </ul>
+                    >
+                        <i class="fa fa-chart-bar nav-icon"></i>
+                        <p>My Dashboard</p>
+                    </a>
                 </li>
-                <li
-                    class="nav-item
-                    {{request()->path() !=('admin/admin-dashboard') ? 'menu-open' : '' }}"
-                >
+                <li class="nav-item {{request()->is('admin/exam-add') || request()->is('admin/admin-exam') || request()->is('admin/exam-trash') ? 'menu-open' : '' }}">
                     <a
                         href="admin/admin-dashboard"
                         class="nav-link
-                        {{request()->path() !=('admin/admin-dashboard') ? 'active' : '' }}"
+                        {{request()->is('admin/exam-add') || request()->is('admin/admin-exam') || request()->is('admin/exam-trash') ? 'active' : '' }}"
                     >
-                        <i class="nav-icon fas fa-table"></i>
+                        <i class="nav-icon fas fa-graduation-cap"></i>
                         <p>
-                            Table
+                            Exam management
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="admin/admin-exam" class="nav-link {{request()->is('admin/admin-exam') || request()->is('admin/exam-add') ? 'active' : '' }}">
-                                <i class="fa fa-graduation-cap nav-icon"></i>
-                                <p>Exams</p>
+                            <a href="admin/admin-exam" class="nav-link {{request()->is('admin/admin-exam') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all exams</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/admin-result" class="nav-link {{request()->is('admin/admin-result') ? 'active' : '' }}">
-                                <i class="fa fa-clipboard nav-icon"></i>
-                                <p>Results</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-enrollment" class="nav-link {{request()->is('admin/admin-enrollment') ? 'active' : '' }}">
-                                <i class="fa fa-pen-nib nav-icon"></i>
-                                <p>Enrollments</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-user" class="nav-link {{request()->is('admin/admin-user') || request()->is('admin/user-add') ? 'active' : '' }}">
-                                <i class="fa fa-user-astronaut nav-icon"></i>
-                                <p>Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-examquestion" class="nav-link {{request()->is('admin/admin-examquestion') || request()->is('admin/examquestion-add') ? 'active' : '' }}">
-                                <i class="fa fa-folder nav-icon"></i>
-                                <p>Exam Questions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-question" class="nav-link {{request()->is('admin/admin-question') || request()->is('admin/question-add') ? 'active' : '' }}">
-                                <i class="fa fa-question-circle nav-icon"></i>
-                                <p>Q&A</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-answer" class="nav-link {{request()->is('admin/admin-answer') ? 'active' : '' }}">
-                                <i class="fa fa-marker nav-icon"></i>
-                                <p>Answers</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-subject" class="nav-link {{request()->is('admin/admin-subject') || request()->is('admin/subject-add') ? 'active' : '' }}">
-                                <i class="fa fa-book nav-icon"></i>
-                                <p>Subjects</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-attendance" class="nav-link {{request()->is('admin/admin-attendance') ? 'active' : '' }}">
-                                <i class="fa fa-calendar-day nav-icon"></i>
-                                <p>Attendances</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-courses" class="nav-link {{request()->is('admin/admin-courses') || request()->is('admin/course-add') ? 'active' : '' }}">
-                                <i class="fa fa-bookmark nav-icon"></i>
-                                <p>Courses</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="admin/admin-classroom" class="nav-link {{request()->is('admin/admin-classroom') || request()->is('admin/classroom-add') ? 'active' : '' }}">
-                                <i class="fa fa-house-user nav-icon"></i>
-                                <p>Classes</p>
+                            <a href="admin/exam-add" class="nav-link {{ request()->is('admin/exam-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new exam</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header text-center" style="margin-left: -10px"><br><br>Phu Tam 54</li>
+                <li class="nav-item">
+                    <a href="admin/admin-result" class="nav-link {{request()->is('admin/admin-result') ? 'active' : '' }}">
+                        <i class="fa fa-clipboard nav-icon"></i>
+                        <p>Results</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin/admin-enrollment" class="nav-link {{ request()->is('admin/admin-enrollment') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <p>Enrollments</p>
+                    </a>
+                </li>
+                <li class="nav-item {{request()->is('admin/user-add') || request()->is('admin/admin-user') || request()->is('admin/user-trash') ? 'menu-open' : '' }}">
+                    <a
+                        href="admin/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin/user-add') || request()->is('admin/admin-user') || request()->is('admin/user-trash') ? 'active' : '' }}"
+                    >
+                        <i class="fa fa-user-astronaut nav-icon"></i>
+                        <p>
+                            User management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="admin/admin-user" class="nav-link {{request()->is('admin/admin-user') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/user-add" class="nav-link {{ request()->is('admin/user-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new user</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{request()->is('admin/examquestion-add') || request()->is('admin/admin-examquestion') || request()->is('admin/examquestion-trash') ? 'menu-open' : '' }}">
+                    <a
+                        href="admin/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin/examquestion-add') || request()->is('admin/admin-examquestion') || request()->is('admin/examquestion-trash') ? 'active' : '' }}"
+                    >
+                        <i class="fa fa-folder nav-icon"></i>
+                        <p>
+                            Exam Questions
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="admin/admin-examquestion" class="nav-link {{request()->is('admin/admin-examquestion') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all Exam Questions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/examquestion-add" class="nav-link {{ request()->is('admin/examquestion-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new ExamQuestion</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{request()->is('admin/question-add') || request()->is('admin/admin-question') || request()->is('admin/question-trash') ? 'menu-open' : '' }}">
+                    <a
+                        href="admin/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin/question-add') || request()->is('admin/admin-question') || request()->is('admin/question-trash') ? 'active' : '' }}"
+                    >
+                        <i class="fa fa-question-circle nav-icon"></i>
+                        <p>
+                            Q&A management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="admin/admin-question" class="nav-link {{request()->is('admin/admin-question') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all Q&A</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/question-add" class="nav-link {{ request()->is('admin/question-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new Q&A</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{request()->is('admin/subject-add') || request()->is('admin/admin-subject') || request()->is('admin/subject-trash') ? 'menu-open' : '' }}">
+                    <a
+                        href="admin/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin/subject-add') || request()->is('admin/admin-subject') || request()->is('admin/subject-trash') ? 'active' : '' }}"
+                    >
+                        <i class="fa fa-book nav-icon"></i>
+                        <p>
+                            Subject management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="admin/admin-subject" class="nav-link {{request()->is('admin/admin-subject') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all subjects</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/subject-add" class="nav-link {{ request()->is('admin/subject-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new subject</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{request()->is('admin/course-add') || request()->is('admin/admin-courses') || request()->is('admin/course-trash') ? 'menu-open' : '' }}">
+                    <a
+                        href="admin/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin/course-add') || request()->is('admin/admin-courses') || request()->is('admin/course-trash') ? 'active' : '' }}"
+                    >
+                        <i class="fa fa-bookmark nav-icon"></i>
+                        <p>
+                            Course management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="admin/admin-courses" class="nav-link {{request()->is('admin/admin-courses') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all courses</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/course-add" class="nav-link {{ request()->is('admin/course-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new course</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{request()->is('admin/classroom-add') || request()->is('admin/admin-classroom') || request()->is('admin/classroom-trash') ? 'menu-open' : '' }}">
+                    <a
+                        href="admin/admin-dashboard"
+                        class="nav-link
+                        {{request()->is('admin/classroom-add') || request()->is('admin/admin-classroom') || request()->is('admin/classroom-trash') ? 'active' : '' }}"
+                    >
+                        <i class="fa fa-house-user nav-icon"></i>
+                        <p>
+                            Class management
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="admin/admin-classroom" class="nav-link {{request()->is('admin/admin-classroom') ? 'active' : '' }}">
+                                <i class="fa fa-eye nav-icon"></i>
+                                <p>View all classes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="admin/classroom-add" class="nav-link {{ request()->is('admin/classroom-add') ? 'active' : '' }}">
+                                <i class="fa fa-plus nav-icon"></i>
+                                <p>Add a new class</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-header text-center" style="margin-left: -10px"><br><br><br><br>Phu Tam 54</li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

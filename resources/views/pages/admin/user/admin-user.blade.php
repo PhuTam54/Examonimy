@@ -83,7 +83,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content" style="min-width: 700px; max-height: 600px">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">Showing classes</h4>
+                                                            <h4 class="modal-title">Showing classes of {{ $user->name }}</h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body overflow-auto">
@@ -93,7 +93,6 @@
                                                                     <th>No.</th>
                                                                     <th>Class's Name</th>
                                                                     <th>Students</th>
-                                                                    <th>Instructor</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -102,7 +101,6 @@
                                                                         <td>{{ $loop->index + 1 }}</td>
                                                                         <td>{{ $class->class_name }}</td>
                                                                         <td>{{ $class->Students->count() }} student{{ $class->Students->count() > 1 ? 's' : ''}}</td>
-                                                                        <td>{{ $class->Instructor->name }}</td>
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
@@ -116,7 +114,7 @@
                                                 </div>
                                             </div>
 
-                                        @else
+                                        @elseif($user->Classes != null)
 
                                             <!-- Trigger the modal with a button -->
                                             <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showClass{{ $user->Classes->id }}">

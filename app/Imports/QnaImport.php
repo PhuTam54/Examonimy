@@ -25,7 +25,7 @@ class QnaImport implements ToModel
             $questionId = Question::insertGetId([
                 "question_no" => $row[0], // No. STT
                 "question_text" => $row[1],
-                "exam_question_id" => $row[7],
+                "exam_question_id" => null,
                 "question_mark" => $row[8],
                 "difficulty" => $row[9],
                 "type_of_question" => $row[10],

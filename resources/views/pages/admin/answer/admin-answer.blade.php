@@ -62,18 +62,18 @@
                                     <td class="project-actions text-center">
                                     @switch($answer->status)
                                         @case(0)
-                                            <a href="admin/answer-confirm/{{ $answer->id }}" class="btn btn-primary"><i
-                                                    class="fa fa-check" aria-hidden="true"></i>
+                                            <a href="admin/answer-confirm/{{ $answer->id }}" class="btn btn-sm btn-primary" style="margin-bottom: 5px">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
                                                 Confirm
                                             </a>
-                                            <a href="admin/answer-cancel/{{ $answer->id }}" class="btn btn-danger"
+                                            <a href="admin/answer-cancel/{{ $answer->id }}" class="btn btn-sm btn-danger"
                                                     style="margin-right: 5px;">
                                                 <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                             </a>
                                             @break
 
                                         @case(1)
-                                            <a href="admin/answer-cancel/{{ $answer->id }}" class="btn btn-danger"
+                                            <a href="admin/answer-cancel/{{ $answer->id }}" class="btn btn-sm btn-danger"
                                                     style="margin-right: 5px;">
                                                 <i class="fa fa-times" aria-hidden="true"></i> Cancel
                                             </a>

@@ -84,12 +84,12 @@
                                             <div class="modal-dialog modal-dialog-centered" role="document">
 
                                                 <!-- Modal content-->
-                                                <div class="modal-content" style="min-width: 700px">
+                                                <div class="modal-content" style="min-width: 700px; max-height: 500px">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Showing Students</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                    <div class="modal-body overflow-auto">
                                                         <h5 class="text fs-6">Class {{ $classroom->class_name }}</h5>
                                                         <table class="table table-bordered table-striped">
                                                             <thead>
@@ -105,27 +105,18 @@
                                                                     <td>{{ $loop->index + 1 }}</td>
                                                                     <td>{{ $student->name }}</td>
                                                                     <td class="project-actions text-center">
-                                                                        <a class="btn">
-                                                                            <form action="admin/classroom-delete-student/{{ $student->id }}" method="post">
-                                                                                @csrf
-                                                                                <button onclick="return confirm('Are you sure to delete this student???')" class="btn btn-danger btn-sm" style="min-width: 80px" type="submit">
-                                                                                    <i class="fas fa-trash">
-                                                                                    </i>
-                                                                                    Remove
-                                                                                </button>
-                                                                            </form>
-                                                                        </a>
+                                                                        <form action="admin/classroom-delete-student/{{ $student->id }}" method="post">
+                                                                            @csrf
+                                                                            <button onclick="return confirm('Are you sure to delete this student???')" class="btn btn-danger btn-sm" style="min-width: 80px" type="submit">
+                                                                                <i class="fas fa-trash">
+                                                                                </i>
+                                                                                Remove
+                                                                            </button>
+                                                                        </form>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>
-                                                            <tfoot>
-                                                            <tr>
-                                                                <th>No.</th>
-                                                                <th>Student's Name</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                            </tfoot>
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
