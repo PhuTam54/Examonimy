@@ -18,8 +18,7 @@
                     href="#"
                     class="nav-link dropdown-toggle
                     {{request()->is('my-exam') ||
-                    request()->is('my-result') ||
-                    request()->is('404') ? 'active' : '' }}"
+                    request()->is('my-result') ? 'active' : '' }}"
                     data-bs-toggle="dropdown"
                 >Exams</a>
                 <div class="dropdown-menu fade-down m-0">
@@ -47,29 +46,11 @@
 {{--                    </div>--}}
                 </div>
             </div>
-{{--            <div class="nav-item dropdown">--}}
-{{--                <a--}}
-{{--                    href="#"--}}
-{{--                    class="nav-link dropdown-toggle"--}}
-{{--                    data-bs-toggle="dropdown"--}}
-{{--                >Mock tests</a>--}}
-{{--                <div class="dropdown-menu fade-down m-0">--}}
-{{--                    <a href="/my-exam"--}}
-{{--                       class="dropdown-item"--}}
-{{--                    >Toeic</a>--}}
-{{--                    <a href="/my-result"--}}
-{{--                       class="dropdown-item"--}}
-{{--                    >Listening</a>--}}
-{{--                    <a href="/404"--}}
-{{--                       class="dropdown-item"--}}
-{{--                    >Reading</a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
             <a href="/contact"
                class="nav-item nav-link {{request()->is('contact')? 'active' : '' }}"
-            >Contact</a>
+            >Courses</a>
         @auth()
-            @if(auth()->user()->role == 3)
+            @if(auth()->user()->role == 3 || auth()->user()->role == 2)
                 <a href="admin/admin-dashboard" class="nav-item nav-link">ADMIN</a>
             @endif
         </div>
@@ -80,9 +61,7 @@
                      alt="Avatar"/> {{auth()->user()->name }}
             </a>
             <div class="dropdown-menu fade-down m-0">
-                <a class="dropdown-item" href="#"><i class="fa fa-user"></i> My profile</a>
-                <a class="dropdown-item" href="#"><i class="fa fa-address-book"></i> Settings</a>
-                <a class="dropdown-item" href="404"><i class="fa fa-lock"></i> 404 Page</a>
+                <a class="dropdown-item" href="/my-result"><i class="fa fa-user"></i> My result</a>
                 <form id="form-logout" action="{{route("logout")}}" method="post">
                     @csrf
                 </form>

@@ -12,9 +12,9 @@
             </div>
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-white mb-3">Contact</h4>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>8A Tôn Thất Thuyết, Mỹ Đình, Nam Từ Liêm, Hà Nội</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+84 65630471</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>phutamytb@gmail.com</p>
                 <div class="d-flex pt-2">
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
@@ -47,7 +47,7 @@
             </div>
             <div class="col-lg-3 col-md-6">
                 <h4 class="text-white mb-3">Newsletter</h4>
-                <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                <p>Unlock your potential in the digital arena. Success is just a click away.</p>
                 <div class="position-relative mx-auto" style="max-width: 400px;">
                     <form action="#">
                         @csrf

@@ -1,17 +1,20 @@
 @extends("layouts.app")
-@section("title", "Examonimy | Contact")
+@section("title", "Examonimy | Courses")
+@section("before_css")
+    @include("components.admin.embedded.table_head")
+@endsection
 @section("main")
     <!-- Header Start -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Contact</h1>
+                    <h1 class="display-3 text-white animated slideInDown">Courses</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center">
                             <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Contact</li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Courses</li>
                         </ol>
                     </nav>
                 </div>
@@ -21,86 +24,212 @@
     <!-- Header End -->
 
 
-    <!-- Contact Start -->
+    <!-- Courses Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Contact Us</h6>
-                <h1 class="mb-5">Contact For Any Query</h1>
+                <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
+                <h1 class="mb-5">Courses and Subjects</h1>
             </div>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <h5>Get In Touch</h5>
-                    <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
-                            <i class="fa fa-map-marker-alt text-white"></i>
+                <div class="col-lg-12 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+{{--                    Courses--}}
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Subjects</th>
+                                    <th>Year</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($courses as $course)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td class="">
+                                            <img src=" {{ $course->course_thumbnail }}" width="100" alt="img">
+                                        </td>
+                                        <td>{{ $course->course_name }}</td>
+                                        <td>{{ $course->course_description }}</td>
+                                        <td>
+                                            <!-- Trigger the modal with a button -->
+                                            <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showSubjectModal{{ $course->id }}">
+                                                <i class="fa fa-eye"></i>
+                                                {{ $course->Subjects->count() }} to show
+                                            </a>
+
+                                            <!-- Modal -->
+                                            <div id="showSubjectModal{{ $course->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content" style="min-width: 700px">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Showing Subject</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text fs-6">Course {{ $course->course_name }}</p>
+                                                            <table class="table table-bordered table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>No.</th>
+                                                                    <th>Image</th>
+                                                                    <th>Subject</th>
+                                                                    <th>Lesson</th>
+                                                                    <th>Description</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($course->Subjects as $subject)
+                                                                    <tr>
+                                                                        <td>{{ $loop->index +1 }}</td>
+                                                                        <td>
+                                                                            <img src="{{ $subject->subject_thumbnail }}" width="50" alt="">
+                                                                        </td>
+                                                                        <td>{{ $subject->subject_name }}</td>
+                                                                        <td>{{ $subject->lesson }}</td>
+                                                                        <td>
+                                                                            @if(strlen($subject->subject_description) > 50)
+                                                                                {{ substr($subject->subject_description, 0, 50) }}...
+                                                                            @endif
+                                                                        </td> <br>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ $course->course_year }} years</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Subjects</th>
+                                    <th>Year</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
-                        <div class="ms-3">
-                            <h5 class="text-primary">Office</h5>
-                            <p class="mb-0">123 Street, New York, USA</p>
-                        </div>
+                        <!-- /.card-body -->
                     </div>
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
-                            <i class="fa fa-phone-alt text-white"></i>
+                    <!-- /.card -->
+
+{{--                    Subjects--}}
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-striped" style="border: 1px solid rgba(0,0,0,0.05)">
+                                <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Lesson</th>
+                                    <th>Course</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($subjects as $subject)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td class="">
+                                            <img src=" {{ $subject->subject_thumbnail }}" width="100" alt="img">
+                                        </td>
+                                        <td>{{ $subject->subject_name }}</td>
+                                        <td>{{ $subject->lesson }}</td>
+                                        <td>
+
+                                            <!-- Trigger the modal with a button -->
+                                            <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showCourseModal{{ $subject->id }}">
+                                                <i class="fa fa-eye"></i>
+                                                {{ $subject->Course->course_name }}
+                                            </a>
+
+                                            <!-- Modal -->
+                                            <div id="showCourseModal{{ $subject->id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content" style="min-width: 700px">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Showing Subject</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="text fs-6">Subject {{ $subject->subject_name }}</p>
+                                                            <table class="table table-bordered table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Image</th>
+                                                                    <th>Course</th>
+                                                                    <th>Year</th>
+                                                                    <th>Description</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <img src="{{ $subject->Course->course_thumbnail }}" width="50" alt="">
+                                                                    </td>
+                                                                    <td>{{ $subject->Course->course_name }}</td>
+                                                                    <td>{{ $subject->Course->course_year }}</td>
+                                                                    <td>
+                                                                        @if(strlen($subject->Course->course_description) > 50)
+                                                                            {{ substr($subject->Course->course_description, 0, 50) }}...
+                                                                        @else
+                                                                            {{ $subject->Course->course_description }}
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Lesson</th>
+                                    <th>Course</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
-                        <div class="ms-3">
-                            <h5 class="text-primary">Mobile</h5>
-                            <p class="mb-0">+012 345 67890</p>
-                        </div>
+                        <!-- /.card-body -->
                     </div>
-                    <div class="d-flex align-items-center">
-                        <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary" style="width: 50px; height: 50px;">
-                            <i class="fa fa-envelope-open text-white"></i>
-                        </div>
-                        <div class="ms-3">
-                            <h5 class="text-primary">Email</h5>
-                            <p class="mb-0">info@example.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <iframe class="position-relative rounded w-100 h-100"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
-                            frameborder="0" style="min-height: 300px; border:0;" allowfullscreen="" aria-hidden="false"
-                            tabindex="0"></iframe>
-                </div>
-                <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                    <label for="name">Your Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                    <label for="email">Your Email</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                    <label for="subject">Subject</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
-                                    <label for="message">Message</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
-                            </div>
-                        </div>
-                    </form>
+                    <!-- /.card -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Contact End -->
+    <!-- Courses End -->
+@endsection
+@section("after_js")
+    @include("components.admin.embedded.table_script")
 @endsection

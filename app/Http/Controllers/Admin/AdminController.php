@@ -33,6 +33,9 @@ class AdminController extends Controller
         $users = User::all();
         $classroom = Classes::all();
 
+        $newExams = Exam::orderBy("id", "desc")->limit(5)->get();
+        $newResults = EnrollmentResult::orderBy("id", "desc")->limit(5)->get();
+
         // Lấy thời gian hiện tại
         $currentTime = now();
         foreach ($exams as $exam) {
@@ -44,9 +47,18 @@ class AdminController extends Controller
                 $exam->update([
                     "status" => Exam::COMPLETE
                 ]);
+
+                $enrollments = Enrollment::where("exam_id", $exam->id)->get();
+                foreach ($enrollments as $enrollment) {
+                    if ($enrollment->status == Enrollment::CONFIRMED) {
+                        $enrollment->update([
+                            "status"=> Enrollment::NOT_TAKEN,
+                        ]);
+                    }
+                }
             }
         }
-        return view("pages.admin.admin-dashboard", compact("exams", "results", "users", "classroom"));
+        return view("pages.admin.admin-dashboard", compact("exams", "newExams", "results", "newResults", "users", "classroom"));
     }
 
     // Answers
