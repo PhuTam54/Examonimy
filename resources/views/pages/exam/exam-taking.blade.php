@@ -63,9 +63,6 @@
                                 data-question="{{ $index }}"
                             >
                                 <div class="card card-success">
-    {{--                                        <div class="card-header">--}}
-    {{--                                            <h4 class="card-title">Question</h4>--}}
-    {{--                                        </div>--}}
                                     <div class="card-body">
                                         @if($question->question_paragraph != null && $question->question_paragraph !=' ')
                                             <div class="text text-secondary">Part {{ $part_counter ++ }}: {{ $question->question_paragraph }}</div><br>
@@ -104,7 +101,6 @@
                                                             >
                                                             <label for="multipleChoice-{{ $option->id }}">
                                                                 {{ $option->option_text }}
-                                                                - {!! $option->getIsCorrect() !!}
                                                             </label>
                                                         </div>
                                                     @elseif($question->type_of_question == 2)
@@ -121,7 +117,6 @@
                                                             >
                                                             <label for="oneChoice-{{ $option->id }}">
                                                                 {{ $option->option_text }}
-                                                                - {!! $option->getIsCorrect() !!}
                                                             </label>
                                                         </div>
                                                     @else
@@ -134,7 +129,6 @@
                                                                 id="fillInBlank-{{ $question->id }}"
                                                                 class="form-control option-text"
                                                                 name="fillInBlank-{{ $question->id }}"
-                                                                value="{{ $option->option_text }}"
                                                             >
                                                             @error("fillInBlank-$question->id")
                                                             <p class="text-danger"><i>{{ $message }}</i></p>
@@ -166,23 +160,6 @@
                                 $question_counter = 1;
                             @endphp
                             <div class="col-md-4" style="border: 1px solid #f2f2f2">
-
-{{--                                <div class="row mt-4">--}}
-{{--                                    <nav class="w-100">--}}
-{{--                                        <div class="nav nav-tabs" id="product-tab" role="tablist">--}}
-{{--                                            @foreach($questions as $index => $question)--}}
-{{--                                            <a class="{{ $index == 0 ? 'active' : '' }}" id="pagination-{{ $index }}-tab" data-toggle="tab" href="#pagination-{{ $index }}" role="tab" aria-controls="pagination-{{ $index }}" aria-selected="true">--}}
-{{--                                            </a>--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    </nav>--}}
-{{--                                    <div class="tab-content p-3" id="nav-tabContent">--}}
-{{--                                        @foreach($questions as $index => $question)--}}
-{{--                                            <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="pagination-{{ $index }}" role="tabpanel" aria-labelledby="product-desc-tab">--}}
-{{--                                            </div>--}}
-{{--                                        @endforeach--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
 
                                 <div class="row mb-3" style="margin-left: 15px">
                                     @foreach($questions as $index => $question)

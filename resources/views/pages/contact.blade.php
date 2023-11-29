@@ -42,7 +42,6 @@
                                     <th>No.</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>Description</th>
                                     <th>Subjects</th>
                                     <th>Year</th>
                                 </tr>
@@ -55,7 +54,6 @@
                                             <img src=" {{ $course->course_thumbnail }}" width="100" alt="img">
                                         </td>
                                         <td>{{ $course->course_name }}</td>
-                                        <td>{{ $course->course_description }}</td>
                                         <td>
                                             <!-- Trigger the modal with a button -->
                                             <a type="button" class="text text-info text-md" data-toggle="modal" data-target="#showSubjectModal{{ $course->id }}">
@@ -120,7 +118,6 @@
                                     <th>No.</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>Description</th>
                                     <th>Subjects</th>
                                     <th>Year</th>
                                 </tr>

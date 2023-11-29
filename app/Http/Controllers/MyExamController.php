@@ -64,10 +64,17 @@ class MyExamController extends Controller
 
     public function examTaking($entrance_id) {
         $examination = Exam::where("entrance_id", "=", $entrance_id)->first();
-        $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
-//            ->orderBy("question_no")
-            ->inRandomOrder()
-            ->get();
+        // Toeic
+        if ($examination->type_of_exam == 2) {
+            $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
+                ->orderBy("id")
+                ->get();
+        // Default
+        } else {
+            $questions = Question::where("exam_question_id", $examination->ExamQuestion->id)
+                ->inRandomOrder()
+                ->get();
+        }
         return view("pages.exam.exam-taking", // "questionsEasy","questionsMedium", "questionsDifficult",
             compact("examination", "questions"));
     }
